@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Prikaz svih pacijenata</title>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no" />
+
+<!-- CSS files -->
+<link rel="stylesheet" href="static/css/main.css" />
+<link href='static/css//fullcalendar.css' rel='stylesheet' />
+<link href='static/css/fullcalendar.print.css' rel='stylesheet'
+	media='print' />
+
+
+<!-- JS files -->
+<script src="static/js/jquery.min.js"></script>
+<script src='static/js/fullcalendar/moment.min.js'></script>
+<script src='static/js/fullcalendar/fullcalendar.min.js'></script>
+<script src='static/js/fullcalendar/sr.js'></script>
+
+<script src='static/jsController/common/sessionUser.js'></script>
+<script src='static/jsController/logout/logout.js'></script>
+<script src='static/jsController/medicalStaff/patients.js'></script>
+
+</head>
+<body onload="getAllPatients(), getLoggedUser()">
+
+	<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Main -->
+		<div id="main">
+
+			<!-- Header image -->
+			<img class='headerImage' src="static/images/slika22.jpg" />
+			<div class="inner">
+
+				<!-- Content -->
+				<section>
+					<header class="major">
+						<h2>Pacijenti</h2>
+					</header>
+					<div class="row uniform">
+							<div class="9u 12u$(xsmall)">
+								<input type="text" id="search" placeholder="Unesite reči za pretragu">
+							</div>
+							<div class="1u 12u$(xsmall)">
+								<a href="#" class="button special" onclick="resetPagSearch()"> <i class="fa fa-search fa-fw" aria-hidden="true"></i> Pretraži</a>
+							</div>
+							
+					</div>
+					<div class="row uniform">
+						<div class="3u 12u$(xsmall)">
+							<a href="#" class="button special fit" id="allP" onclick="resetPagAll()">Svi pacijenti</a>
+						</div>
+						<div class="3u 12u$(xsmall)">
+							<a href="#" class="button fit" id="myP" onclick="resetPagMy()" style="margin-bottom: 3em">Moji pacijenti</a>
+						</div>
+					</div>
+					<p></p>
+					<div class="row 200%">
+						<div style="width: 100%">
+
+							<div class="table-wrapper">
+								<table class="alt" id="patientsTable">
+									<thead>
+										<tr>
+											<th>Ime</th>
+											<th>Prezime</th>
+											<th>Pol</th>
+											<th>Datum rođenja</th>
+											<th>Izabrani doktor</th>
+										</tr>
+									</thead>
+									
+									<tbody id="patientsBody">
+										<!-- dinam.add rows -->
+									</tbody>
+									
+								</table>
+								
+								<div class="pagination" id="doctorPatientsPag">
+								</div>
+								
+								<h3 id="noPatients" style="display: none; text-align: center;">Ne postoje pacijenti koji zadovoljavaju kriterijum pretrage.</h3>
+								<h3 id="noMyPatients" style="display: none; text-align: center;">Trenutno nemate ni jednog pacijenta.</h3>
+							</div>
+
+						</div>
+					</div>
+
+				</section>
+
+
+			</div>
+		</div>
+
+		<!-- Sidebar -->
+		<div id="sidebar">
+			<div class="inner">
+
+				<!-- Picture -->
+				<div class="4u"
+					style="border: None; margin: 0 auto; display: table; width: 50%">
+					<span class="image fit"><img class='image' id="personPhoto"
+						src="" alt="" style="border-radius: 50%" /></span>
+				</div>
+
+				<!-- Menu -->
+				<nav id="menu">
+					<header class="major">
+						<h2 id="personName"></h2>
+					</header>
+					<ul>
+						<li><a href="doctorAllPatients.html">Pacijenti</a></li>
+						<li><a href="doctorPatientRegistration.html">Registruj
+								pacijenta</a></li>
+						<li><a href="doctorSchedule.html">Kalendar</a></li>
+						<li><a onclick="logout()">Odjava</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+
+	<!-- Scripts -->
+	<script src="static/js/skel.min.js"></script>
+	<script src="static/js/util.js"></script>
+	<script src="static/js/main.js"></script>
+
+</body>
+</html>

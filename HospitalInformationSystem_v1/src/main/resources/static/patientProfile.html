@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Profl pacijenta</title>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no" />
+<!-- CSS files -->
+<link rel="stylesheet" href="static/css/main.css" />
+<link rel="stylesheet" href="static/css/toastr.min.css" />
+
+<!-- JS files -->
+<script src="static/js/jquery.min.js"></script>
+
+<script src='static/jsController/common/sessionUser.js'></script>
+<script src='static/jsController/logout/logout.js'></script>
+<script src='static/jsController/patient/patientProfile.js'></script>
+<script type="text/javascript" src="static/js/toastr.min.js"></script>
+
+</head>
+<body onload="getLoggedUser(), getProfile(), switchMenu()">
+	<!-- Wrapper -->
+	<div id="wrapper">
+		<!-- Main -->
+		<div id="main">
+			<!-- Header image -->
+			<img class='headerImage' src="/static/images/slika22.jpg" />
+			<div class="inner">
+				<!-- Content -->
+				<section>
+					<header class="major">
+						<h2>Podaci o pacijentu</h2>
+					</header>
+					
+					<!-- FORM -->
+					<form>
+						<div class="row uniform">
+							<div class="6u 12u$(xsmall)">
+								<h3>Osnovni podaci</h3>
+								<input type="text" id="name" placeholder="Ime" disabled>
+							</div>
+							<div class="6u 12u$(xsmall)">
+								<h3>Adresa stanovanja</h3>
+								<div class="select-wrapper">
+									<select id="country">
+										<option value="">- Država -</option>
+										<option value="Srbija">Srbija</option>
+										<option value="Crna Gora">Crna Gora</option>
+										<option value="Bosna i Hercegovina">Bosna i
+											Hercegovina</option>
+										<option value="Hrvatska">Hrvatska</option>
+										<option value="Makedonija">Makedonija</option>
+										<option value="Slovenija">Slovenija</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="6u 12u$(xsmall)">
+								<input type="text" id="surname" placeholder="Prezime" disabled>
+							</div>
+							<div class="6u 12u$(xsmall)">
+								<input type="text" id="city" placeholder="Grad">
+							</div>
+							<div class="6u 12u$(xsmall)">
+								<input type="text" id="personalID" maxlength="13"
+									placeholder="JMBG" disabled>
+							</div>
+							<div class="6u 12u$(xsmall)">
+								<input type="text" id="zipCode" maxlength="10"
+									placeholder="Poštanski broj">
+							</div>
+							<div class="6u 12u$(xsmall)">
+								<input type="text" id="birthday" maxlength="10"
+									placeholder="Datum rođenja" title="Format unosa dd-mm-gggg"
+									disabled>
+							</div>
+
+							<div class="6u 12u$(xsmall)">
+								<input type="text" id="street" placeholder="Ulica">
+							</div>
+							
+							
+							<div class="6u 12u$(xsmall)">
+								<input type="text" id="gender" placeholder="Pol" disabled>
+							</div>
+
+							<div class="6u 12u$(xsmall)">
+								<input type="text" id="number" placeholder="Broj">
+							</div>
+							
+							<div class="6u$ 12u$(xsmall)">
+								<h3>Izabrani lekar</h3>
+								<input type="text" id="doctor" placeholder="Izabrani lekar"
+									disabled>
+							</div>
+							
+							
+
+							<div class="6u$ 12u$(xsmall)">
+								<h3>Podaci o profilu</h3>
+								<input type="text" id="username" placeholder="Korisnicko ime" onfocusout="checkUsername()">
+							</div>
+
+							<div class="6u$ 12u$(xsmall)">
+								<input type="email" id="email" placeholder="Email adresa" onfocusout="checkEmail()">
+							</div>
+
+							<!-- Break -->
+							<div class="6u$ 12u$(xsmall)" id="buttons">
+								<a id = "saveProfile" href="#" class="button special fit" onclick="changeProfile()">Sačuvaj</a>
+							</div>
+							
+							<div class="6u$ 12u$(xsmall)" id="recordBtn">
+								<a href="#" onClick="patientRecord()" class="button special fit">Zdravstveni karton</a>
+							</div>
+						</div>
+					</form>
+
+				</section>
+
+			</div>
+		</div>
+		<!-- Sidebar -->
+		<div id="sidebar">
+			<div class="inner">
+
+				<!-- Picture -->
+				<div class="4u"
+					style="border: None; margin: 0 auto; display: table; width: 50%">
+					<span class="image fit"><img class='image' id="personPhoto"
+						src="" alt="" style="border-radius: 50%" /></span>
+				</div>
+
+				<!-- Menu -->
+				<nav id="menu">
+					<header class="major">
+						<h2 id="personName"></h2>
+					</header>
+					<ul id = "patientMenu">
+						<li><span class="opener">Moj profil</span>
+							<ul>
+								<li><a href="patientProfile.html">Osnovni podaci</a></li>
+								<li><a href="patientChangePassword.html">Promeni
+										lozinku</a></li>
+							</ul></li>
+						<li><a href="patientRecord.html">Zdravstveni karton</a></li>
+						<li><a href="patientSchedule.html">Kalendar</a></li>
+						<li><a onclick="logout()">Odjava</a></li>
+					</ul>
+					<ul id = "doctorMenu">
+						<li><a href="doctorAllPatients.html">Pacijenti</a></li>
+						<li><a href="doctorPatientRegistration.html">Registruj
+								pacijenta</a></li>
+						<li><a href="doctorSchedule.html">Kalendar</a></li>
+						<li><a onclick="logout()">Odjava</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+	<!-- Scripts -->
+	<script src="static/js/skel.min.js"></script>
+	<script src="static/js/util.js"></script>
+	<script src="static/js/main.js"></script>
+</body>
+</html>

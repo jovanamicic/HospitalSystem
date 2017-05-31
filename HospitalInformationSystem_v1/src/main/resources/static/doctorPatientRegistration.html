@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Registracija novog pacijenta</title>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no" />
+<!-- CSS files -->
+<link rel="stylesheet" href="static/css/main.css" />
+<link rel="stylesheet" href="static/css/toastr.min.css" />
+
+<!-- JS files -->
+<script src="static/js/jquery.min.js"></script>
+<script src="static/js/toastr.min.js"></script>
+<script src='static/jsController/common/sessionUser.js'></script>
+<script src='static/jsController/logout/logout.js'></script>
+<script src="static/jsController/medicalStaff/patientRegistration.js"></script>
+</head>
+<body onload="getLoggedUser(), getDoctors()">
+	<!-- Wrapper -->
+	<div id="wrapper">
+		<!-- Main -->
+		<div id="main">
+			<!-- Header image -->
+			<img class='headerImage' src="/static/images/slika22.jpg" />
+			<div class="inner">
+				<!-- Content -->
+				<section>
+					<header class="major">
+						<h2>Registracija pacijenta</h2>
+					</header>
+					<form>
+						<div class="row uniform">
+							<div class="6u 12u$(xsmall)">
+								<h3>Osnovni podaci</h3>
+								<input type="text" id="name" placeholder="Ime*" tabindex= 1 required>
+							</div>
+
+							<div class="6u 12u$(xsmall)">
+								<h3>Adresa stanovanja</h3>
+								<div class="select-wrapper">
+									<select id="country" tabindex = 8>
+										<option value="">- Država -</option>
+										<option value="Srbija">Srbija</option>
+										<option value="Crna Gora">Crna Gora</option>
+										<option value="Bosna i Hercegovina">Bosna i
+											Hercegovina</option>
+										<option value="Hrvatska">Hrvatska</option>
+										<option value="Makedonija">Makedonija</option>
+										<option value="Slovenija">Slovenija</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="6u 12u$(xsmall)">
+								<input type="text" id="surname" placeholder="Prezime*" tabindex = 2 required>
+							</div>
+							<div class="6u 12u$(xsmall)">
+								<input type="text" id="city" placeholder="Grad" tabindex = 9>
+							</div>
+							<div class="6u 12u$(xsmall)">
+								<input type="text" id="personalID" maxlength="13" tabindex = 3
+									placeholder="JMBG*" required  onfocusout="checkPID()">
+							</div>
+							<div class="6u 12u$(xsmall)">
+								<input type="text" id="zipCode" maxlength="10" tabindex = 10
+									placeholder="Poštanski broj">
+							</div>
+							<div class="6u 12u$(xsmall)">
+								<input type="text" id="birthday" maxlength="10" tabindex = 4
+									placeholder="Datum rođenja" title="Format unosa dd-mm-gggg" onfocusout="checkBirthday()">
+							</div>
+
+							<div class="6u 12u$(xsmall)">
+								<input type="text" id="street" placeholder="Ulica" tabindex = 11>
+							</div>
+							<div class="6u 12u$(xsmall)">
+								<input type="email" id="email" placeholder="Email adresa" tabindex = 5 onfocusout="checkEmail()">
+							</div>
+
+
+							<div class="6u 12u$(xsmall)">
+								<input type="text" id="number" placeholder="Broj" tabindex = 12>
+							</div>
+
+							<div class="6u$">
+								<div class="select-wrapper">
+									<select id="gender" tabindex = 6>
+										<option value="">- Pol -</option>
+										<option value="Muško">Muško</option>
+										<option value="Žensko">Žensko</option>
+										<option value="Ostalo">Ostalo</option>
+									</select>
+								</div>
+							</div>
+							<div class="6u$">
+								<h3>Izabrani lekar</h3>
+								<div class="select-wrapper">
+									<select id="doctor" tabindex = 7>
+										<option value="">- Izabrani lekar -</option>
+									</select>
+								</div>
+							</div>
+							<!-- Break -->
+							<div class="12u$">
+								<ul class="actions">
+									<li><a href="#" class="button special" onclick="addPatient()">Sačuvaj</a></li>
+									<li><input type="reset" value="Otkaži"></li>
+								</ul>
+							</div>
+						</div>
+					</form>
+
+				</section>
+
+			</div>
+		</div>
+		<!-- Sidebar -->
+		<div id="sidebar">
+			<div class="inner">
+
+				<!-- Picture -->
+				<div class="4u"
+					style="border: None; margin: 0 auto; display: table; width: 50%">
+					<span class="image fit"><img class='image' id="personPhoto"
+						src="" alt="" style="border-radius: 50%" /></span>
+				</div>
+
+				<!-- Menu -->
+				<nav id="menu">
+					<header class="major">
+						<h2 id="personName"></h2>
+					</header>
+					<ul>
+						<li><a href="doctorAllPatients.html">Pacijenti</a></li>
+						<li><a href="doctorPatientRegistration.html">Registruj
+								pacijenta</a></li>
+						<li><a href="doctorSchedule.html">Kalendar</a></li>
+						<li><a onclick="logout()">Odjava</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+	<!-- Scripts -->
+	<script src="static/js/skel.min.js"></script>
+	<script src="static/js/util.js"></script>
+	<script src="static/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Nova uplata</title>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no" />
+<!-- CSS files -->
+<link rel="stylesheet" href="static/css/main.css" />
+<link rel="stylesheet" href="static/css/toastr.min.css" />
+
+<!-- JS files -->
+<script src="static/js/jquery.min.js"></script>
+<script src='static/jsController/common/sessionUser.js'></script>
+<script src='static/jsController/logout/logout.js'></script>
+<script src='static/jsController/manager/managerPayments.js'></script>
+<script src='static/jsController/manager/managerProfile.js'></script>
+<script type="text/javascript" src="static/js/toastr.min.js"></script>
+
+
+</head>
+<body onload="getLoggedUser(), switchMenu(), getDoctors()">
+	<!-- Wrapper -->
+	<div id="wrapper">
+		<!-- Main -->
+		<div id="main">
+			<!-- Header image -->
+			<img class='headerImage' src="/static/images/slika22.jpg" />
+			<div class="inner">
+				<!-- Content -->
+				<section>
+					<header class="major">
+						<h2>Nova uplata</h2>
+						
+					</header>
+					<!-- FORM -->
+					
+					<form>
+						<div class="row uniform">
+							<div class="6u$">
+								<div class="select-wrapper">
+									<select id="recipient">
+										<option value="">- Primalac -</option>
+									</select>
+								</div>
+							</div>
+							<div class="6u$ ">
+								<input type="text" id="account" placeholder="Račun primaoca" >
+							</div>
+							<div class="6u$ ">
+								<input type="text" id="amount" placeholder="Iznos za uplatu">
+							</div>
+							<div class="6u$">
+								<div class="select-wrapper">
+									<select id="currency">
+										<option value="">- Valuta -</option>
+										<option value="RSD">RSD</option>
+										<option value="EUR">EUR</option>
+									</select>
+								</div>
+							</div>
+							<i>*Sva polja su obavezna</i>
+							<!-- Break -->
+							<div class="12u$">
+								<ul class="actions">
+									<li><a href="#" class="button special" onclick="savePayment()">Sačuvaj</a></li>
+									<li><input type="reset" value="Otkaži"></li>
+								</ul>
+							</div>
+						</div>
+					</form>
+
+				</section>
+
+			</div>
+		</div>
+		<!-- Sidebar -->
+		<div id="sidebar">
+			<div class="inner">
+
+				<!-- Picture -->
+				<div class="4u"
+					style="border: None; margin: 0 auto; display: table; width: 50%">
+					<span class="image fit"><img class='image' id="personPhoto"
+						src="" alt="" style="border-radius: 50%" /></span>
+				</div>
+
+				<!-- Menu -->
+				<nav id="menu">
+					<header class="major">
+						<h2 id="personName"></h2>
+					</header>
+					<ul id = "generalManagerMenu" style="display:none">
+						<li><span class="opener">Moj profil</span>
+							<ul>
+								<li><a href="managerProfile.html">Osnovni podaci</a></li>
+								<li><a href="managerChangePassword.html">Promeni
+										lozinku</a></li>
+							</ul></li>
+						<li><a href="managerOperationRequests.html">Zahtevi za operacije</a></li>
+						<li><a onclick="logout()">Odjava</a></li>
+					</ul>
+					<ul id = "financialManagerMenu" style="display:none">
+						<li><span class="opener">Moj profil</span>
+							<ul>
+								<li><a href="managerProfile.html">Osnovni podaci</a></li>
+								<li><a href="managerChangePassword.html">Promeni
+										lozinku</a></li>
+							</ul></li>
+							
+						<li><span class="opener">Plaćanja</span>
+							<ul>
+								<li><a href="managerPayments.html">Sve uplate</a></li>
+								<li><a href="managerNewPayment.html">Nova uplata</a></li>
+							</ul>
+						</li>
+						<li><a onclick="logout()">Odjava</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+	<!-- Scripts -->
+	<script src="static/js/skel.min.js"></script>
+	<script src="static/js/util.js"></script>
+	<script src="static/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Pregled</title>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no" />
+<!-- CSS files -->
+<link rel="stylesheet" href="static/css/main.css" />
+<link rel="stylesheet" href="static/css/manager-operations.css" />
+<link rel="stylesheet" href="static/css/toastr.min.css" />
+<link rel="stylesheet" href="static/css/my-modal.css" />
+
+<!-- JS files -->
+<script src="static/js/jquery.min.js"></script>
+
+<script src='static/jsController/common/sessionUser.js'></script>
+<script src='static/jsController/logout/logout.js'></script>
+<script type="text/javascript" src="static/js/toastr.min.js"></script>
+
+</head>
+<body onload="getLoggedUser(), displayExamination(), switchMenu()">
+	<!-- Wrapper -->
+	<div id="wrapper">
+		<!-- Main -->
+		<div id="main">
+			<!-- Header image -->
+			<img class='headerImage' src="/static/images/slika22.jpg" />
+			<div class="inner">
+				<!-- Content -->
+				<section>
+				
+					<header class="major">
+						<h2 id="examinationName"></h2>
+					</header>
+					
+					<div class="row uniform" style="cursor:default;">
+						
+						<div class="6u 12u$(xsmall)">
+							<h3>Podaci o pregledu</h3>
+							<ul class="contact" >
+								<li class="fa-calendar" id="examinationDate" title="Datum"></li>
+								<li class="fa-hospital-o" id="examinationDiagnosis" title="Dijagnoza"></li>
+								<li class="fa-heartbeat" id="examinationSympthoms" title="Simptomi"></li>
+								<li class="fa-clock-o" id="examinationTime" title="Vreme"></li>
+							</ul>
+						</div>
+						
+						<div class="6u 12u$(xsmall)">
+							<h3>Podaci o pacijentu</h3>
+							<ul class="contact" id="patientData" >
+								<li class="fa-user" id="patientName" title="Ime i prezime"> </li>
+								<li class="fa-birthday-cake" id="patientBirthday" title="Datum rođenja"></li>
+								<li id="patientGender" title="Pol"></li>
+							</ul>
+						</div>
+					</div>
+					
+				</section>
+
+			</div>
+		</div>
+		<!-- Sidebar -->
+		<div id="sidebar">
+			<div class="inner">
+
+				<!-- Picture -->
+				<div class="4u"
+					style="border: None; margin: 0 auto; display: table; width: 50%">
+					<span class="image fit"><img class='image' id="personPhoto"
+						src="" alt="" style="border-radius: 50%" /></span>
+				</div>
+
+				<!-- Menu -->
+				<nav id="menu">
+					<header class="major">
+						<h2 id="personName"></h2>
+					</header>
+					<ul id = "generalManagerMenu" style="display:none">
+						<li><span class="opener">Moj profil</span>
+							<ul>
+								<li><a href="managerProfile.html">Osnovni podaci</a></li>
+								<li><a href="managerChangePassword.html">Promeni
+										lozinku</a></li>
+							</ul></li>
+						<li><a href="managerExaminations.html">Operacije</a></li>
+						<li><a href="managerExaminations.html">Pregledi</a></li>
+						<li><a onclick="logout()">Odjava</a></li>
+					</ul>
+					<ul id = "financialManagerMenu" style="display:none">
+						<li><span class="opener">Moj profil</span>
+							<ul>
+								<li><a href="managerProfile.html">Osnovni podaci</a></li>
+								<li><a href="managerChangePassword.html">Promeni
+										lozinku</a></li>
+							</ul></li>
+						<li><a href="managerPayments.html">Uplate</a></li>
+						<li><a onclick="logout()">Odjava</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+	
+	
+	<!-- The Modal for set up examination time and room -->
+	<div id="modalOp" class="modal">
+		<!-- Modal content -->
+		<div class="modal-content">
+			<div class="modal-header">
+				<span class="close" id="spanCloseOp">&times;</span>
+				<h2 style="text-align: center; margin-top: 5%">Zakazivanje</h2>
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="row uniform">
+						<div class="12u$">
+							<div id="chooseTime" style="margin-top:5%" class="select-wrapper">
+								<select name="type" id="timeSelect" onchange="checkValidity()">
+								</select>
+							</div>
+						</div>	
+						<!-- Break -->
+						<div class="12u$">
+							<ul class="actions" style="text-align: center;">
+								<li><a class="button" onclick="saveExamination()">Potvrdi</a></li>
+							</ul>
+						</div>			
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	
+	<!-- Scripts -->
+	<script src="static/js/skel.min.js"></script>
+	<script src="static/js/util.js"></script>
+	<script src="static/js/main.js"></script>
+	<script src='static/jsController/manager/managerExaminations.js'></script>
+	<script src='static/jsController/manager/managerProfile.js'></script>
+</body>
+</html>
