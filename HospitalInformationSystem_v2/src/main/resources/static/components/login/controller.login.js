@@ -19,7 +19,7 @@ function LoginController($location, $stateParams, loginService, localStorageServ
 				var state = "";
 				
 				if (data.role.toLowerCase().indexOf("manager") != -1) 
-					state = "managerProfile";
+					state = "manager.profile";
 				else if(data.role == "medical staff")
 					state = "doctorProfile";
 				else if(data.role == "patient")

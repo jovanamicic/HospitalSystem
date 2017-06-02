@@ -10,6 +10,19 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     	controllerAs: 'loginCtrl'
     })
     
+//   Routes and subroutes for manager. 
+    .state('manager', {
+    	url: '/manager',
+    	templateUrl : 'components/manager/menu.html',
+    	controller : 'ManagerController',
+    	controllerAs: 'managerCtrl'
+    })
+	.state('manager.profile', {
+    	url: '/profile',
+    	templateUrl: 'components/manager/profile.html',
+    })
+    
+    
     .state('patentProfile', {
     	url: '/patientProfile',
     	templateUrl: 'components/patient/profile.html',
@@ -22,10 +35,7 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     })
     
 
-    .state('managerProfile', {
-    	url: '/managerProfile',
-    	templateUrl: 'components/manager/profile.html',
-    })
+    
     
 //    //rute za usera i njegove podrute
 //    .state('userProfile', {

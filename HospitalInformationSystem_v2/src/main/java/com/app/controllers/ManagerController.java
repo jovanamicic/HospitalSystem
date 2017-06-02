@@ -28,13 +28,13 @@ public class ManagerController {
 	@Autowired
 	private PersonService personService;
 	
-	/** Function gets data about one managert.
+	/** Function gets data about one manager.
 	 * @param id of Manager.
 	 * @return Data about Manager.
 	 */
 	@RequestMapping(value= "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<ManagerDTO> getManager(@PathVariable int id){
-		
+		System.out.println("jdhjdfshjd");
 		Manager m = managerService.findOne(id);
 		
 		if (m != null){
