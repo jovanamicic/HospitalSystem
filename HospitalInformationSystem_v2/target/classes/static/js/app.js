@@ -1,5 +1,10 @@
-//angular.module('hospitalApp', [ 
-//		'ui.router',
-//		]);
 
-var app = angular.module("hospitalApp", []);
+var app = angular.module('hospitalApp', [
+	'hospitalApp.controllers',
+	'hospitalApp.services', 
+	'hospitalApp.routes',                                      
+	'ui.router',
+	'LocalStorageModule'
+]);
+
+

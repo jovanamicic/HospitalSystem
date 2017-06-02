@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
-Implementation-Title: HositalInformationSystem
+Implementation-Title: HospitalInformationSystem
 Implementation-Version: 0.0.1
 Built-By: katar
 Implementation-Vendor-Id: com.kmj
 Build-Jdk: 1.8.0_111
-Implementation-URL: http://projects.spring.io/spring-boot/HositalInfor
- mationSystem/
+Implementation-URL: http://projects.spring.io/spring-boot/HospitalInfo
+ rmationSystem/
 Created-By: Maven Integration for Eclipse
 Implementation-Vendor: Pivotal Software, Inc.
 

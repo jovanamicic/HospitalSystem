@@ -4,18 +4,18 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.kmj</groupId>
-	<artifactId>HositalInformationSystem</artifactId>
+	<artifactId>HospitalInformationSystem</artifactId>
 	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
-	<name>HositalInformationSystem</name>
+	<name>HospitalInformationSystem</name>
 	<description>Hospital Information System</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.3.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
@@ -52,7 +52,6 @@
 		</dependency>
 		
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
