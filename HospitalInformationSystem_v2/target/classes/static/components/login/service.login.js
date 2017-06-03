@@ -6,7 +6,7 @@ angular.module('hospitalApp.services').factory('loginService',
 			return service;
 			
 			function loginUser(user) {
-				return $http.post("/persons/login", user)
+				return $http.post("login", user)
 			}
 
 		})
