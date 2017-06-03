@@ -20,6 +20,10 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     	url: '/profile',
     	templateUrl: 'components/manager/profile.html',
     })
+	.state('manager.passwordChange', {
+    	url: '/passwordChange',
+    	templateUrl: 'components/manager/changePassword.html',
+    })
     
     
     .state('patentProfile', {

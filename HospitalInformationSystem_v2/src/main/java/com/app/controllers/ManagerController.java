@@ -34,7 +34,6 @@ public class ManagerController {
 	 */
 	@RequestMapping(value= "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<ManagerDTO> getManager(@PathVariable int id){
-		System.out.println("jdhjdfshjd");
 		Manager m = managerService.findOne(id);
 		
 		if (m != null){

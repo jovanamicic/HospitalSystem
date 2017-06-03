@@ -7,9 +7,14 @@ ManagerController.$inject = [ '$location', '$stateParams',
 function ManagerController($location, $stateParams, managerService, localStorageService, $http, $scope, $state) {
 
 	var vm = this;
-	vm.user;
+	vm.user = {};
 	vm.isActive = false;
 	vm.isGeneralManager = false;
+	
+	vm.oldPassword = "";
+	vm.newPassword1 = "";
+	vm.newPassword2 = "";
+	
 	
 	vm.getProfile = function() {
 		var id = localStorage.getItem("person")
@@ -39,13 +44,37 @@ function ManagerController($location, $stateParams, managerService, localStorage
 		var userUpdate = {username : vm.user.username, email : vm.user.email};
 		managerService.updateUser(userUpdate)
 		.then(function(data) {
-			console.log("OK")
 			toastr.success("Vaš profil je uspešno izmenjen.")
 		})
 		.catch(function() {
-			console.log("NOT OK")
 			toastr.error("Uneli ste pogrešne podatke. Molimo Vas pokušajte ponovo!");
 		});
+	}
+	
+	vm.goToChangePassword = function() {
+		$state.go("manager.passwordChange");
+	}
+	
+	vm.changePassword = function() {
+		
+		if (vm.newPassword1 == vm.newPassword2 && vm.oldPassword != "" && vm.newPassword1 != "" && vm.newPassword2 != ""){
+			
+			var passwordUpdate = {oldPassword : vm.oldPassword, newPassword : vm.newPassword};
+			managerService.updatePassword(passwordUpdate)
+			.then(function(data) {
+				toastr.success("Vaš profil je uspešno izmenjen.")
+			})
+			.catch(function() {
+				toastr.error("Uneli ste pogrešnu staru lozinku. Molimo Vas pokušajte ponovo!");
+			});
+		}
+		else{
+			toastr.error("Dogodila se greška, molimo Vas pokušajte ponovo!");
+		}
+		
+		vm.oldPassword = "";
+		vm.newPassword1 = "";
+		vm.newPassword2 = "";
 	}
 	
 	vm.logout = function() {

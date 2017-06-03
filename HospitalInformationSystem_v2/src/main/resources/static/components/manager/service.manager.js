@@ -1,7 +1,8 @@
 angular.module('hospitalApp.services').factory('managerService', function($http) {
 	var service = {
 			getUser : getUser,
-			updateUser : updateUser 
+			updateUser : updateUser ,
+			updatePassword : updatePassword
 	}
 	return service;
 	
@@ -11,6 +12,10 @@ angular.module('hospitalApp.services').factory('managerService', function($http)
 	
 	function updateUser(user) {
 		return $http.put('managers', user);
+	}
+	
+	function updatePassword(passwords) {
+		return $http.put('/persons/password', passwords);
 	}
 
 
