@@ -17,8 +17,7 @@ function ManagerController($location, $stateParams, managerService, localStorage
 	
 	
 	vm.getProfile = function() {
-		var id = localStorage.getItem("person")
-		managerService.getUser(id)
+		managerService.getPersonByToken()
 		.then(function(data) {
 			data = data.data;
 			vm.user = data;
@@ -51,10 +50,6 @@ function ManagerController($location, $stateParams, managerService, localStorage
 		});
 	}
 	
-	vm.goToChangePassword = function() {
-		$state.go("manager.passwordChange");
-	}
-	
 	vm.changePassword = function() {
 		
 		if (vm.newPassword1 == vm.newPassword2 && vm.oldPassword != "" && vm.newPassword1 != "" && vm.newPassword2 != ""){
@@ -84,5 +79,26 @@ function ManagerController($location, $stateParams, managerService, localStorage
 	
 	vm.showProifleOptions = function() {
 		vm.isActive = !vm.isActive;
+	}
+	
+
+	vm.goToProfile = function() {
+		$state.go("manager.profile");
+	}
+
+	vm.goToChangePassword = function() {
+		$state.go("manager.passwordChange");
+	}
+	
+	vm.goToOperations = function() {
+		$state.go("manager.operations");
+	}
+	
+	vm.goToExaminations = function() {
+		$state.go("manager.operations");
+	}
+	
+	vm.goToPayments = function() {
+		$state.go("manager.payments");
 	}
 }

@@ -32,12 +32,12 @@
 						<li ng-click="managerCtrl.showProifleOptions()" ng-show="managerCtrl.isGeneralManager">
 							<span ng-class="{'opener' : !managerCtrl.isActive, 'opener active' : managerCtrl.isActive}">Moj profil</span>
 							<ul>
-								<li><a ng-click="managerCtrl.getProfile()">Osnovni podaci</a></li>
+								<li><a ng-click="managerCtrl.goToProfile()">Osnovni podaci</a></li>
 								<li><a ng-click="managerCtrl.goToChangePassword()">Promeni
 										lozinku</a></li>
 							</ul></li>
-						<li><a ng-click="managerCtrl.getOperations()">Operacije</a></li>
-						<li><a ng-click="managerCtrl.getExaminations()">Pregledi</a></li>
+						<li><a ng-click="managerCtrl.goToOperations()">Operacije</a></li>
+						<li><a ng-click="managerCtrl.goToExaminations()">Pregledi</a></li>
 						<li><a ng-click="managerCtrl.logout()">Odjava</a></li>
 					</ul>
 					
@@ -45,11 +45,11 @@
 						<li ng-click="managerCtrl.showProifleOptions()">
 							<span ng-class="{'opener' : !managerCtrl.isActive, 'opener active' : managerCtrl.isActive}">Moj profil</span>
 							<ul>
-								<li><a ng-click="managerCtrl.getProfile()">Osnovni podaci</a></li>
+								<li><a ng-click="managerCtrl.goToProfile()">Osnovni podaci</a></li>
 								<li><a ng-click="managerCtrl.goToChangePassword()">Promeni
 										lozinku</a></li>
 							</ul></li>
-						<li><a a ng-click="managerCtrl.payments()">Uplate</a></li>
+						<li><a a ng-click="managerCtrl.goToPayments()">Uplate</a></li>
 						<li><a ng-click="managerCtrl.logout()">Odjava</a></li>
 					</ul>
 

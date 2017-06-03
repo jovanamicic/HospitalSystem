@@ -16,14 +16,16 @@ function LoginController($location, $stateParams, loginService, localStorageServ
 					loginService.getPersonRole()
 						.then(function(data){
 							vm.personLogin = {};
-							localStorage.setItem("role", data.data.role);
-
-							if (data.data.role == 'patient')
-								$location.path('/' + data.data.role + '/profile');
-							else if (data.data.role == 'medical staff')
+							
+							var role = data.data.role;
+							localStorage.setItem("role", role);
+							
+							if (role == 'patient')
+								$location.path('/' + role + '/profile');
+							else if (role == 'medical staff')
 								$location.path('/medicalStaff/patients');
-							else if (data.data.role == 'manager')
-								$location.path('/' + data.data.role + '/profile');
+							else if (role == 'general manager' || role == 'financial manager')
+								$location.path('/manager/profile');
 							
 							vm.errorMessage = "";
 						})

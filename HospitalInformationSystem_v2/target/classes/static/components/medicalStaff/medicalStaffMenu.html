@@ -1,0 +1,41 @@
+<!-- Wrapper -->
+<div id="wrapper">
+
+	<!-- Main -->
+	<div id="main">
+
+		<!-- Header image -->
+		<img class='headerImage' src="static/images/slika22.jpg" />
+		
+		<div class="inner" ui-view>
+
+		</div>
+	</div>
+
+	<!-- Sidebar -->
+	<div id="sidebar">
+		<div class="inner">
+
+			<!-- Picture -->
+			<div class="4u"
+				style="border: None; margin: 0 auto; display: table; width: 50%">
+				<span class="image fit"><img class='image' id="personPhoto"
+					src={{commonCtrl.loggedPerson.photo}} alt="" style="border-radius: 50%" /></span>
+			</div>
+
+			<!-- Menu -->
+			<nav id="menu">
+				<header class="major">
+					<h2 id="personName">{{commonCtrl.loggedPerson.name}} {{commonCtrl.loggedPerson.surname}}</h2>
+				</header>
+				<ul>
+					<li><a href="doctorAllPatients.html">Pacijenti</a></li>
+					<li><a href="doctorPatientRegistration.html">Registruj
+							pacijenta</a></li>
+					<li><a href="doctorSchedule.html">Kalendar</a></li>
+					<li><a onclick="logout()">Odjava</a></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
