@@ -26,15 +26,37 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     })
     
     
-    .state('patentProfile', {
-    	url: '/patientProfile',
+     .state('patient', {
+    	url: '/patient',
+    	templateUrl : 'components/patient/patientMenu.html',
+    	controller : 'CommonController',
+    	controllerAs: 'commonCtrl'
+    })
+    .state('patientProfile', {
+    	url: '/profile',
     	templateUrl: 'components/patient/profile.html',
     })
     
     
-    .state('doctorProfile', {
-    	url: '/doctorProfile',
-    	templateUrl: 'components/doctor/profile.html',
+    .state('medicalStaff', {
+    	url: '/medicalStaff',
+    	templateUrl : 'components/medicalStaff/medicalStaffMenu.html',
+    	controller : 'CommonController',
+    	controllerAs: 'commonCtrl'
+    })
+    .state('medicalStaff.patients', {
+    	url: '/patients',
+    	templateUrl: 'components/medicalStaff/doctorAllPatients.html',
+    	controller : 'MedicalStaffPatientsController',
+    	controllerAs: 'medicalStaffPatientsCtrl'
+    })
+    .state('medicalStaff.patientRegistration', {
+    	url: '/patientRegistration',
+    	templateUrl: 'components/medicalStaff/doctorPatientRegistration.html',
+    })
+    .state('medicalStaff.schedule', {
+    	url: '/medicalStaffSchedule',
+    	templateUrl: 'components/medicalStaff/doctorSchedule.html',
     })
     
 
