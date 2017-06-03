@@ -10,27 +10,31 @@ function LoginController($location, $stateParams, loginService, localStorageServ
 	vm.personLogin;
 
 	vm.login = function() {
-		loginService.loginUser(vm.personLogin)
-		.then(function(data, status, headers, config) {
-				data = data.data;
-			
-				localStorage.setItem("token", data.tokenValue);
-				localStorage.setItem("person", data.id);
+		loginService.loginPerson(vm.personLogin).then(
+				function(data, status, headers, config) {
+					localStorage.setItem("token", data.data.tokenValue);
+					loginService.getPersonRole()
+						.then(function(data){
+							vm.personLogin = {};
+							localStorage.setItem("role", data.data.role);
+
+							if (data.data.role == 'patient')
+								$location.path('/' + data.data.role + '/profile');
+							else if (data.data.role == 'medical staff')
+								$location.path('/medicalStaff/patients');
+							else if (data.data.role == 'manager')
+								$location.path('/' + data.data.role + '/profile');
+							
+							vm.errorMessage = "";
+						})
+						.catch(function(data){
+							vm.errorMessage = data;
+						})
 				
-				var state = "";
-				
-				if (data.role.toLowerCase().indexOf("manager") != -1) 
-					state = "manager.profile";
-				else if(data.role == "medical staff")
-					state = "doctorProfile";
-				else if(data.role == "patient")
-					state = "patientProfile";
-				
-				setTimeout(function(){
-					$state.go(state)
-					}, 1000);
-		})
+					
+				}).catch(function(data, status, headers, config) {
+					vm.errorMessage = "Wrong email or password, try again!";
+		});
 	}
 
-	
 }

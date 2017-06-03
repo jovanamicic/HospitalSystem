@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +34,7 @@ import com.app.model.Operation;
 import com.app.model.Patient;
 import com.app.model.Person;
 import com.app.model.Record;
+import com.app.security.TokenUtils;
 import com.app.service.AddressService;
 import com.app.service.ExaminationService;
 import com.app.service.MedicalStaffService;
@@ -70,6 +72,9 @@ public class PatientController {
 	
 	@Autowired
 	private PersonService personService;
+	
+	@Autowired
+	private TokenUtils tokenUtils;
 	
 	
 	/** Function that register new patient on system.
@@ -125,7 +130,7 @@ public class PatientController {
 	 * @return Page of patients
 	 */
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
-	public ResponseEntity<Page<Patient>> getAllPatients(@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
+	public ResponseEntity<Page<Patient>> getAllPatients(@RequestHeader("X-Auth-Token") String token, @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
 		Page<Patient> patients = patientService.findAllPage(page);
 		return new ResponseEntity<>(patients, HttpStatus.OK);
 	}
@@ -137,9 +142,12 @@ public class PatientController {
 	 * @return Page of patients
 	 */
 	@RequestMapping(value = "/my", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Page<Patient>> getMyPatients(@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page, @RequestBody ObjectIDDTO person){
-		int id = person.getId();
-		Page<Patient> patients = patientService.findByChosenDoctor(id, page);
+	public ResponseEntity<Page<Patient>> getMyPatients(@RequestHeader("X-Auth-Token") String token, @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
+		
+		String username = tokenUtils.getUsernameFromToken(token);
+		Person person = personService.findByUsername(username);
+		
+		Page<Patient> patients = patientService.findByChosenDoctor(person.getId(), page);
 		return new ResponseEntity<>(patients, HttpStatus.OK);
 	}
 	
