@@ -14,6 +14,7 @@ function LoginController($location, $stateParams, loginService, localStorageServ
 		.then(function(data, status, headers, config) {
 				data = data.data;
 			
+				localStorage.setItem("token", data.tokenValue);
 				localStorage.setItem("person", data.id);
 				
 				var state = "";

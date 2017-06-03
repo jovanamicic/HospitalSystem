@@ -2,7 +2,6 @@ var kmjRealEstate = angular.module('hospitalApp.routes', ['ui.router']);
 kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('/');
     $stateProvider
-    
     .state('login', {
     	url: '/login',
     	templateUrl: 'components/login/login.html',
