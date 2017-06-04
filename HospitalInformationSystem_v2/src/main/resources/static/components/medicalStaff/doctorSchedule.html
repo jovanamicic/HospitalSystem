@@ -1,7 +1,7 @@
 
 <!-- Content -->
 <section>
-	<div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+	<div ui-calendar="medicalStaffScheduleCtrl.uiConfig.calendar" ng-model="medicalStaffScheduleCtrl.eventSources"></div>
 </section>
 
 <!-- The Modal for set up operation or examination -->
@@ -65,24 +65,24 @@
 
 
 <!-- The Modal for detail look about operation or examination -->
-<div id="myModalDetail" class="modal" ng-show="medicalStaffScheduleCtrl.showDetailsModal">
+<div id="myModalDetail" class="modal" ng-style="{'display': medicalStaffScheduleCtrl.displayModalDetails}">
 	<!-- Modal content -->
 	<div class="modal-content">
 		<div class="modal-header">
-			<span class="close" id="spanCloseDetail">&times;</span>
-			<h2 id="operationOrExaminationTitle"
-				style="text-align: center; margin-top: 5%"></h2>
+			<span class="close" id="spanCloseDetail" ng-click="medicalStaffScheduleCtrl.closeModalDetails()">&times;</span>
+			<h2 id="operationOrExaminationTitle" ng-model="medicalStaffScheduleCtrl.clickedEvent.title"
+				style="text-align: center; margin-top: 5%">{{medicalStaffScheduleCtrl.clickedEvent.title}}</h2>
 		</div>
 		<div class="modal-body">
 			<ul class="contact" style="width: 100%; margin-top: 5%">
-				<li class="fa-stethoscope" id="doctor"></li>
-				<li class="fa-user" id="patient"></li>
-				<li class="fa-tag" id="nameTag"></li>
-				<li class="fa-calendar" id="dateTag"></li>
-				<li class="fa-clock-o" id="timeTag"></li>
-				<li id="operationExaminationId" style="display: none"></li>
+				<li class="fa-stethoscope" id="doctor" >{{medicalStaffScheduleCtrl.clickedEvent.doctor}}</li>
+				<li class="fa-user" id="patient" >{{medicalStaffScheduleCtrl.clickedEvent.patient}}</li>
+				<li class="fa-tag" id="nameTag" >{{medicalStaffScheduleCtrl.clickedEvent.name}}</li>
+				<li class="fa-calendar" id="dateTag" >{{medicalStaffScheduleCtrl.clickedEvent.date}}</li>
+				<li class="fa-clock-o" id="timeTag" >{{medicalStaffScheduleCtrl.clickedEvent.time}}</li>
+				<li id="operationExaminationId" style="display: none">{{medicalStaffScheduleCtrl.clickedEvent.operationExaminationId}}</li>
 				<li style="margin-left: 11%"><a class="button icon fa-ban"
-					onclick="cancelOperationExamination()">Otkaži</a></li>
+					ng-click="medicalStaffScheduleCtrl.cancelOperationExamination()">Otkaži</a></li>
 			</ul>
 		</div>
 	</div>
