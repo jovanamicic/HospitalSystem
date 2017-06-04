@@ -5,10 +5,10 @@
 	</header>
 	<div class="row uniform">
 		<div class="9u 12u$(xsmall)">
-			<input type="text" id="search" placeholder="Unesite reči za pretragu">
+			<input type="text" id="search" placeholder="Unesite reči za pretragu" ng-model="medicalStaffPatientsCtrl.searchData"  ng-change="medicalStaffPatientsCtrl.emptySearch()">
 		</div>
 		<div class="1u 12u$(xsmall)">
-			<a href="#" class="button special" onclick="resetPagSearch()"> <i
+			<a href="#" class="button special" ng-click="medicalStaffPatientsCtrl.searchPatients()"> <i
 				class="fa fa-search fa-fw" aria-hidden="true"></i> Pretraži
 			</a>
 		</div>
@@ -16,12 +16,10 @@
 	</div>
 	<div class="row uniform">
 		<div class="3u 12u$(xsmall)">
-			<a href="#" class="button special fit" id="allP"
-				onclick="resetPagAll()">Svi pacijenti</a>
+			<a href="#"   ng-class="medicalStaffPatientsCtrl.allPatientsBtnActive ? 'button special fit' : 'button fit'" id="allP" ng-click="medicalStaffPatientsCtrl.getAllPatients()" >Svi pacijenti</a>
 		</div>
 		<div class="3u 12u$(xsmall)">
-			<a href="#" class="button fit" id="myP" onclick="resetPagMy()"
-				style="margin-bottom: 3em">Moji pacijenti</a>
+			<a href="#"  id="myP" ng-class="medicalStaffPatientsCtrl.myPatientsBtnctive ? 'button special fit' : 'button fit'" ng-click="medicalStaffPatientsCtrl.getMyPatients()" style="margin-bottom: 3em">Moji pacijenti</a>
 		</div>
 	</div>
 	<p></p>
@@ -29,7 +27,7 @@
 		<div style="width: 100%">
 
 			<div class="table-wrapper">
-				<table class="alt" id="patientsTable">
+				<table class="alt" id="patientsTable" ng-hide="medicalStaffPatientsCtrl.patients.length == 0">
 					<thead>
 						<tr>
 							<th>Ime</th>
@@ -52,25 +50,12 @@
 
 				</table>
 
-				<div class="pagination" id="doctorPatientsPag"></div>
 
-				<h3 id="noPatients" style="display: none; text-align: center;">Ne
+				<h3 ng-show="medicalStaffPatientsCtrl.noSearchResult" text-align: center;">Ne
 					postoje pacijenti koji zadovoljavaju kriterijum pretrage.</h3>
-				<h3 id="noMyPatients" style="display: none; text-align: center;">Trenutno
+				<h3 ng-show="medicalStaffPatientsCtrl.patients.length == 0" text-align: center;">Trenutno
 					nemate ni jednog pacijenta.</h3>
 			</div>
-
-			<ul class="pagination" ng-show="medicalStaffPatientsCtrl.total > medicalStaffPatientsCtrl.itemsPerPage">
-				<li><span class="button disabled">Prev</span></li>
-				<li><a href="#" class="page active">1</a></li>
-				<li><a href="#" class="page">2</a></li>
-				<li><a href="#" class="page">3</a></li>
-				<li><span>&hellip;</span></li>
-				<li><a href="#" class="page">8</a></li>
-				<li><a href="#" class="page">9</a></li>
-				<li><a href="#" class="page">10</a></li>
-				<li><a href="#" class="button">Next</a></li>
-			</ul>
 
 		</div>
 	</div>

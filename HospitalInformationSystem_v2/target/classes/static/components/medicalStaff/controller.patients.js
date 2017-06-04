@@ -8,23 +8,62 @@ function MedicalStaffPatientsController($location, $stateParams, medicalStaffSer
 
 	var vm = this;
 	vm.patients;
-	vm.total;
+	
+	vm.allPatientsBtnActive;
+	vm.myPatientsBtnctive;
+	
+	vm.noSearchResult;
+	
+	vm.searchData;
+	
 
-	getAllPatients = function() {
+	vm.getAllPatients = function() {
 		medicalStaffService.getPatients().then(
 				function(data, status, headers, config) {
+					vm.patients = [];
 					vm.patients = data.data.content;
-					vm.total = 100; //ovde promeni da sa backa dolazi objekat
+					
+					vm.allPatientsBtnActive = true;
+					vm.myPatientsBtnctive = false;
+					
 				}).catch(function(data, status, headers, config) {
 					vm.errorMessage = "Something went wrong with getting all patients!";
 		});
 	}
-	getAllPatients();
+	vm.getAllPatients();
 	
-	vm.pagination = {
-			current : 1
-		}
-		
-	vm.itemsPerPage = 6;
-
+	
+	vm.getMyPatients = function() {
+		medicalStaffService.getMyPatients().then(
+				function(data, status, headers, config) {
+					vm.patients = [];
+					vm.patients = data.data.content;
+					
+					vm.allPatientsBtnActive = false;
+					vm.myPatientsBtnctive = true;
+					
+				}).catch(function(data, status, headers, config) {
+					vm.errorMessage = "Something went wrong with getting my patients!";
+		});
+	}
+	
+	vm.searchPatients  = function() {
+		medicalStaffService.getPatientsBySearchData(vm.searchData).then(
+				function(data, status, headers, config) {
+					vm.patients = [];
+					vm.patients = data.data.content;
+					
+					vm.allPatientsBtnActive = true;
+					vm.myPatientsBtnctive = false;
+					
+				}).catch(function(data, status, headers, config) {
+					vm.errorMessage = "Something went wrong with searching patients!";
+		});
+	}
+	
+	vm.emptySearch = function() {
+		if (vm.searchData.length == 0)
+			vm.getAllPatients();
+	}
+	
 }

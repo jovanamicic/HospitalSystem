@@ -2,7 +2,8 @@ angular.module('hospitalApp.services').factory('medicalStaffService',
 		function($http) {
 			var service = {
 				getPatients : getPatients,
-				getMyPatients : getMyPatients
+				getMyPatients : getMyPatients,
+				getPatientsBySearchData : getPatientsBySearchData
 			}
 			return service;
 
@@ -12,6 +13,10 @@ angular.module('hospitalApp.services').factory('medicalStaffService',
 			
 			function getMyPatients() {
 				return $http.get('patients/my')
+			}
+			
+			function getPatientsBySearchData(searchData) {
+				return $http.get('patients/search/' + searchData)
 			}
 
 		})

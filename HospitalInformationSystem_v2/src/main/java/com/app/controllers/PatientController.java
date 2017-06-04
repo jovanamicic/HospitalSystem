@@ -141,7 +141,7 @@ public class PatientController {
 	 * @param page and doctors ID
 	 * @return Page of patients
 	 */
-	@RequestMapping(value = "/my", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "/my", method = RequestMethod.GET)
 	public ResponseEntity<Page<Patient>> getMyPatients(@RequestHeader("X-Auth-Token") String token, @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
 		
 		String username = tokenUtils.getUsernameFromToken(token);
@@ -150,6 +150,7 @@ public class PatientController {
 		Page<Patient> patients = patientService.findByChosenDoctor(person.getId(), page);
 		return new ResponseEntity<>(patients, HttpStatus.OK);
 	}
+	
 	
 	/** Function gets data about one patient.
 	 * @param id of patient.
@@ -285,11 +286,13 @@ public class PatientController {
 	 * @return list of patients
 	 */
 	@RequestMapping(value= "/search/{searchData}", method = RequestMethod.GET)
-	public ResponseEntity<Page<Patient>> serachPatients(@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page,@PathVariable String searchData){
+	public ResponseEntity<Page<Patient>> serachPatients(@RequestHeader("X-Auth-Token") String token, @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page,@PathVariable String searchData){
 		
 		Page<Patient> retVal = patientService.findBySearchData(searchData, page);
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
+	
+	
 	
 	@RequestMapping(value= "/username", method = RequestMethod.GET)
 	public ResponseEntity<Void> checkUsername(@RequestBody String username){
