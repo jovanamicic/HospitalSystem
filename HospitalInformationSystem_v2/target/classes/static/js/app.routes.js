@@ -9,7 +9,7 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     	controllerAs: 'loginCtrl'
     })
     
-//   Routes and subroutes for manager. 
+    //MANAGER
     .state('manager', {
     	url: '/manager',
     	templateUrl : 'components/manager/menu.html',
@@ -31,19 +31,23 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     	controllerAs: 'operationsCtrl'
     })
     
-    
+    //PATIENT
      .state('patient', {
     	url: '/patient',
     	templateUrl : 'components/patient/patientMenu.html',
     	controller : 'CommonController',
     	controllerAs: 'commonCtrl'
     })
-    .state('patientProfile', {
-    	url: '/profile/:id',
+   
+    .state('patient.patientProfile', {
+    	url: '/profile',
     	templateUrl: 'components/patient/profile.html',
+    	controller: "PatientProfileController",
+    	controllerAs: 'patientProfileCtrl'
+    	
     })
-    
-    
+
+    //MEDICAL STAFF
     .state('medicalStaff', {
     	url: '/medicalStaff',
     	templateUrl : 'components/medicalStaff/medicalStaffMenu.html',
@@ -68,20 +72,17 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     	controller : 'MedicalStaffScheduleController',
     	controllerAs: 'medicalStaffScheduleCtrl'
     })
-    
+    .state('medicalStaff.patientProfile', {
+    	url: '/patient/profile/:id',
+    	templateUrl: 'components/patient/profile.html',
+    	controller: "PatientProfileController",
+    	controllerAs: 'patientProfileCtrl'
+    })
+    .state('medicalStaff.patientRecord', {
+    	url: '/patient/record/:id',
+    	templateUrl: 'components/patient/record.html',
+    	controller: "PatientRecordController",
+    	controllerAs: 'patientRecordCtrl'
+    })
 
-    
-    
-//    //rute za usera i njegove podrute
-//    .state('userProfile', {
-//    	url: '/userProfile',
-//    	templateUrl : 'static/js/components/profile/userProfile.html',
-//    	controller : 'UserController',
-//    	controllerAs: 'userCtrl'
-//    })
-//    .state('userProfile.userDetails', {
-//    	url: '/userDetails', 
-//    	templateUrl: 'static/js/components/profile/userDetails.html',
-//    })
-	
 } ]);

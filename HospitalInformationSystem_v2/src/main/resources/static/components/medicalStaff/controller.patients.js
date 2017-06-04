@@ -67,7 +67,7 @@ function MedicalStaffPatientsController($location, $stateParams, medicalStaffSer
 	}
 	
 	vm.showPatient = function(id) {
-		$location.path('/patient/profile/'+id);
+		$location.path('/medicalStaff/patient/profile/'+id);
 	}
 	
 }

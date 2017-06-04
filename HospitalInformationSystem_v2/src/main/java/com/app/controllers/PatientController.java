@@ -173,7 +173,7 @@ public class PatientController {
 				Address a = p.getAddress();
 				retVal.setCountry(a.getCountry());
 				retVal.setCity(a.getCity());
-				retVal.getZipCode();
+				retVal.setZipCode(a.getZipCode()+"");
 				retVal.setStreet(a.getStreet());
 				retVal.setNumber(a.getNumber());
 				retVal.setDoctor(p.getChosenDoctor().getId());
@@ -251,9 +251,10 @@ public class PatientController {
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT, consumes = "application/json")
-	public ResponseEntity<Void> changeProfile(@RequestBody PatientDTO dto, HttpSession session) {
-		int id = (int) session.getAttribute("person");
-		Patient p = patientService.findOne(id);
+	public ResponseEntity<Void> changeProfile(@RequestBody PatientDTO dto, @RequestHeader("X-Auth-Token") String token) {
+		String username = tokenUtils.getUsernameFromToken(token);
+		Person person = personService.findByUsername(username);
+		Patient p = patientService.findOne(person.getId());
 		
 		if (p.getAddress() != null) {
 			Address address = p.getAddress();
@@ -294,7 +295,7 @@ public class PatientController {
 	
 	
 	
-	@RequestMapping(value= "/username", method = RequestMethod.GET)
+	@RequestMapping(value= "/username", method = RequestMethod.POST)
 	public ResponseEntity<Void> checkUsername(@RequestBody String username){
 		if (personService.usernameUnique(username)){
 			return new ResponseEntity<>(HttpStatus.OK);
