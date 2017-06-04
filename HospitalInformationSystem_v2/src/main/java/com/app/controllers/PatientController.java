@@ -190,6 +190,42 @@ public class PatientController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
+	@RequestMapping( method = RequestMethod.GET)
+	public ResponseEntity<PatientDTO> getLoggedPatient(@RequestHeader("X-Auth-Token") String token){
+		String username = tokenUtils.getUsernameFromToken(token);
+		Person person = personService.findByUsername(username);
+		Patient p = patientService.findOne(person.getId());
+		
+		PatientDTO retVal = new PatientDTO();
+		if (p != null){
+			
+			retVal.setName(p.getName());
+			retVal.setSurname(p.getSurname());
+			retVal.setBirthday(formatter.format(p.getBirthday()));
+			retVal.setPersonalID(p.getPersonalID()+"");
+			retVal.setGender(p.getGender());
+			
+			if (p.getAddress() != null) {
+				Address a = p.getAddress();
+				retVal.setCountry(a.getCountry());
+				retVal.setCity(a.getCity());
+				retVal.setZipCode(a.getZipCode()+"");
+				retVal.setStreet(a.getStreet());
+				retVal.setNumber(a.getNumber());
+				retVal.setDoctor(p.getChosenDoctor().getId());
+			}
+			
+			retVal.setUsername(p.getUsername());
+			retVal.setEmail(p.getEmail());
+			
+			if (p.getChosenDoctor() != null)
+				retVal.setDoctor(p.getChosenDoctor().getId());
+			
+			return new ResponseEntity<>(retVal, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
 	/**
 	 * Function that return schedule for logged patient
 	 * @param page

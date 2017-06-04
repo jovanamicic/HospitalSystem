@@ -33,6 +33,19 @@ function PatientProfileController($location, $stateParams,
 		}
 		else{
 			vm.asDoctor = false;
+			patientService.getLoggedPatient().then(
+					function(data){
+						vm.patient = data.data;
+						patientService.getDoctor(vm.patient.doctor).then(
+								function(data){
+									var doc = data.data;
+									vm.doctor = doc.name + " " + doc.surname;
+								}).catch(function(data){
+									toastr.error("Dogodila se greška.");
+								});
+					}).catch(function(data){
+						toastr.error("Dogodila se greška.");
+					});
 		}
 	}
 	vm.loadPatient();
@@ -69,6 +82,11 @@ function PatientProfileController($location, $stateParams,
 	}
 	
 	vm.patientRecord = function(){
-		$location.path("medicalStaff/patient/record/"+$stateParams.id);
+		if ($stateParams.id != null){
+			$location.path("medicalStaff/patient/record/"+$stateParams.id);
+		}
+		else{
+			$location.path("medicalStaff/patient/record");
+		}
 	}
 }

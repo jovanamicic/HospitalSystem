@@ -21,4 +21,8 @@ function MedicalStaffController($location, $stateParams, medicalStaffService, lo
 		$state.go("medicalStaff.schedule");
 	}
 	
+	vm.logout = function() {
+		localStorage.clear();
+		$state.go('login');
+	}
 }

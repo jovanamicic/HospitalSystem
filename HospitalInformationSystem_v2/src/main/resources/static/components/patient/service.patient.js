@@ -4,12 +4,17 @@ angular.module('hospitalApp.services').factory('patientService',
 				getPatient : getPatient,
 				getDoctor : getDoctor,
 				checkUsername : checkUsername,
-				updatePatient : updatePatient
+				updatePatient : updatePatient,
+				getLoggedPatient : getLoggedPatient
 			}
 			return service;
 
 			function getPatient(id) {
 				return $http.get('patients/'+id);
+			}
+			
+			function getLoggedPatient() {
+				return $http.get('patients/');
 			}
 			
 			function getDoctor(id) {

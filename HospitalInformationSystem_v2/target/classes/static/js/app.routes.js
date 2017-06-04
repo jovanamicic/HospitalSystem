@@ -39,13 +39,31 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     	controllerAs: 'commonCtrl'
     })
    
-    .state('patient.patientProfile', {
+    .state('patient.profile', {
     	url: '/profile',
     	templateUrl: 'components/patient/profile.html',
     	controller: "PatientProfileController",
     	controllerAs: 'patientProfileCtrl'
-    	
     })
+     .state('patient.changePassword', {
+    	url: '/changePassword',
+    	templateUrl: 'components/patient/changePassword.html',
+    	controller: "PatientProfileController",
+    	controllerAs: 'patientProfileCtrl'
+    })
+    .state('patient.record', {
+    	url: '/record',
+    	templateUrl: 'components/patient/record.html',
+    	controller: "PatientRecordController",
+    	controllerAs: 'patientRecordCtrl'
+    })
+    .state('patient.schedule', {
+    	url: '/schedule',
+    	templateUrl: 'components/patient/schedule.html',
+    	controller: "PatientScheduleController",
+    	controllerAs: 'patientScheduleCtrl'
+    })
+    
 
     //MEDICAL STAFF
     .state('medicalStaff', {

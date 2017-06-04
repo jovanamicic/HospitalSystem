@@ -21,7 +21,7 @@ function LoginController($location, $stateParams, loginService, localStorageServ
 							localStorage.setItem("role", role);
 							
 							if (role == 'patient')
-								$location.path('/' + role + '/profile');
+								$location.path('/patient/profile');
 							else if (role == 'medical staff')
 								$location.path('/medicalStaff/patients');
 							else if (role == 'general manager' || role == 'financial manager')
