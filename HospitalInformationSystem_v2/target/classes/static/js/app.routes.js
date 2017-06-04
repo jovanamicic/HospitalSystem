@@ -39,7 +39,7 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     	controllerAs: 'commonCtrl'
     })
     .state('patientProfile', {
-    	url: '/profile',
+    	url: '/profile/:id',
     	templateUrl: 'components/patient/profile.html',
     })
     
