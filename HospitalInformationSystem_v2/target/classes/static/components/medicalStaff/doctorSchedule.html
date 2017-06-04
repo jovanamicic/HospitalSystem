@@ -1,0 +1,86 @@
+
+<!-- Content -->
+<section>
+	<div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div> 
+</section>
+
+<!-- The Modal for set up operation or examination -->
+<div id="myModal" class="modal" ng-show="medicalStaffScheduleCtrl.showModal">
+
+	<!-- Modal content -->
+	<div class="modal-content">
+		<div class="modal-header">
+			<span class="close" id="spanClose">&times;</span>
+			<h2 style="text-align: center; margin-top: 5%">Zakazivanje</h2>
+		</div>
+		<div class="modal-body">
+			<form>
+				<div class="row uniform">
+
+					<div class="12u$" style="margin-top: 5%">
+						<input onfocus="disposeErrors(this)" type="text" id="personalID"
+							placeholder="JMBG pacijenta"> <span id="invalidPatientID"
+							class="errorSpan" style="display: none"></span>
+					</div>
+
+					<div class="12u$">
+						<div class="select-wrapper">
+							<select name="type" id="type">
+								<option value="">- Vrsta -</option>
+								<option value="operacija">Operacija</option>
+								<option value="pregled">Pregled</option>
+							</select>
+						</div>
+					</div>
+					<div class="12u$" id="durationDiv" style="display: none">
+						<input onfocus="disposeErrors(this)" type="text" id="duration"
+							placeholder="Trajanje operacije" required> <span
+							id="invalidDuration" class="errorSpan" style="display: none"></span>
+					</div>
+					<!-- Break -->
+					<div class="12u$">
+						<input onfocus="disposeErrors(this)" type="text" id="name"
+							placeholder="Naziv" required> <span id="invalidName"
+							class="errorSpan" style="display: none"></span>
+					</div>
+					<div class="12u$">
+						<input type="text" id="date" placeholder="Datum"
+							disabled="disabled">
+					</div>
+					<!-- Break -->
+					<div class="12u$">
+						<ul class="actions" style="text-align: center;">
+							<li><a class="button" onclick="save()">Potvrdi</a></li>
+						</ul>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+<!-- The Modal for detail look about operation or examination -->
+<div id="myModalDetail" class="modal" ng-show="medicalStaffScheduleCtrl.showDetailsModal">
+	<!-- Modal content -->
+	<div class="modal-content">
+		<div class="modal-header">
+			<span class="close" id="spanCloseDetail">&times;</span>
+			<h2 id="operationOrExaminationTitle"
+				style="text-align: center; margin-top: 5%"></h2>
+		</div>
+		<div class="modal-body">
+			<ul class="contact" style="width: 100%; margin-top: 5%">
+				<li class="fa-stethoscope" id="doctor"></li>
+				<li class="fa-user" id="patient"></li>
+				<li class="fa-tag" id="nameTag"></li>
+				<li class="fa-calendar" id="dateTag"></li>
+				<li class="fa-clock-o" id="timeTag"></li>
+				<li id="operationExaminationId" style="display: none"></li>
+				<li style="margin-left: 11%"><a class="button icon fa-ban"
+					onclick="cancelOperationExamination()">Otkaži</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
