@@ -27,6 +27,18 @@ angular.module('hospitalApp.services').factory('medicalStaffService',
 				return $http.get('patients/search/' + searchData);
 			}
 			
+			function saveOperation(operation) {
+				return $http.post('operations/operationSchedule', operation);
+			}
+			
+			function saveExamination(examination) {
+				return $http.post('examination/examinationSchedule', examination);
+			}
+			
+			function getSchedule() {
+				return $http.get('medicalstaff/schedule');
+			}
+			
 			function checkEmail(email) {
 				return $http.post('patients/email',email);
 			}
