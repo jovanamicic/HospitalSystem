@@ -4,6 +4,7 @@ var app = angular.module('hospitalApp',
 				  'hospitalApp.routes',
 				  'ui.router',
 				  'LocalStorageModule',
+				  'ui.calendar',
 				  'angularUtils.directives.dirPagination'])
 		.config(
 				function($httpProvider) {
