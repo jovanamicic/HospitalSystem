@@ -1,0 +1,91 @@
+
+<!-- Content -->
+<section>
+	<header class="major">
+		<h2>Registracija pacijenta</h2>
+	</header>
+	<form>
+		<div class="row uniform">
+			<div class="6u 12u$(xsmall)">
+				<h3>Osnovni podaci</h3>
+				<input type="text" id="name" placeholder="Ime*" tabindex=1 required>
+			</div>
+
+			<div class="6u 12u$(xsmall)">
+				<h3>Adresa stanovanja</h3>
+				<div class="select-wrapper">
+					<select id="country" tabindex=8>
+						<option value="">- Država -</option>
+						<option value="Srbija">Srbija</option>
+						<option value="Crna Gora">Crna Gora</option>
+						<option value="Bosna i Hercegovina">Bosna i Hercegovina</option>
+						<option value="Hrvatska">Hrvatska</option>
+						<option value="Makedonija">Makedonija</option>
+						<option value="Slovenija">Slovenija</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="6u 12u$(xsmall)">
+				<input type="text" id="surname" placeholder="Prezime*" tabindex=2
+					required>
+			</div>
+			<div class="6u 12u$(xsmall)">
+				<input type="text" id="city" placeholder="Grad" tabindex=9>
+			</div>
+			<div class="6u 12u$(xsmall)">
+				<input type="text" id="personalID" maxlength="13" tabindex=3
+					placeholder="JMBG*" required onfocusout="checkPID()">
+			</div>
+			<div class="6u 12u$(xsmall)">
+				<input type="text" id="zipCode" maxlength="10" tabindex=10
+					placeholder="Poštanski broj">
+			</div>
+			<div class="6u 12u$(xsmall)">
+				<input type="text" id="birthday" maxlength="10" tabindex=4
+					placeholder="Datum rođenja" title="Format unosa dd-mm-gggg"
+					onfocusout="checkBirthday()">
+			</div>
+
+			<div class="6u 12u$(xsmall)">
+				<input type="text" id="street" placeholder="Ulica" tabindex=11>
+			</div>
+			<div class="6u 12u$(xsmall)">
+				<input type="email" id="email" placeholder="Email adresa" tabindex=5
+					onfocusout="checkEmail()">
+			</div>
+
+
+			<div class="6u 12u$(xsmall)">
+				<input type="text" id="number" placeholder="Broj" tabindex=12>
+			</div>
+
+			<div class="6u$">
+				<div class="select-wrapper">
+					<select id="gender" tabindex=6>
+						<option value="">- Pol -</option>
+						<option value="Muško">Muško</option>
+						<option value="Žensko">Žensko</option>
+						<option value="Ostalo">Ostalo</option>
+					</select>
+				</div>
+			</div>
+			<div class="6u$">
+				<h3>Izabrani lekar</h3>
+				<div class="select-wrapper">
+					<select id="doctor" tabindex=7>
+						<option value="">- Izabrani lekar -</option>
+					</select>
+				</div>
+			</div>
+			<!-- Break -->
+			<div class="12u$">
+				<ul class="actions">
+					<li><a href="#" class="button special" onclick="addPatient()">Sačuvaj</a></li>
+					<li><input type="reset" value="Otkaži"></li>
+				</ul>
+			</div>
+		</div>
+	</form>
+
+</section>

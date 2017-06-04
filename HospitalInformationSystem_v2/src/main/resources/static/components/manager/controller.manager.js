@@ -72,11 +72,6 @@ function ManagerController($location, $stateParams, managerService, localStorage
 		vm.newPassword2 = "";
 	}
 	
-	vm.logout = function() {
-		localStorage.clear();
-		$state.go('login');
-	}
-	
 	vm.showProifleOptions = function() {
 		vm.isActive = !vm.isActive;
 	}

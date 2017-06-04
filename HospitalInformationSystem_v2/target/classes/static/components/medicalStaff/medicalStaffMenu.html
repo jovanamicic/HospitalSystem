@@ -24,16 +24,16 @@
 			</div>
 
 			<!-- Menu -->
-			<nav id="menu">
+			<nav id="menu" ng-controller="MedicalStaffController as medicalStaffCtrl">
 				<header class="major">
 					<h2 id="personName">{{commonCtrl.loggedPerson.name}} {{commonCtrl.loggedPerson.surname}}</h2>
 				</header>
 				<ul>
-					<li><a href="doctorAllPatients.html">Pacijenti</a></li>
-					<li><a href="doctorPatientRegistration.html">Registruj
+					<li><a ng-click="medicalStaffCtrl.goToPatients()">Pacijenti</a></li>
+					<li><a ng-click="medicalStaffCtrl.goToPatientRegistration()">Registruj
 							pacijenta</a></li>
-					<li><a href="doctorSchedule.html">Kalendar</a></li>
-					<li><a onclick="logout()">Odjava</a></li>
+					<li><a ng-click="medicalStaffCtrl.goToSchedule()">Kalendar</a></li>
+					<li><a ng-click="commonCtrl.logout()">Odjava</a></li>
 				</ul>
 			</nav>
 		</div>

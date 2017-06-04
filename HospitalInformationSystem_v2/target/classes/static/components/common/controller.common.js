@@ -18,5 +18,11 @@ function CommonController($location, $stateParams, commonService, localStorageSe
 		});
 	}
 	getPersonByToken();
+	
+	vm.logout = function() {
+		localStorage.clear();
+		$state.go('login');
+	}
+	
 
 }

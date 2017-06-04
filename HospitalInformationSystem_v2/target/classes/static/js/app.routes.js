@@ -63,6 +63,8 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     .state('medicalStaff.schedule', {
     	url: '/medicalStaffSchedule',
     	templateUrl: 'components/medicalStaff/doctorSchedule.html',
+    	controller : 'MedicalStaffScheduleController',
+    	controllerAs: 'medicalStaffScheduleCtrl'
     })
     
 
