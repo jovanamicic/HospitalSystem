@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,7 @@ import com.app.model.Examination;
 import com.app.model.Patient;
 import com.app.model.Person;
 import com.app.model.Record;
+import com.app.security.TokenUtils;
 import com.app.service.ExaminationService;
 import com.app.service.PersonService;
 import com.app.service.RecordService;
@@ -46,6 +48,9 @@ public class ExaminationController {
 	
 	@Autowired
 	RecordService recordService;
+	
+	@Autowired
+	private TokenUtils tokenUtils;
 	
 	/** Function returns examinations.
 	 * @param page
@@ -70,7 +75,11 @@ public class ExaminationController {
 	}
 
 	@RequestMapping(value = "/scheduleExamination",  method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Examination> saveExamination(@RequestBody MedicalStaffScheduleDTO examination) throws ParseException {
+	public ResponseEntity<Examination> saveExamination(@RequestHeader("X-Auth-Token") String token, @RequestBody MedicalStaffScheduleDTO examination) throws ParseException {
+		
+		//find doctor
+		String username = tokenUtils.getUsernameFromToken(token);
+		Person doctor = personService.findByUsername(username);
 		
 		//check personal ID of patient
 		Person patient = personService.findByPersonalID(examination.getPersonalId());
@@ -83,9 +92,6 @@ public class ExaminationController {
 		if (record == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
-		//find doctor
-		Person doctor = personService.findOne(examination.getDoctorId());
 		
 		Examination e = new Examination();
 		e.setName(examination.getName());

@@ -4,10 +4,14 @@ angular.module('hospitalApp.services').factory('medicalStaffService',
 				getPatients : getPatients,
 				getMyPatients : getMyPatients,
 				getPatientsBySearchData : getPatientsBySearchData,
+				saveOperation : saveOperation,
+				saveExamination : saveExamination,
+				getSchedule : getSchedule,
 				checkEmail : checkEmail,
 				checkBirthday : checkBirthday,
+				checkPID : checkPID,
 				getDoctors : getDoctors,
-				addPatient : addPatient
+				addPatient : addPatient,
 			}
 			return service;
 
