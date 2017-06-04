@@ -188,7 +188,7 @@ public class ExaminationController {
 	 * @return 
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable int id){
+	public void delete(@RequestHeader("X-Auth-Token") String token, @PathVariable int id){
 		examinationService.delete(id);
 	}
 	

@@ -6,6 +6,9 @@ angular.module('hospitalApp.services').factory('medicalStaffService',
 				getPatientsBySearchData : getPatientsBySearchData,
 				saveOperation : saveOperation,
 				saveExamination : saveExamination,
+				deleteOperation : deleteOperation,
+				deleteExamination : deleteExamination,
+				getOperationExaminationDetails : getOperationExaminationDetails,
 				getSchedule : getSchedule,
 				checkEmail : checkEmail,
 				checkBirthday : checkBirthday,
@@ -28,11 +31,23 @@ angular.module('hospitalApp.services').factory('medicalStaffService',
 			}
 			
 			function saveOperation(operation) {
-				return $http.post('operations/operationSchedule', operation);
+				return $http.post('operations/scheduleOperation', operation);
 			}
 			
 			function saveExamination(examination) {
-				return $http.post('examination/examinationSchedule', examination);
+				return $http.post('examinations/scheduleExamination', examination);
+			}
+			
+			function deleteOperation(id) {
+				return $http.delete('operations/' + id);
+			}
+			
+			function deleteExamination(id) {
+				return $http.delete('examinations/' + id);
+			}
+			
+			function getOperationExaminationDetails(type, id) {
+				return $http.get('medicalstaff/operationExaminationDetails/' + type + "/" + id);
 			}
 			
 			function getSchedule() {
