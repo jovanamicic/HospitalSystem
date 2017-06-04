@@ -3625,23 +3625,39 @@ input[type="submit"].disabled, input[type="submit"]:disabled, input[type="reset"
 	font-size: 14pt;
 }
 
-.pagination a {
+.pagination li a{
     color: black;
     float: left;
     margin-top: 5%;
     text-decoration: none;
     transition: background-color .3s;
+    padding: 8px 16px;
 }
 
-.pagination a.active {
+.pagination .active {
     background-color: #22c7b8;
     color: white;
 }
 
-.pagination a:hover:not(.active) {background-color: #ddd;}
+.pagination li .disabled {
+	color: #999;
+    background-color: #fff;
+    border-color: #ddd;
+    cursor: not-allowed;
+}
+
+/* .pagination li a:hover:not(.disabled) {background-color: #ddd;} */
 
 
 
 .page {
     padding: 8px 16px;
 }
+
+.alt {
+	cursor : pointer;
+}
+
+.highlight {
+/*     background-color: #d2f9f5; */
+}}

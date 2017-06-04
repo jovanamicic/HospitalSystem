@@ -24,6 +24,12 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     	url: '/passwordChange',
     	templateUrl: 'components/manager/changePassword.html',
     })
+    .state('manager.operations', {
+    	url: '/operations',
+    	templateUrl: 'components/manager/operations.html',
+    	controller : 'ManagerOperationsController',
+    	controllerAs: 'operationsCtrl'
+    })
     
     
      .state('patient', {

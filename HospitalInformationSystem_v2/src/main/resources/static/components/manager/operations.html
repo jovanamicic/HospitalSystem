@@ -1,0 +1,76 @@
+<section>
+
+	<header class="major">
+		<h2>Operacije</h2>
+	</header>
+
+	<div class="row uniform">
+		<div class="3u 12u$(xsmall)">
+			<a href="#" class="button special fit"
+				ng-click="operationsCtrl.resetPagNew()">Nove operacije</a>
+		</div>
+		<div class="3u 12u$(xsmall)">
+			<a href="#" class="button fit" style="margin-bottom: 3em"
+				ng-click="operationsCtrl.resetPagAll()">Sve operacije</a>
+		</div>
+	</div>
+
+	<div class="row 200%">
+		<div style="width: 100%">
+
+			<div class="table-wrapper">
+				<table class="alt">
+					<tr class="rowHover">
+						<th>Datum</th>
+						<th>Naziv</th>
+						<th>Doktor</th>
+					</tr>
+
+					<tr ng-hide="true" current-page="currentPage" 
+						dir-paginate="operation in operationsCtrl.allOperations | itemsPerPage: operationsCtrl.pageSize" >
+					</tr>
+					<tr ng-class="hoverClass"
+						ng-repeat="operation in operationsCtrl.allOperations" 
+						ng-mouseenter="hoverClass = 'highlight'" ng-mouseleave="hoverClass = ''">
+						<td>{{ operation.date }}</td>
+						<td>{{ operation.name }}</td>
+						<td>{{ operation.headDoctor.name }} {{
+							operation.headDoctor.surname }}</td>
+					</tr>
+				</table>
+				
+				<dir-pagination-controls 
+					ng-show="operationsCtrl.totalPages > 2" total-pages= {{operationsCtrl.totalPages}}
+					boundary-links="true"  direction-links="true" max-size="10"
+					on-page-change="operationsCtrl.changePage()"
+					template-url="directives/dirPagination.tpl.html">
+				</dir-pagination-controls>
+			</div>
+			
+<!-- 					on-page-change="pageChangeHandler(newPageNumber)"  -->
+			
+			
+
+<!-- 			<div> -->
+<!-- 				<div class="text-center"> -->
+<!-- 					<dir-pagination-controls boundary-links="true" max-size="5" direction-links="true" -->
+<!-- 						on-page-change="operationsCtrl.getNextPage(operationsCtrl.operationsPagination.currentPage)" -->
+<!-- 						template-url="bower_components/angularUtils-pagination-links/dirPagination.tpl.html"> -->
+<!-- 					</dir-pagination-controls> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+
+			<!-- 			<ul uib-pagination class="pagination-md"  -->
+			<!-- 			 	ng-show="operationsCtrl.totalPages > 1" -->
+			<!-- 			 	items-per-page="operationsCtrl.itemsPerPage" -->
+			<!-- 			 	ng-model="operationsCtrl.operationsPagination.current"  -->
+			<!-- 			 	ng-change="operationsCtrl.getNextPage(operationsCtrl.operationsPagination.currentPage)" -->
+			<!-- 			 	total-items="operationsCtrl.totalOperations" max-size="5"  -->
+			<!-- 			 	boundary-link-numbers="true" boundary-links="true"  -->
+			<!-- 			 	previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" -->
+			<!-- 			 	force-ellipses="true"></ul> -->
+
+
+		</div>
+	</div>
+</section>

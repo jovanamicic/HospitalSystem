@@ -95,7 +95,7 @@ function ManagerController($location, $stateParams, managerService, localStorage
 	}
 	
 	vm.goToExaminations = function() {
-		$state.go("manager.operations");
+		$state.go("manager.examinations");
 	}
 	
 	vm.goToPayments = function() {

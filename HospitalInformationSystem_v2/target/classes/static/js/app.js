@@ -1,8 +1,10 @@
-var app = angular
-		.module(
-				'hospitalApp',
-				[ 'hospitalApp.controllers', 'hospitalApp.services',
-						'hospitalApp.routes', 'ui.router', 'LocalStorageModule' ])
+var app = angular.module('hospitalApp',
+				[ 'hospitalApp.controllers', 
+				  'hospitalApp.services',
+				  'hospitalApp.routes',
+				  'ui.router',
+				  'LocalStorageModule',
+				  'angularUtils.directives.dirPagination'])
 		.config(
 				function($httpProvider) {
 					$httpProvider.interceptors

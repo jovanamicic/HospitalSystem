@@ -3,7 +3,9 @@ angular.module('hospitalApp.services').factory('managerService', function($http)
 			getUser : getUser,
 			getPersonByToken : getPersonByToken,
 			updateUser : updateUser ,
-			updatePassword : updatePassword
+			updatePassword : updatePassword,
+			getAllOperationsPage : getAllOperationsPage,
+			getNewOperationsPage : getNewOperationsPage
 	}
 	return service;
 	
@@ -21,7 +23,17 @@ angular.module('hospitalApp.services').factory('managerService', function($http)
 	
 	function getPersonByToken() {
 		return $http.get('persons/personByToken')
-	};
+	}
+	
+	function getAllOperationsPage(page) {
+		return $http.get('/operations/all?page=' + page)
+	}
+	
+	function getNewOperationsPage(page) {
+		return $http.get('/operations/newOperations?page=' + page)
+	}
+	
+	
 
 
 })

@@ -37,7 +37,7 @@ import com.app.service.RoomService;
 @RequestMapping(value = "operations")
 public class OperationController {
 	
-	private static final int DEFAULT_PAGE_SIZE = 1;
+	private static final int DEFAULT_PAGE_SIZE = 10;
 	private static final int DEFAULT_PAGE_NUMBER = 0;
 
 	@Autowired
@@ -151,6 +151,7 @@ public class OperationController {
 	public ResponseEntity<Page<Operation>> getAllOperationsPageable(@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
 		
 		Page<Operation> operations = operationService.findAllPage(page);
+		System.out.println(operations.getContent().size());
 		return new ResponseEntity<>(operations, HttpStatus.OK);
 	}
 	
