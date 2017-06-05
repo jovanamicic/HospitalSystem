@@ -1,0 +1,82 @@
+<section>
+
+	<header class="major">
+		<h2>{{examinationCtrl.examination.name}}</h2>
+	</header>
+
+	<div class="row uniform" style="cursor: default;">
+
+		<div class="6u 12u$(xsmall)">
+			<h3>Podaci o pregledu</h3>
+			<ul class="contact">
+				<li class="fa-calendar" title="Datum">
+					{{examinationCtrl.examination.date | date:'dd.MM.yyyy'}}</li>
+				<li class="fa-hospital-o" title="Dijagnoza">
+					{{examinationCtrl.examination.diagnosis}}
+				</li>
+				<li class="fa-heartbeat" title="Simptomi">
+					{{examinationCtrl.examination.symptons}}
+				</li>
+				<li class="fa-tag" title="Vreme i sala">
+					<label class = "bold-italic">{{examinationCtrl.time}}</label>
+					<a class="button special fit" style="margin-top:10%" 
+					   ng-show="examinationCtrl.displayBtnAddTime"
+					   ng-click="examinationCtrl.openModal()"> Dodaj vreme
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="6u 12u$(xsmall)">
+			<h3>Podaci o pacijentu</h3>
+			<ul class="contact" id="patientData">
+				<li class="fa-user" title="Ime i prezime">
+					{{examinationCtrl.examination.patient.name}} {{examinationCtrl.examination.patient.surname}}
+				</li>
+				<li class="fa-birthday-cake" id="patientBirthday" title="Datum rođenja">
+					{{examinationCtrl.examination.patient.birthday | date:'dd.MM.yyyy'}}
+				</li>
+				<li ng-hide="examinationCtrl.examination.patient.gender == 'muško'"
+					class="fa-venus" id="patientGender" title="Pol">
+					{{examinationCtrl.examination.patient.gender}}
+				</li>
+				<li ng-show="examinationCtrl.examination.patient.gender == 'muško'"
+					class="fa-mars" id="patientGender" title="Pol">
+					{{examinationCtrl.examination.patient.gender}}
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<!-- The Modal for set up examination time and room -->
+	<div id="modalOp" class="modal" ng-style="{'display': examinationCtrl.displayModal}" click-anywhere-but-here="examinationCtrl.closeModal()">
+		<!-- Modal content -->
+		<div class="modal-content">
+			<div class="modal-header">
+				<span class="close" id="spanCloseOp" ng-click="examinationCtrl.closeModal()">&times;</span>
+				<h2 style="text-align: center; margin-top: 5%">Zakazivanje</h2>
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="row uniform">
+						<div class="12u$">
+							<div id="chooseTime" style="margin-top:5%" class="select-wrapper">
+								<select ng-model="examinationCtrl.selectedTime" 
+									ng-options="template.value as template.name for template in examinationCtrl.times"
+   									ng-disabled="examinationCtrl.selectTimeDisabled">
+   								</select> 
+							</div>
+						</div>	
+						<!-- Break -->
+						<div class="12u$">
+							<ul class="actions" style="text-align: center;">
+								<li><a class="button" ng-click="examinationCtrl.saveExamination()">Potvrdi</a></li>
+							</ul>
+						</div>			
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</section>
