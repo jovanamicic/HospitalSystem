@@ -55,8 +55,8 @@ function ManagerOperationsController($location, $stateParams, managerService,
 	}
 	
 	
-	vm.showOperation = function(id) {
-		console.log(id)
+	vm.showOperation = function(operationId) {
+		$state.go('manager.operation', {id: operationId, isManager: true})
 	}
 	
 	

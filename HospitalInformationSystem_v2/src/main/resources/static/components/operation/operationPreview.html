@@ -1,0 +1,43 @@
+<section>
+
+	<header class="major">
+		<h2>{{operationCtrl.operation.name}}</h2>
+	</header>
+
+	<div class="row uniform" style="cursor: default;">
+
+		<div class="6u 12u$(xsmall)">
+			<h3>Podaci o operaciji</h3>
+			<ul class="contact">
+				<li class="fa-calendar" title="Datum">
+					{{operationCtrl.operation.date | date:'dd.MM.yyyy'}}</li>
+				<li class="fa-clock-o" title="Trajanje">
+					{{operationCtrl.operation.duration}}
+				</li>
+				<li class="fa-tag" title="Vreme i sala">
+					<label class = "bold-italic">{{operationCtrl.timeAndPlace}}</label>
+					<a class="button special fit" style="margin-top:10%" 
+					   ng-show="operationCtrl.displayBtnAddTimeAndRoom">
+						Dodaj vreme i salu
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="6u 12u$(xsmall)">
+			<h3>Podaci o pacijentu</h3>
+			<ul class="contact" id="patientData">
+				<li class="fa-user" title="Ime i prezime">
+					{{operationCtrl.operation.patient.name}} {{operationCtrl.operation.patient.surname}}
+				</li>
+				<li class="fa-birthday-cake" id="patientBirthday" title="Datum rođenja">
+					{{operationCtrl.operation.patient.birthday | date:'dd.MM.yyyy'}}
+				</li>
+				<li id="patientGender" title="Pol">
+					{{operationCtrl.operation.patient.gender}}
+				</li>
+			</ul>
+		</div>
+	</div>
+
+</section>

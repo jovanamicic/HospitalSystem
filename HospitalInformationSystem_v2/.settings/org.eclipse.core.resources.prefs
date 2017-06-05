@@ -6,6 +6,7 @@ encoding//src/main/resources/static/components/manager/changePassword.html=UTF-8
 encoding//src/main/resources/static/components/manager/profile.html=UTF-8
 encoding//src/main/resources/static/components/medicalStaff/doctorAllPatients.html=UTF-8
 encoding//src/main/resources/static/components/medicalStaff/doctorPatientRegistration.html=UTF-8
+encoding//src/main/resources/static/components/operation/operationPreview.html=UTF-8
 encoding//src/main/resources/static/components/patient/profile.html=UTF-8
 encoding//src/test/java=UTF-8
 encoding/<project>=UTF-8
