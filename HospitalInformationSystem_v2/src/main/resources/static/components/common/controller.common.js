@@ -13,6 +13,12 @@ function CommonController($location, $stateParams, commonService, localStorageSe
 		commonService.getPersonByToken().then(
 				function(data, status, headers, config) {
 					vm.loggedPerson = data.data;
+					
+					if (data.data.photo)
+						vm.imgSrc = vm.loggedPerson.photo;
+					else
+						vm.imgSrc = "images/avatar.png";
+					
 				}).catch(function(data, status, headers, config) {
 					vm.errorMessage = "Something went wrong with getting logged person!";
 		});

@@ -1,60 +1,66 @@
-	<div id="wrapper">
-		<!-- Main -->
-		<div id="main">
-			<!-- Header image -->
-			<img class='headerImage' src="images/slika22.jpg" />
-			<div class="inner">
 
-				<!-- Content -->
-				<div class="container" ui-view></div>
+<div id="wrapper">
+	<!-- Main -->
+	<div id="main">
+		<!-- Header image -->
+		<img class='headerImage' src="images/slika22.jpg" />
+		<div class="inner">
 
-			</div>
-		</div>
-		<!-- Sidebar -->
-		<div id="sidebar">
-			<div class="inner">
+			<!-- Content -->
+			<div class="container" ui-view></div>
 
-				<!-- Picture -->
-				<div class="4u"
-					style="border: None; margin: 0 auto; display: table; width: 50%">
-					<span class="image fit"><img class='image' id="personPhoto"
-						src="{{managerCtrl.imgSrc}}" alt="" style="border-radius: 50%" /></span>
-				</div>
-
-				<!-- Menu -->
-				<nav id="menu">
-					
-					<header class="major">
-						<h2 id="personName" ng-model="managerCtrl.userFullName">{{managerCtrl.userFullName}}</h2>
-					</header>
-					
-					<ul id = "generalManagerMenu" ng-show="managerCtrl.isGeneralManager">
-						<li ng-click="managerCtrl.showProifleOptions()" ng-show="managerCtrl.isGeneralManager">
-							<span ng-class="{'opener' : !managerCtrl.isActive, 'opener active' : managerCtrl.isActive}">Moj profil</span>
-							<ul>
-								<li><a ng-click="managerCtrl.goToProfile()">Osnovni podaci</a></li>
-								<li><a ng-click="managerCtrl.goToChangePassword()">Promeni
-										lozinku</a></li>
-							</ul></li>
-						<li><a ng-click="managerCtrl.goToOperations()">Operacije</a></li>
-						<li><a ng-click="managerCtrl.goToExaminations()">Pregledi</a></li>
-						<li><a ng-click="commonCtrl.logout()">Odjava</a></li>
-					</ul>
-					
-					<ul id = "financialManagerMenu" ng-hide="managerCtrl.isGeneralManager">
-						<li ng-click="managerCtrl.showProifleOptions()">
-							<span ng-class="{'opener' : !managerCtrl.isActive, 'opener active' : managerCtrl.isActive}">Moj profil</span>
-							<ul>
-								<li><a ng-click="managerCtrl.goToProfile()">Osnovni podaci</a></li>
-								<li><a ng-click="managerCtrl.goToChangePassword()">Promeni
-										lozinku</a></li>
-							</ul></li>
-						<li><a a ng-click="managerCtrl.goToPayments()">Uplate</a></li>
-						<li><a ng-click="managerCtrl.logout()">Odjava</a></li>
-					</ul>
-
-				</nav>
-			</div>
 		</div>
 	</div>
-	
+	<!-- Sidebar -->
+	<div id="sidebar">
+		<div class="inner">
+
+			<!-- Picture -->
+			<div class="4u"
+				style="border: None; margin: 0 auto; display: table; width: 50%">
+				<span class="image fit"><img class='image' id="personPhoto"
+					src={{commonCtrl.imgSrc}} alt="" style="border-radius: 50%" /></span>
+			</div>
+
+			<!-- Menu -->
+			<nav id="menu" ng-controller="ManagerController as managerCtrl">
+
+				<header class="major">
+					<h2 id="personName">{{commonCtrl.loggedPerson.name}} {{commonCtrl.loggedPerson.surname}}</h2>
+				</header>
+
+				<ul id="generalManagerMenu" ng-show="managerCtrl.isGeneralManager">
+					<li ng-click="managerCtrl.showProifleOptions()"
+						ng-show="managerCtrl.isGeneralManager"><span
+						ng-class="{'opener' : !managerCtrl.isActive, 'opener active' : managerCtrl.isActive}">Moj
+							profil</span>
+						<ul>
+							<li><a ng-click="managerCtrl.goToProfile()">Osnovni
+									podaci</a></li>
+							<li><a ng-click="managerCtrl.goToChangePassword()">Promeni
+									lozinku</a></li>
+						</ul></li>
+					<li><a ng-click="managerCtrl.goToOperations()">Operacije</a></li>
+					<li><a ng-click="managerCtrl.goToExaminations()">Pregledi</a></li>
+					<li><a ng-click="commonCtrl.logout()">Odjava</a></li>
+				</ul>
+
+				<ul id="financialManagerMenu" ng-hide="managerCtrl.isGeneralManager">
+					<li ng-click="managerCtrl.showProifleOptions()"><span
+						ng-class="{'opener' : !managerCtrl.isActive, 'opener active' : managerCtrl.isActive}">Moj
+							profil</span>
+						<ul>
+							<li><a ng-click="managerCtrl.goToProfile()">Osnovni
+									podaci</a></li>
+							<li><a ng-click="managerCtrl.goToChangePassword()">Promeni
+									lozinku</a></li>
+						</ul></li>
+					<li><a a ng-click="managerCtrl.goToPayments()">Uplate</a></li>
+					<li><a ng-click="managerCtrl.logout()">Odjava</a></li>
+				</ul>
+
+			</nav>
+		</div>
+	</div>
+</div>
+

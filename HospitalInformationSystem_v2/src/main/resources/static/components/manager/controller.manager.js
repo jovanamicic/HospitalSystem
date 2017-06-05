@@ -28,10 +28,15 @@ function ManagerController($location, $stateParams, managerService, localStorage
 			else
 				vm.imgSrc = "images/avatar.png";
 			
-			if (data.role.toLowerCase() == "general")
-				vm.isGeneralManager = true;
-			else
-				vm.isGeneralManager = false;
+			managerService.getRoleByToken()
+			.then(function(data) {
+				if (data.data.role.toLowerCase() == "general manager")
+					vm.isGeneralManager = true;
+				else
+					vm.isGeneralManager = false;
+			}).catch(function(data, status, headers, config) {
+				vm.errorMessage = "Error getting person role!";
+			});
 			
 		}).catch(function(data, status, headers, config) {
 			vm.errorMessage = "Something went wrong!";
