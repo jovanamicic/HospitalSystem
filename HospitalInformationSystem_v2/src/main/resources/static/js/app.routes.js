@@ -40,6 +40,12 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     	controller : 'OperationController',
     	controllerAs: 'operationCtrl'
     })
+    .state('manager.examinations', {
+    	url: '/examinations',
+    	templateUrl: 'components/manager/examinations.html',
+    	controller : 'ManagerExaminationsController',
+    	controllerAs: 'examinationsCtrl'
+    })
     
     //PATIENT
      .state('patient', {
@@ -69,7 +75,7 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     })
     .state('patient.schedule', {
     	url: '/schedule',
-    	templateUrl: 'components/patient/schedule.html',
+    	templateUrl: 'components/patient/patientSchedule.html',
     	controller: "PatientScheduleController",
     	controllerAs: 'patientScheduleCtrl'
     })
