@@ -5,7 +5,9 @@ angular.module('hospitalApp.services').factory('managerService', function($http)
 			updateUser : updateUser ,
 			updatePassword : updatePassword,
 			getAllOperationsPage : getAllOperationsPage,
-			getNewOperationsPage : getNewOperationsPage
+			getNewOperationsPage : getNewOperationsPage,
+			getAllExaminationsPage : getAllExaminationsPage,
+			getNewExaminationsPage : getNewExaminationsPage
 	}
 	return service;
 	
@@ -31,6 +33,14 @@ angular.module('hospitalApp.services').factory('managerService', function($http)
 	
 	function getNewOperationsPage(page) {
 		return $http.get('/operations/newOperations?page=' + page)
+	}
+	
+	function getAllExaminationsPage(page) {
+		return $http.get('/examinations/all?page=' + page)
+	}
+	
+	function getNewExaminationsPage(page) {
+		return $http.get('/examinations/newExaminations?page=' + page)
 	}
 	
 	

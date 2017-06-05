@@ -40,6 +40,12 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     	controller : 'OperationController',
     	controllerAs: 'operationCtrl'
     })
+    .state('manager.examinations', {
+    	url: '/examinations',
+    	templateUrl: 'components/manager/examinations.html',
+    	controller : 'ManagerExaminationsController',
+    	controllerAs: 'examinationsCtrl'
+    })
     
     //PATIENT
      .state('patient', {
