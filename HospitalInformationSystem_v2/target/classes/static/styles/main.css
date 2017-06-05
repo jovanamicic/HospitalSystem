@@ -3654,10 +3654,15 @@ input[type="submit"].disabled, input[type="submit"]:disabled, input[type="reset"
     padding: 8px 16px;
 }
 
-.alt {
-	cursor : pointer;
+
+.tableKMJ {
+	margin-top: 10px;
+	align:center;
+	cursor: default;
 }
 
-.highlight {
-/*     background-color: #d2f9f5; */
-}}
+
+.tableKMJ tbody tr:hover {
+	background-color: #cfcfcf;
+}
+

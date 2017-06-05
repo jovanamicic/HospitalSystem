@@ -7,36 +7,38 @@
 	<div class="row uniform">
 		<div class="3u 12u$(xsmall)">
 			<a href="#" class="button special fit"
-				ng-click="operationsCtrl.resetPagNew()">Nove operacije</a>
+				ng-click="operationsCtrl.getNewOperationsPage(0)">Nove operacije</a>
 		</div>
 		<div class="3u 12u$(xsmall)">
 			<a href="#" class="button fit" style="margin-bottom: 3em"
-				ng-click="operationsCtrl.resetPagAll()">Sve operacije</a>
+				ng-click="operationsCtrl.getAllOperationsPage(0)">Sve operacije</a>
 		</div>
 	</div>
 
 	<div class="row 200%">
 		<div style="width: 100%">
 
-			<div class="table-wrapper">
-				<table class="alt">
-					<tr class="rowHover">
-						<th>Datum</th>
-						<th>Naziv</th>
-						<th>Doktor</th>
-					</tr>
-
+			<div>
+				<table class="tableKMJ">
+					<thead>
+						<tr>
+							<th>Datum</th>
+							<th>Naziv</th>
+							<th>Doktor</th>
+						</tr>
+					<thead>
 					<tr ng-hide="true" current-page="currentPage" 
 						dir-paginate="operation in operationsCtrl.allOperations | itemsPerPage: operationsCtrl.pageSize" >
 					</tr>
-					<tr ng-class="hoverClass"
-						ng-repeat="operation in operationsCtrl.allOperations" 
-						ng-mouseenter="hoverClass = 'highlight'" ng-mouseleave="hoverClass = ''">
-						<td>{{ operation.date }}</td>
-						<td>{{ operation.name }}</td>
-						<td>{{ operation.headDoctor.name }} {{
-							operation.headDoctor.surname }}</td>
-					</tr>
+					<tbody>
+						<tr ng-repeat="operation in operationsCtrl.allOperations"
+							ng-click="operationsCtrl.showOperation(operation.id)">
+							<td title="Datum">{{ operation.date | date:'dd.MM.yyyy'}}</td>
+							<td title="Naziv">{{ operation.name }}</td>
+							<td title="Doktor">{{ operation.headDoctor.name }} {{
+								operation.headDoctor.surname }}</td>
+						</tr>
+					</tbody>
 				</table>
 				
 				<dir-pagination-controls 
