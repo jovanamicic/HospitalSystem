@@ -17,8 +17,8 @@
 				<li class="fa-tag" title="Vreme i sala">
 					<label class = "bold-italic">{{operationCtrl.timeAndPlace}}</label>
 					<a class="button special fit" style="margin-top:10%" 
-					   ng-show="operationCtrl.displayBtnAddTimeAndRoom">
-						Dodaj vreme i salu
+					   ng-show="operationCtrl.displayBtnAddTimeAndRoom"
+					   ng-click="operationCtrl.openModal()"> Dodaj vreme i salu
 					</a>
 				</li>
 			</ul>
@@ -33,10 +33,53 @@
 				<li class="fa-birthday-cake" id="patientBirthday" title="Datum rođenja">
 					{{operationCtrl.operation.patient.birthday | date:'dd.MM.yyyy'}}
 				</li>
-				<li id="patientGender" title="Pol">
+				<li ng-hide="operationCtrl.operation.patient.gender == 'muško'"
+					class="fa-venus" id="patientGender" title="Pol">
+					{{operationCtrl.operation.patient.gender}}
+				</li>
+				<li ng-show="operationCtrl.operation.patient.gender == 'muško'"
+					class="fa-mars" id="patientGender" title="Pol">
 					{{operationCtrl.operation.patient.gender}}
 				</li>
 			</ul>
+		</div>
+	</div>
+	
+	<!-- The Modal for set up operation time and room -->
+	<div id="modalOp" class="modal" ng-style="{'display': operationCtrl.displayModal}" click-anywhere-but-here="operationCtrl.closeModal()">
+		<!-- Modal content -->
+		<div class="modal-content">
+			<div class="modal-header">
+				<span class="close" id="spanCloseOp" ng-click="operationCtrl.closeModal()">&times;</span>
+				<h2 style="text-align: center; margin-top: 5%">Zakazivanje</h2>
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="row uniform">
+						<div class="12u$">
+							<div id="chooseRoom" style="margin-top:5%" class="select-wrapper">
+								<select ng-model="operationCtrl.roomId" 
+									ng-options="template.value as template.name for template in operationCtrl.rooms"
+   									ng-change="operationCtrl.fillTimes()">
+   								</select> 
+							</div>
+							
+							<div id="chooseTime" style="margin-top:5%" class="select-wrapper">
+								<select ng-model="operationCtrl.selectedTime" 
+									ng-options="template.value as template.name for template in operationCtrl.times"
+   									ng-disabled="operationCtrl.selectTimeDisabled">
+   								</select> 
+							</div>
+						</div>	
+						<!-- Break -->
+						<div class="12u$">
+							<ul class="actions" style="text-align: center;">
+								<li><a class="button" ng-click="operationCtrl.saveOperation()">Potvrdi</a></li>
+							</ul>
+						</div>			
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 

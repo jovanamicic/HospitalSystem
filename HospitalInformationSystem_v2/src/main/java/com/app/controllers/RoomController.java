@@ -1,5 +1,7 @@
 package com.app.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,8 +31,19 @@ public class RoomController {
 	 * @return Page of rooms
 	 */
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
-	public ResponseEntity<Page<Room>> getAllRooms(@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
+	public ResponseEntity<Page<Room>> getAllRoomsPage(@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
 		Page<Room> rooms = roomService.findAll(page);
+		return new ResponseEntity<>(rooms, HttpStatus.OK);
+	}
+	
+	/**
+	 * Function that returns all rooms pageable
+	 * @param page
+	 * @return Page of rooms
+	 */
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<Room>> getAllRooms(){
+		List<Room> rooms = roomService.findAll();
 		return new ResponseEntity<>(rooms, HttpStatus.OK);
 	}
 
