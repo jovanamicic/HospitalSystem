@@ -168,7 +168,7 @@ function OperationController($location, $stateParams,
 		console.log(operationUpdate)
 		operationService.updateOperation(operationUpdate)
 		.then(function(data) {
-			vm.displayModal = "block";
+			vm.displayModal = "none";
 			vm.loadOperation();
 		})
 		.catch(function() {
