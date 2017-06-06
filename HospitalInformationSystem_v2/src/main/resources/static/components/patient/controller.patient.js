@@ -11,7 +11,12 @@ function PatientController($location, $stateParams, patientService,
 	var vm = this;
 	
 	vm.goToProfile = function() {
-		$state.go("patient.profile");
+		if($stateParams.id != null){
+			$location.path();
+		}
+		else{
+			$state.go("patient.profile");
+		}
 	}
 	
 	vm.goToChangePassword = function() {

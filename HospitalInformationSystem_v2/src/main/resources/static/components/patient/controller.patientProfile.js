@@ -86,7 +86,7 @@ function PatientProfileController($location, $stateParams,
 			$location.path("medicalStaff/patient/record/"+$stateParams.id);
 		}
 		else{
-			$location.path("medicalStaff/patient/record");
+			$state.go("patient.record");
 		}
 	}
 	

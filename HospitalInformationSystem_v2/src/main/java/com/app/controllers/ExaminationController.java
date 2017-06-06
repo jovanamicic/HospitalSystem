@@ -114,9 +114,11 @@ public class ExaminationController {
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Void> finishedExamination(@RequestBody ExaminationDTO dto, HttpSession session){
-		int id = (int) session.getAttribute("person");
-		Person doctor = personService.findOne(id);
+	public ResponseEntity<Void> finishedExamination(@RequestBody ExaminationDTO dto, @RequestHeader("X-Auth-Token") String token){
+		String username = tokenUtils.getUsernameFromToken(token);
+		Person person = personService.findByUsername(username);
+		
+		Person doctor = personService.findOne(person.getId());
 		Person patient = personService.findOne(dto.getPatientID());
 		Record record = recordService.findById(patient.getPersonalID());
 		
