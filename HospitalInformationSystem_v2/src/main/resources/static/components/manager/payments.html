@@ -6,9 +6,8 @@
 	<!-- TABLE -->
 	<div class="row 200%">
 		<div style="width: 100%">
-
-			<div class="table-wrapper">
-				<table class="alt" id="paymentsTable">
+			<div>
+				<table class="tableKMJ" id="paymentsTable">
 					<thead>
 						<tr>
 							<th>Datum</th>
@@ -18,14 +17,27 @@
 							<th>Valuta</th>
 						</tr>
 					</thead>
-
-					<tbody id="paymentsBody">
-						<!-- rows -->
+					<tr ng-hide="true" current-page="paymentsCtrl.currentPage" 
+						dir-paginate="payment in paymentsCtrl.allPayments | itemsPerPage: paymentsCtrl.pageSize" >
+					</tr>
+					
+					<tbody>
+						<tr ng-repeat="payment in paymentsCtrl.allPayments">
+							<td title="Datum">{{payment.date | date:'dd.MM.yyyy'}}</td>
+							<td title="Primalac">{{payment.recipient}}</td>
+							<td title="Uplatilac">{{payment.manager.name}} {{payment.manager.surname}}</td>
+							<td title="Iznos">{{payment.amount}}</td>
+							<td title="Valuta">{{payment.currency}}</td>
+						</tr>
 					</tbody>
-
 				</table>
-
-				<div class="pagination" id="managerPaymentsPag"></div>
+				
+				<dir-pagination-controls 
+					ng-show="paymentsCtrl.totalPages > 2" total-pages= {{paymentsCtrl.totalPages}}
+					boundary-links="true"  direction-links="true" max-size="10"
+					on-page-change="paymentsCtrl.changePage()"
+					template-url="directives/dirPagination.tpl.html">
+				</dir-pagination-controls>
 
 			</div>
 
