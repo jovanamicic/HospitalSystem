@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -20,19 +21,19 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-//@Configuration
+@Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	//private static final String ROLE_ADMIN = "ROLE_ADMIN";
-	//private static final String ROLE_USER = "ROLE_USER";
-	//private static final String ROLE_VERIFIER = "ROLE_VERIFIER";
+	private static final String ROLE_MEDICAL_STUFF = "ROLE_MEDICAL_STUFF";
+	private static final String ROLE_PATIENT = "ROLE_PATIENT";
+	private static final String ROLE_GENERAL_MANAGER = "ROLE_GENERAL_MANAGER";
+	private static final String ROLE_FINANCE_MANAGER = "ROLE_FINANCE_MANAGER";
 
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	//ovde dodati hash and salt ******************************************************
 	@Autowired
 	public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
 
@@ -56,30 +57,42 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		authenticationTokenFilter.setAuthenticationManager(authenticationManagerBean());
 		return authenticationTokenFilter;
 	}
+	
 
-	@Override
-	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity
-			.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				.and()
-			.authorizeRequests()
-				.antMatchers("/index.html", "/api/login", "/api/register").permitAll() ;
-				//.antMatchers(HttpMethod.POST, "/api/**")
-					//.hasAuthority("ROLE_ADMIN") //only administrator can add and edit data
-				//.anyRequest().authenticated();
-		httpSecurity
-		  .csrf().disable();
-				//if we use AngularJS on client side
-				//.and().csrf().csrfTokenRepository(csrfTokenRepository()); 
-		
-		//add filter for adding CSRF token in the request 
-		httpSecurity.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);
-		
-		// Custom JWT based authentication
-		httpSecurity.addFilterBefore(authenticationTokenFilterBean(),
-				UsernamePasswordAuthenticationFilter.class);
-	}
+//	@Override
+//	protected void configure(HttpSecurity httpSecurity) throws Exception {
+//		httpSecurity
+//			.sessionManagement()
+//				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//				.and()
+//			.authorizeRequests()
+//			
+//				.antMatchers("/**", "/login", "/persons/**").permitAll()
+//				.antMatchers("/medicalstaff/**").access("hasRole('ROLE_MEDICAL_STUFF')")
+//				//.antMatchers("/patients/**").hasAuthority("ROLE_PATIENT")
+//				.antMatchers("/managers/**").access("hasRole('ROLE_MANAGER')").anyRequest().authenticated();
+//				//if we use AngularJS on client side
+//				//.and().csrf().csrfTokenRepository(csrfTokenRepository()); 
+//		
+//		//add filter for adding CSRF token in the request 
+//		//httpSecurity.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);
+//		
+//		// Custom JWT based authentication
+//		httpSecurity.addFilterBefore(authenticationTokenFilterBean(),
+//				UsernamePasswordAuthenticationFilter.class);
+//	}
+	 @Override
+	    protected void configure(HttpSecurity httpSecurity) throws Exception {
+
+	        httpSecurity
+	                .sessionManagement()
+	                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+	                .and()
+	                .csrf().disable();
+
+	        //httpSecurity.requiresChannel().anyRequest().requiresSecure();
+	        httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+	    }
 	
 	/**
 	 * If we use AngularJS as a client application, it will send CSRF token using 

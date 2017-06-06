@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -78,6 +79,7 @@ public class MedicalStaffController {
 	 *            id
 	 * @return all operations and examinations of logged medical stuff
 	 */
+	@PreAuthorize("hasAuthority('ROLE_MEDICAL_STUFF')")
 	@RequestMapping(value = "/schedule", method = RequestMethod.GET)
 	public ResponseEntity<List<MedicalStaffScheduleDTO>> getMySchedule(@RequestHeader("X-Auth-Token") String token) {
 		

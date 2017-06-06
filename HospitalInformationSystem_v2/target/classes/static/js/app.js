@@ -36,4 +36,3 @@ var app = angular.module('hospitalApp',
 									} ]);
 				});
 
-// var apiRoot = 'http://localhost:8080/api/'

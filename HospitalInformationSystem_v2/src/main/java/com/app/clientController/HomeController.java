@@ -1,12 +1,12 @@
-package com.app.clientController;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-
+//package com.app.clientController;
+//
+//import org.springframework.stereotype.Controller;
+//import org.springframework.web.bind.annotation.RequestMapping;
+//
 //@Controller
 //public class HomeController {
 //	@RequestMapping("/")
 //	public String home() {
-//		return "static/index.html";
+//		return "/static/index.html";
 //	}
 //}

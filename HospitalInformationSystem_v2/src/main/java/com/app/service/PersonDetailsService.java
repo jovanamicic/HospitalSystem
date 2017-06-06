@@ -34,7 +34,7 @@ public class PersonDetailsService implements UserDetailsService {
 			List<GrantedAuthority> grantedAuthorities = person.getRoleMembers().stream()
 					.map(authority -> new SimpleGrantedAuthority(authority.getRole().getName()))
 					.collect(Collectors.toList());
-
+			
 			return new org.springframework.security.core.userdetails.User(person.getUsername(), person.getPassword(),
 					grantedAuthorities);
 		}
