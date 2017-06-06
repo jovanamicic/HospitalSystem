@@ -18,6 +18,11 @@ function CommonController($location, $stateParams, commonService, localStorageSe
 					
 					if (data.data.photo)
 						vm.personImageSrc = vm.loggedPerson.photo;
+					else if (data.data.gender)
+						if (data.data.gender == 'Muško')
+							vm.personImageSrc = "images/avatar.png";
+						else
+							vm.personImageSrc = "images/avatarFemale.png";
 					else
 						vm.personImageSrc = "images/avatar.png";
 					
