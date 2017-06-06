@@ -28,6 +28,12 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     	controller : 'ManagerController',
     	controllerAs: 'managerCtrl'
     })
+	.state('manager.payments', {
+    	url: '/payments',
+    	templateUrl: 'components/manager/payments.html',
+    	controller : 'PaymentsController',
+    	controllerAs: 'paymentsCtrl'
+    })
     .state('manager.operations', {
     	url: '/operations',
     	templateUrl: 'components/manager/operations.html',

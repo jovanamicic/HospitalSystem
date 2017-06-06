@@ -9,6 +9,7 @@ function ManagerController($location, $stateParams, managerService, localStorage
 	var vm = this;
 	vm.user = {};
 	vm.isActive = false;
+	vm.isActivePayments = false;
 	vm.isGeneralManager = false;
 	
 	vm.oldPassword = "";
@@ -81,6 +82,10 @@ function ManagerController($location, $stateParams, managerService, localStorage
 		vm.isActive = !vm.isActive;
 	}
 	
+	vm.showPaymentsOptions = function() {
+		vm.isActivePayments = !vm.isActivePayments;
+	}
+	
 
 	vm.goToProfile = function() {
 		$state.go("manager.profile");
@@ -98,7 +103,11 @@ function ManagerController($location, $stateParams, managerService, localStorage
 		$state.go("manager.examinations");
 	}
 	
-	vm.goToPayments = function() {
+	vm.goToAllPayments = function() {
 		$state.go("manager.payments");
+	}
+	
+	vm.goToNewPayment = function() {
+		$state.go("manager.newPayment");
 	}
 }
