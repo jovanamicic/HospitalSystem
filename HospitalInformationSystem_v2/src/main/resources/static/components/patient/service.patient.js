@@ -5,7 +5,8 @@ angular.module('hospitalApp.services').factory('patientService',
 				getDoctor : getDoctor,
 				checkUsername : checkUsername,
 				updatePatient : updatePatient,
-				getLoggedPatient : getLoggedPatient
+				getLoggedPatient : getLoggedPatient,
+				changePassword : changePassword
 			}
 			return service;
 
@@ -27,5 +28,9 @@ angular.module('hospitalApp.services').factory('patientService',
 			
 			function updatePatient(patient){
 				return $http.put('patients/',patient);
+			}
+			
+			function changePassword(password){
+				return $http.put('persons/password', password);
 			}
 		})

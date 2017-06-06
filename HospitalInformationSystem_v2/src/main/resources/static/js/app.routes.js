@@ -57,7 +57,7 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     })
      .state('patient.changePassword', {
     	url: '/changePassword',
-    	templateUrl: 'components/patient/changePassword.html',
+    	templateUrl: 'components/patient/patientChangePassword.html',
     	controller: "PatientProfileController",
     	controllerAs: 'patientProfileCtrl'
     })

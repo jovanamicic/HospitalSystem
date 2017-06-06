@@ -15,7 +15,7 @@ function PatientController($location, $stateParams, patientService,
 	}
 	
 	vm.goToChangePassword = function() {
-		$state.go("patient.changePasswrod");
+		$state.go("patient.changePassword");
 	}
 
 	vm.goToRecord = function() {
