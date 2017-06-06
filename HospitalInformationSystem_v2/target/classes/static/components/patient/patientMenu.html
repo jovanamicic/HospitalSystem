@@ -5,7 +5,7 @@
 	<div id="main">
 
 		<!-- Header image -->
-		<img class='headerImage' src="static/images/slika22.jpg" />
+		<img class='headerImage' ng-src="{{commonCtrl.headerImageSrc}}" />
 
 		<div class="inner" ui-view></div>
 	</div>
@@ -18,7 +18,7 @@
 			<div class="4u"
 				style="border: None; margin: 0 auto; display: table; width: 50%">
 				<span class="image fit"><img class='image' id="personPhoto"
-					src={{commonCtrl.loggedPerson.photo}} alt="" style="border-radius: 50%" /></span>
+					ng-src={{commonCtrl.personImageSrc}} alt="" style="border-radius: 50%" /></span>
 			</div>
 
 			<!-- Menu -->
