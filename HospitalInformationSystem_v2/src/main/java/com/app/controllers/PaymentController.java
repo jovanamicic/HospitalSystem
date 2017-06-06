@@ -25,7 +25,7 @@ import com.app.service.PersonService;
 @RequestMapping(value = "payments")
 public class PaymentController {
 	
-	private static final int DEFAULT_PAGE_SIZE = 10;
+	private static final int DEFAULT_PAGE_SIZE = 1;
 	private static final int DEFAULT_PAGE_NUMBER = 0;
 	
 	@Autowired

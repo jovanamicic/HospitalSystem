@@ -113,6 +113,8 @@ public class PersonController {
 		Person person = personService.findByUsername(username);
 
 		PersonDataDTO retVal = new PersonDataDTO(person.getName(), person.getSurname(), person.getUsername(), person.getPhoto(), person.getEmail());
+		if (person instanceof Patient)
+			retVal.setGender(((Patient) person).getGender());
 
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}

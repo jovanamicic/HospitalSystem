@@ -13,16 +13,26 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     .state('manager', {
     	url: '/manager',
     	templateUrl : 'components/manager/menu.html',
-    	controller : 'ManagerController',
-    	controllerAs: 'managerCtrl'
+    	controller : 'CommonController',
+    	controllerAs: 'commonCtrl'
     })
 	.state('manager.profile', {
     	url: '/profile',
     	templateUrl: 'components/manager/profile.html',
+    	controller : 'ManagerController',
+    	controllerAs: 'managerCtrl'
     })
 	.state('manager.passwordChange', {
     	url: '/passwordChange',
     	templateUrl: 'components/manager/changePassword.html',
+    	controller : 'ManagerController',
+    	controllerAs: 'managerCtrl'
+    })
+	.state('manager.payments', {
+    	url: '/payments',
+    	templateUrl: 'components/manager/payments.html',
+    	controller : 'PaymentsController',
+    	controllerAs: 'paymentsCtrl'
     })
     .state('manager.operations', {
     	url: '/operations',
@@ -39,6 +49,22 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     	templateUrl: 'components/operation/operationPreview.html',
     	controller : 'OperationController',
     	controllerAs: 'operationCtrl'
+    })
+    .state('manager.examinations', {
+    	url: '/examinations',
+    	templateUrl: 'components/manager/examinations.html',
+    	controller : 'ManagerExaminationsController',
+    	controllerAs: 'examinationsCtrl'
+    })
+    .state('manager.examination', {
+    	url: '/examination/:id',
+    	params: {
+    		id: null,
+            isManager: false
+        },
+    	templateUrl: 'components/examination/examinationPreview.html',
+    	controller : 'ExaminationController',
+    	controllerAs: 'examinationCtrl'
     })
     
     //PATIENT
@@ -69,7 +95,7 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     })
     .state('patient.schedule', {
     	url: '/schedule',
-    	templateUrl: 'components/patient/schedule.html',
+    	templateUrl: 'components/patient/patientSchedule.html',
     	controller: "PatientScheduleController",
     	controllerAs: 'patientScheduleCtrl'
     })

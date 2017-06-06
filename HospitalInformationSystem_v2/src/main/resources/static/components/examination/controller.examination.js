@@ -1,30 +1,30 @@
 angular.module('hospitalApp.controllers').controller(
-		'OperationController',
-		OperationController)
+		'ExaminationController',
+		ExaminationController)
 
-OperationController.$inject = [ '$location', '$stateParams',
-		'operationService', 'localStorageService', '$http', '$scope',
+ExaminationController.$inject = [ '$location', '$stateParams',
+		'examinationService', 'localStorageService', '$http', '$scope',
 		'$state' ];
 
-function OperationController($location, $stateParams,
-		operationService, localStorageService, $http, $scope, $state) {
+function ExaminationController($location, $stateParams,
+		examinationService, localStorageService, $http, $scope, $state) {
 
 	var vm = this;
-	vm.operation = {};
+	vm.examination = {};
 	vm.isManager;
-	vm.displayBtnAddTimeAndRoom;
+	vm.displayBtnAddTime;
 	vm.selectTimeDisabled;
 	
-	vm.loadOperation = function(){
+	vm.loadExamination = function(){
 		
-		operationService.loadOperation($stateParams.id)
+		examinationService.loadExamination($stateParams.id)
 		.then(function(data) {
 			
 			data = data.data;
 			
-			vm.operation= data;
+			vm.examination= data;
 			
-			if (data.room) {
+			if (!data.newEx) {
 				var date = new Date(data.date);
 				var time = date.getHours() + ":" 
 				
@@ -33,57 +33,47 @@ function OperationController($location, $stateParams,
 					mins = '0' + mins;
 				time += mins
 				
-				vm.timeAndPlace = time + " h, " + data.room.name;
-				vm.displayBtnAddTimeAndRoom = false;
+				vm.time = time + " h";
+				vm.displayBtnAddTime = false;
 			} else {
-				vm.timeAndPlace = "Nije izabrana sala.";
-				vm.displayBtnAddTimeAndRoom = true;
-				//vm.displayBtnAddTimeAndRoom = $stateParams.isManager;
+				vm.time = "Nije izabrano vreme.";
+				vm.displayBtnAddTime = true;
+				//vm.displayBtnAddTime = $stateParams.isManager;
 				// TODO $stateParams.isManager change to getRole!!!
 			}
 			
 		})
 		.catch(function() {
-			vm.errorMessage = "Error loadin operation.";
+			vm.errorMessage = "Error loadin examination.";
 		});
 		
 	}
-	vm.loadOperation();
+	vm.loadExamination();
 	
 	vm.openModal = function() {
 		vm.displayModal = "block";
 		
-		operationService.getRooms()
-		.then(function(data) {
-			
-			data = data.data;
-
-			vm.rooms = []
-			vm.rooms.push({
-				'name' : "- Sala -",
-				'value' :  "- Sala -"
-			});
-			
-			for (var i = 0; i < data.length; i++) {
-				var option = {
-					'name' : data[i].name,
-					'value' : data[i].id
-				}
-				vm.rooms.push(option);
-			}
-			vm.roomId = vm.rooms[0].value;
-			vm.selectTimeDisabled = true;
-			
-			vm.times = []
-			vm.times.push({
-				'name' : "- Vreme -",
-				'value' :  "- Vreme -"
-			})
-			vm.selectedTime = vm.times[0].value;
+		vm.times = []
+		vm.times.push({
+			'name' : "- Vreme -",
+			'value' :  "- Vreme -"
 		})
-		.catch(function() {
-			vm.errorMessage = "Error loadin rooms.";
-		});
+		
+		for (var i = 8; i < 23; i++) {
+			
+			var val;
+			if ( i < 10)
+				val = "0" + i + ":00" 
+			else
+				val = i + ":00"
+			
+			vm.times.push({
+				'name' : val,
+				'value' :  val
+			})
+		}
+		
+		vm.selectedTime = vm.times[0].value;
 		
 		
 	}
@@ -105,7 +95,7 @@ function OperationController($location, $stateParams,
 			vm.selectedTime = vm.times[0].value;
 			vm.selectTimeDisabled = true;  //selected option is "- Sala -"
 		} else {
-			operationService.getTimes(getDate(vm.operation.date), vm.roomId)
+			examinationService.getTimes(getDate(vm.examination.date), vm.roomId)
 			.then(function(data) {
 				data = data.data;
 				for (var i = 0; i < data.length; i++) {
@@ -133,13 +123,7 @@ function OperationController($location, $stateParams,
 		}
 	}
 	
-	vm.saveOperation = function() {
-		
-		var room = vm.roomId + ""
-		if (room.indexOf("-") != -1) {
-			toastr.warning("Niste izabrali salu.")
-			return;
-		}
+	vm.saveExamination = function() {
 		
 		var time = vm.selectedTime + ""
 		if (time.indexOf("-") != -1) {
@@ -147,7 +131,7 @@ function OperationController($location, $stateParams,
 			return;
 		}
 		
-		var date = new Date(vm.operation.date);
+		var date = new Date(vm.examination.date);
 		var dd = date.getDate();
 		var mm = date.getMonth() + 1;
 		var yyyy = date.getFullYear();
@@ -160,19 +144,18 @@ function OperationController($location, $stateParams,
 		} 
 		date = dd + '-' + mm + '-' + yyyy + ' ' + time;
 		
-		var operationUpdate = {
-				"operationId" : vm.operation.id,
-				"roomId" : room,
+		var examinationUpdate = {
+				"examinationId" : vm.examination.id,
 				"date" : date
 		}
-		console.log(operationUpdate)
-		operationService.updateOperation(operationUpdate)
+		console.log(examinationUpdate)
+		examinationService.updateExamination(examinationUpdate)
 		.then(function(data) {
 			vm.displayModal = "none";
-			vm.loadOperation();
+			vm.loadExamination();
 		})
 		.catch(function() {
-			vm.errorMessage = "Error updating operation.";
+			vm.errorMessage = "Error updating examination.";
 		});
 		
 	}

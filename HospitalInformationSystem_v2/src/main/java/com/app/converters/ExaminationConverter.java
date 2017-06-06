@@ -18,6 +18,7 @@ public class ExaminationConverter {
 		retVal.setPatient(p);
 		retVal.setDate(e.getDate());
 		retVal.setName(e.getName());
+		retVal.setId(e.getId());
 		
 		return retVal;
 		

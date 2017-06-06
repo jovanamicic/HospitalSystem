@@ -14,6 +14,7 @@ public class ExaminationDTO {
 	private Patient patient;
 	private Date date;
 	private String name;
+	private int id;
 
 	public ExaminationDTO() {
 
@@ -81,6 +82,15 @@ public class ExaminationDTO {
 
 	public void setTherapy(String therapy) {
 		this.therapy = therapy;
+	}
+	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	@Override

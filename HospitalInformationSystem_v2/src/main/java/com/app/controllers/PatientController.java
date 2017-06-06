@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -76,6 +78,9 @@ public class PatientController {
 	@Autowired
 	private TokenUtils tokenUtils;
 	
+	@Autowired 
+	private PasswordEncoder passwordEncoder;
+	
 	
 	/** Function that register new patient on system.
 	 * @param dto Data about user from form.
@@ -108,7 +113,9 @@ public class PatientController {
 		}
 		patient.setBirthday(birthday);
 		patient.setUsername(patient.getName().toLowerCase()+patient.getSurname().toLowerCase());
-		patient.setPassword("lozinka");
+		
+		
+		patient.setPassword(passwordEncoder.encode("lozinka"));
 		
 		patient = patientService.save(patient);
 		
@@ -232,11 +239,11 @@ public class PatientController {
 	 * @param person id
 	 * @return
 	 */
-	@RequestMapping(value = "/schedule", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<List<MedicalStaffScheduleDTO>> getMySchedule(@RequestBody ObjectIDDTO person){
-		int id = person.getId();
+	@RequestMapping(value = "/schedule", method = RequestMethod.GET)
+	public ResponseEntity<List<MedicalStaffScheduleDTO>> getMySchedule(@RequestHeader("X-Auth-Token") String token){
 		
-		Patient patient = patientService.findOne(id);		
+		String username = tokenUtils.getUsernameFromToken(token);
+		Person patient = personService.findByUsername(username);
 		
 		List<Examination> examinations = examinationService.findByRecordId(patient.getPersonalID());
 		List<Operation> operations = operationService.findByRecordId(patient.getPersonalID());
@@ -251,38 +258,34 @@ public class PatientController {
 	 * @param type and id of examination/operation
 	 * @return
 	 */
-	@RequestMapping(value = "/operationExaminationDetails", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<ExaminationOperationDetailsDTO> getDetails(@RequestBody ExaminationOperationIdDTO eo){
-		int id = eo.getId();
-		String type = eo.getType();
-		
+	@RequestMapping(value = "/operationExaminationDetails/{type}/{id}", method = RequestMethod.GET)
+	public ResponseEntity<ExaminationOperationDetailsDTO> getDetails(@RequestHeader("X-Auth-Token") String token, @PathVariable String type, @PathVariable int id) {
 		ExaminationOperationDetailsDTO retVal = new ExaminationOperationDetailsDTO();
-		
-		if(type.equalsIgnoreCase("operacija")){
+
+		if (type.equalsIgnoreCase("operacija")) {
 			Operation operation = operationService.findById(id);
 			Person patient = personService.findByPersonalID(operation.getRecordOperation().getId());
-			
+
 			retVal.setDate(operation.getDate().toString());
 			retVal.setDoctorId(operation.getHeadDoctor().getId());
 			retVal.setDoctor(operation.getHeadDoctor().getName() + " " + operation.getHeadDoctor().getSurname());
 			retVal.setName(operation.getName());
-			retVal.setType(eo.getType());
+			retVal.setType(type);
 			retVal.setPatient(patient.getName() + " " + patient.getSurname());
 			retVal.setPatientId(patient.getId());
-		}
-		else {
+		} else {
 			Examination examination = examinationService.findById(id);
 			Person patient = personService.findByPersonalID(examination.getRecord().getId());
-			
+
 			retVal.setDate(examination.getDate().toString());
 			retVal.setDoctorId(examination.getDoctor().getId());
 			retVal.setDoctor(examination.getDoctor().getName() + " " + examination.getDoctor().getSurname());
 			retVal.setName(examination.getName());
-			retVal.setType(eo.getType());
+			retVal.setType(type);
 			retVal.setPatient(patient.getName() + " " + patient.getSurname());
 			retVal.setPatientId(patient.getId());
 		}
-		
+
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 	

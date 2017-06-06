@@ -9,7 +9,7 @@ function PatientController($location, $stateParams, patientService,
 		medicalStaffService, localStorageService, $http, $scope, $state) {
 
 	var vm = this;
-
+	
 	vm.goToProfile = function() {
 		$state.go("patient.profile");
 	}

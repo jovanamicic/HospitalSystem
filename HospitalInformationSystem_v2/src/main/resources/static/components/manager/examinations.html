@@ -1,0 +1,53 @@
+<section>
+
+	<header class="major">
+		<h2>Pregledi</h2>
+	</header>
+
+	<div class="row uniform">
+		<div class="3u 12u$(xsmall)">
+			<a href="#" class="button special fit"
+				ng-click="examinationsCtrl.getNewExaminationsPage(0)">Novi pregledi</a>
+		</div>
+		<div class="3u 12u$(xsmall)">
+			<a href="#" class="button fit" style="margin-bottom: 3em"
+				ng-click="examinationsCtrl.getAllExaminationsPage(0)">Svi pregledi</a>
+		</div>
+	</div>
+
+	<div class="row 200%">
+		<div style="width: 100%">
+			<div>
+				<table class="tableKMJ">
+					<thead>
+						<tr>
+							<th>Datum</th>
+							<th>Naziv</th>
+							<th>Doktor</th>
+						</tr>
+					<thead>
+					<tr ng-hide="true" current-page="currentPage" 
+						dir-paginate="examination in examinationsCtrl.allExaminations | itemsPerPage: examinationsCtrl.pageSize" >
+					</tr>
+					<tbody>
+						<tr ng-repeat="examination in examinationsCtrl.allExaminations"
+							ng-click="examinationsCtrl.showExamination(examination.id)">
+							<td title="Datum">{{ examination.date | date:'dd.MM.yyyy'}}</td>
+							<td title="Naziv">{{ examination.name }}</td>
+							<td title="Doktor">{{ examination.doctor.name }} {{
+								examination.doctor.surname }}</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<dir-pagination-controls 
+					ng-show="examinationsCtrl.totalPages > 2" total-pages= {{examinationsCtrl.totalPages}}
+					boundary-links="true"  direction-links="true" max-size="10"
+					on-page-change="examinationsCtrl.changePage()"
+					template-url="directives/dirPagination.tpl.html">
+				</dir-pagination-controls>
+			</div>
+
+		</div>
+	</div>
+</section>

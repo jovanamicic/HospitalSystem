@@ -7,6 +7,9 @@ angular.module('hospitalApp.services').factory('patientService',
 				updatePatient : updatePatient,
 				getLoggedPatient : getLoggedPatient,
 				changePassword : changePassword
+				getLoggedPatient : getLoggedPatient,
+				getSchedule : getSchedule,
+				getOperationExaminationDetails : getOperationExaminationDetails
 			}
 			return service;
 
