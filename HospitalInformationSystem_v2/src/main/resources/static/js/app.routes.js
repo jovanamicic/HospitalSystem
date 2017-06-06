@@ -34,6 +34,13 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     	controller : 'PaymentsController',
     	controllerAs: 'paymentsCtrl'
     })
+    
+	.state('manager.newPayment', {
+    	url: '/newPayment',
+    	templateUrl: 'components/manager/newPayment.html',
+    	controller : 'NewPaymentController',
+    	controllerAs: 'newPaymentCtrl'
+    })
     .state('manager.operations', {
     	url: '/operations',
     	templateUrl: 'components/manager/operations.html',
@@ -83,7 +90,7 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     })
      .state('patient.changePassword', {
     	url: '/changePassword',
-    	templateUrl: 'components/patient/changePassword.html',
+    	templateUrl: 'components/patient/patientChangePassword.html',
     	controller: "PatientProfileController",
     	controllerAs: 'patientProfileCtrl'
     })
