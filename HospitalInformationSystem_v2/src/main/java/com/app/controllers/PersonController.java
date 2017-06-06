@@ -59,9 +59,10 @@ public class PersonController {
 	 * @return Status code.
 	 */
 	@RequestMapping(value = "/password", method = RequestMethod.PUT)
-	public ResponseEntity<Void> changePassword(@RequestBody PasswordDTO dto, HttpSession session){
-		int personID = (int) session.getAttribute("person");
-		Person p = personService.findOne(personID);
+	public ResponseEntity<Void> changePassword(@RequestBody PasswordDTO dto, @RequestHeader("X-Auth-Token") String token){
+		String username = tokenUtils.getUsernameFromToken(token);
+		Person person = personService.findByUsername(username);
+		Person p = personService.findOne(person.getId());
 		if(p != null){
 			if (p.getPassword().equals(dto.getOldPassword())){
 				p.setPassword(dto.getNewPassword());

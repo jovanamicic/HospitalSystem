@@ -28,11 +28,14 @@
 						{{commonCtrl.loggedPerson.surname}}</h2>
 				</header>
 				<ul id="patientMenu">
-					<li><span class="opener">Moj profil</span>
-						<ul>
-							<li><a ng-click="patientCtrl.goToProfile()">Osnovni podaci</a></li>
-							<li><a ng-click="patientCtrl.goToChangePassword()">Promeni lozinku</a></li>
-						</ul></li>
+					<!--<li><span class="opener">Moj profil</span>
+							<ul>
+								<li><a ng-click="patientCtrl.goToProfile()">Osnovni podaci</a></li>
+								<li><a ng-click="patientCtrl.goToChangePassword()">Promeni lozinku</a></li>
+							</ul>
+						</li> -->
+					<li><a ng-click="patientCtrl.goToProfile()">Moj profil</a></li>
+					<li><a ng-click="patientCtrl.goToChangePassword()">Promeni lozinku</a></li>
 					<li><a ng-click="patientCtrl.goToRecord">Zdravstveni karton</a></li>
 					<li><a ng-click="patientCtrl.goToSchedule()">Kalendar</a></li>
 					<li><a ng-click="commonCtrl.logout()">Odjava</a></li>
