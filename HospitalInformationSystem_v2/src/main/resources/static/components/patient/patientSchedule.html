@@ -20,7 +20,7 @@
 				<li class="fa-user" id="patient" >{{patientScheduleCtrl.clickedEvent.patient}}</li>
 				<li class="fa-tag" id="nameTag" >{{patientScheduleCtrl.clickedEvent.name}}</li>
 				<li class="fa-calendar" id="dateTag" >{{patientScheduleCtrl.clickedEvent.date}}</li>
-				<li class="fa-clock-o" id="timeTag" >{{patientScheduleCtrl.clickedEvent.time}}</li>
+				<li class="fa-clock-o" id="timeTag" ng-if="patientScheduleCtrl.clickedEvent.time == '0:00' ? patientScheduleCtrl.clickedEvent.time='Satnica još uvek nije uvrđena' : patientScheduleCtrl.clickedEvent.time">{{patientScheduleCtrl.clickedEvent.time}}</li>
 			</ul>
 		</div>
 	</div>

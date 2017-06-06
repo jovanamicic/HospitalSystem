@@ -79,10 +79,10 @@
 				<li class="fa-user" id="patient" >{{medicalStaffScheduleCtrl.clickedEvent.patient}}</li>
 				<li class="fa-tag" id="nameTag" >{{medicalStaffScheduleCtrl.clickedEvent.name}}</li>
 				<li class="fa-calendar" id="dateTag" >{{medicalStaffScheduleCtrl.clickedEvent.date}}</li>
-				<li class="fa-clock-o" id="timeTag" >{{medicalStaffScheduleCtrl.clickedEvent.time}}</li>
+				<li class="fa-clock-o" id="timeTag" ng-if="medicalStaffScheduleCtrl.clickedEvent.time == '0:00' ? medicalStaffScheduleCtrl.clickedEvent.time='Satnica još uvek nije uvrđena' : medicalStaffScheduleCtrl.clickedEvent.time">{{medicalStaffScheduleCtrl.clickedEvent.time}}</li>
 				<li id="operationExaminationId" style="display: none">{{medicalStaffScheduleCtrl.clickedEvent.operationExaminationId}}</li>
 				<li style="margin-left: 11%"><a class="button icon fa-ban"
-					ng-click="medicalStaffScheduleCtrl.cancelOperationExamination()">Otka�i</a></li>
+					ng-click="medicalStaffScheduleCtrl.cancelOperationExamination()">Otkaži</a></li>
 			</ul>
 		</div>
 	</div>
