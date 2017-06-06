@@ -1,0 +1,83 @@
+<section>
+	<header class="major">
+		<h2>
+			Zdravstveni karton pacijenta <a id="aNameSurname"
+				ng-click="patientRecordCtrl.goToPatientProfile()" style="cursor: pointer"><span
+				id="nameSurname">{{ patientRecordCtrl.nameSurname }}</span></a>
+		</h2>
+	</header>
+	<div id="buttons" ng-show="patientRecordCtrl.asDoctor">
+		<a class="button special" ng-click="patientRecordCtrl.startExamination()">Započni
+			pregled</a>
+		<div style="float: right">
+			<a onclick="openModal(this)" class="button" id="Pregled">Zakaži
+				pregled</a> <a onclick="openModal(this)" class="button" id="Operacija">Zakaži
+				operaciju</a>
+		</div>
+	</div>
+
+	<div id="examinationDiv" ng-show="patientRecordCtrl.examinationShow">
+		<form>
+			<div class="row uniform">
+				<div class="6u$">
+					<textarea rows="4" id="symptons" placeholder="Unesite simptome*" ng-model="patientRecordCtrl.symptons"
+						required></textarea>
+				</div>
+				<div class="6u$ ">
+					<textarea rows="4" id="diagnosis" placeholder="Unesite dijagnozu*" ng-model="patientRecordCtrl.diagnosis"
+						required></textarea>
+				</div>
+				<div class="6u$ ">
+					<textarea rows="4" id="therapy" placeholder="Unesite terapiju*" ng-model="patientRecordCtrl.therapy"
+						required></textarea>
+				</div>
+				<!-- Break -->
+				<div class="12u$" ng-show="patientRecordCtrl.showBtns">
+					<ul class="actions">
+						<li><a href="#" class="button special"
+							ng-click="patientRecordCtrl.saveExamination()">Završi</a></li>
+						<li><input type="reset" value="Otkaži"></li>
+					</ul>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- Record -->
+	<div>
+		<p></p>
+	</div>
+	<div>
+		<div class="row uniform">
+			<div class="3u 12u$(xsmall)">
+				<a href="#" class="button special fit"
+					onclick="resetPagExaminations()">Pregledi</a>
+			</div>
+			<div class="3u 12u$(xsmall)">
+				<a href="#" class="button fit" onclick="resetPagOperations()"
+					style="margin-bottom: 3em">Operacije</a>
+			</div>
+		</div>
+
+		<div class="row 200%">
+			<div style="width: 100%">
+				<div class="table-wrapper">
+					<table class="alt" id="patientRecordTable">
+						<thead>
+							<tr>
+								<th>Datum</th>
+								<th>Naziv</th>
+								<th>Doktor</th>
+							</tr>
+						</thead>
+
+						<tbody id="patientRecordBody">
+							<!-- dinam.add rows -->
+						</tbody>
+
+					</table>
+					<div class="pagination" id="patientRecordPag"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

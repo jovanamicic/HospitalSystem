@@ -11,13 +11,16 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.PaymentDTO;
+import com.app.model.Patient;
 import com.app.model.Payment;
 import com.app.model.Person;
+import com.app.security.TokenUtils;
 import com.app.service.PaymentService;
 import com.app.service.PersonService;
 
@@ -25,7 +28,7 @@ import com.app.service.PersonService;
 @RequestMapping(value = "payments")
 public class PaymentController {
 	
-	private static final int DEFAULT_PAGE_SIZE = 1;
+	private static final int DEFAULT_PAGE_SIZE = 10;
 	private static final int DEFAULT_PAGE_NUMBER = 0;
 	
 	@Autowired
@@ -34,6 +37,9 @@ public class PaymentController {
 	@Autowired
 	private PersonService personService;
 	
+	@Autowired
+	private TokenUtils tokenUtils;
+	
 	
 	/** Function saves new payment in database.
 	 * @param dto
@@ -41,14 +47,17 @@ public class PaymentController {
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Void> savePayment(@RequestBody PaymentDTO dto, HttpSession session) {
+	public ResponseEntity<Void> savePayment(
+			@RequestHeader("X-Auth-Token") String token,
+			@RequestBody PaymentDTO dto) {
 		
 		if (dto == null){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
-		int id = (int) session.getAttribute("person");
-		Person manager = personService.findOne(id);
+		String username = tokenUtils.getUsernameFromToken(token);
+		Person manager = personService.findByUsername(username);
+		
 		Payment p = new Payment();
 		p.setAccount(dto.getAccount());
 		p.setAmount(dto.getAmount());

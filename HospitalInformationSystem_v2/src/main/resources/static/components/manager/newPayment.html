@@ -1,0 +1,43 @@
+<section>
+	<header class="major">
+		<h2>Nova uplata</h2>
+
+	</header>
+	<!-- FORM -->
+
+	<form>
+		<div class="row uniform">
+			<div class="6u$">
+				<div class="select-wrapper">
+					<select id="recipient" ng-model="newPaymentCtrl.newPayment.recipient"
+						ng-options="template.value as template.name for template in newPaymentCtrl.recipients">
+					</select>
+				</div>
+			</div>
+			<div class="6u$ ">
+				<input type="text" id="account" placeholder="Račun primaoca" 
+					ng-model="newPaymentCtrl.newPayment.account">
+			</div>
+			<div class="6u$ ">
+				<input type="text" id="amount" placeholder="Iznos za uplatu"
+					ng-model="newPaymentCtrl.newPayment.amount">
+			</div>
+			<div class="6u$">
+				<div class="select-wrapper">
+					<select id="currency" ng-model="newPaymentCtrl.newPayment.currency"
+						ng-options="template.value as template.name for template in newPaymentCtrl.currencies">
+					</select>
+				</div>
+			</div>
+			<i>*Sva polja su obavezna</i>
+			<!-- Break -->
+			<div class="12u$">
+				<ul class="actions">
+					<li><a href="#" class="button special" ng-click="newPaymentCtrl.savePayment()">Sačuvaj</a></li>
+					<li><input type="reset" value="Otkaži"></li>
+				</ul>
+			</div>
+		</div>
+	</form>
+
+</section>

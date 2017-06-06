@@ -86,7 +86,26 @@ function PatientProfileController($location, $stateParams,
 			$location.path("medicalStaff/patient/record/"+$stateParams.id);
 		}
 		else{
-			$location.path("medicalStaff/patient/record");
+			$state.go("patient.record");
 		}
 	}
+	
+	vm.changePassword = function(){
+		if (vm.newPassword == vm.newRPassword && vm.oldPassword != "" && vm.newPassword != "" && vm.newRPassword != ""){
+			vm.password = {
+					oldPassword : vm.oldPassword,
+					newPassword : vm.newPassword
+			};
+			patientService.changePassword(vm.password).then(function(data){
+				toastr.success("Vaša lozinka je uspešno izmenjena.")
+			}).catch(function(data){
+				toastr.error("Uneli ste pogrešnu staru lozinku. Molimo Vas pokušajte ponovo!");
+			});
+		}
+		else{
+			toastr.error("Dogodila se greška, molimo Vas pokušajte ponovo!");
+		}
+		
+	}
+	
 }
