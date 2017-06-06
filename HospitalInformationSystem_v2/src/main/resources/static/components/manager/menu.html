@@ -54,8 +54,15 @@
 									podaci</a></li>
 							<li><a ng-click="managerCtrl.goToChangePassword()">Promeni
 									lozinku</a></li>
-						</ul></li>
-					<li><a a ng-click="managerCtrl.goToPayments()">Uplate</a></li>
+						</ul>
+					</li>
+					<li ng-click="managerCtrl.showPaymentsOptions()"><span
+						ng-class="{'opener' : !managerCtrl.isActivePayments, 'opener active' : managerCtrl.isActivePayments}">Plaćanja</span>
+						<ul>
+							<li><a ng-click="managerCtrl.goToAllPayments()">Sve uplate</a></li>
+							<li><a ng-click="managerCtrl.goToNewPayment()">Nova uplata</a></li>
+						</ul>
+					</li>
 					<li><a ng-click="managerCtrl.logout()">Odjava</a></li>
 				</ul>
 
