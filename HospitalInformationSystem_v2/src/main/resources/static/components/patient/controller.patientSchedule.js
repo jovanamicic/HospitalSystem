@@ -38,6 +38,9 @@ function PatientScheduleController($location, $stateParams,
 			eventClick : function(event, jsEvent, view) {
 				fillInModal(event.id);
 			},
+			viewRender: function (view, element) {
+                alert('aaa');
+           },
 
 			eventRender : vm.eventRender
 
@@ -64,7 +67,7 @@ function PatientScheduleController($location, $stateParams,
 			 }
 			 $timeout(function() {
 				 vm.eventSources.push(vm.events) ;
-			 }, 1000);
+			 }, 2000);
 	
 		 }).catch(function(data, status, headers, config) {
 			 vm.errorMessage = "Something went wrong with getting patient schedule!";

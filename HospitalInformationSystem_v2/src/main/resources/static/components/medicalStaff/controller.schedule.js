@@ -53,8 +53,6 @@ function MedicalStaffScheduleController($location, $stateParams,
 				fillInModal(event.id);
 			},
 
-			eventRender : vm.eventRender
-
 		}
 	};
 		
@@ -100,7 +98,6 @@ function MedicalStaffScheduleController($location, $stateParams,
 							 color : '#475B5A',
 							 id : type + "-" + data.id
 					 });
-								
 					 vm.closeModal();
 	
 				 }).catch(function(data, status, headers, config) {
@@ -118,7 +115,6 @@ function MedicalStaffScheduleController($location, $stateParams,
 							 color : '#22c7b8',
 							 id : type + "-" + data.id
 					 });
-								
 					 vm.closeModal();
 								
 				 }).catch(function(data, status, headers, config) {
@@ -262,20 +258,6 @@ function MedicalStaffScheduleController($location, $stateParams,
 	 }
 	
 
-	/* add and removes an event source of choice */
-	vm.addRemoveEventSource = function(sources, source) {
-		var canAdd = 0;
-		angular.forEach(sources, function(value, key) {
-			if (sources[key] === source) {
-				sources.splice(key, 1);
-				canAdd = 1;
-			}
-		});
-		if (canAdd === 0) {
-			sources.push(source);
-		}
-	};
-	
 	/* remove event */
 	vm.remove = function(index) {
 		vm.events.splice(index, 1);
@@ -286,12 +268,6 @@ function MedicalStaffScheduleController($location, $stateParams,
 		uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
 	};
 	
-	/* Change View */
-	vm.renderCalender = function(calendar) {
-		if (uiCalendarConfig.calendars[calendar]) {
-			uiCalendarConfig.calendars[calendar].fullCalendar('render');
-		}
-	};
 
 	vm.uiConfig.calendar.dayNames = [ "Nedelja", "Ponedeljak", "Utorak",
 		"Sreda", "Četvrtak", "Petak", "Subota" ];

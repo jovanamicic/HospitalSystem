@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -58,6 +59,7 @@ public class PersonController {
 	 * @param session
 	 * @return Status code.
 	 */
+	@PreAuthorize("hasAnyAuthority('Edit_patient_password', 'Edit_manager_password')")
 	@RequestMapping(value = "/password", method = RequestMethod.PUT)
 	public ResponseEntity<Void> changePassword(@RequestBody PasswordDTO dto, @RequestHeader("X-Auth-Token") String token){
 		String username = tokenUtils.getUsernameFromToken(token);
@@ -83,6 +85,7 @@ public class PersonController {
 	 *            Session token from header.
 	 * @return Person role.
 	 */
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/roleByToken", method = RequestMethod.GET)
 	public ResponseEntity<RoleDTO> roleByToken(@RequestHeader("X-Auth-Token") String token) {
 		
@@ -106,6 +109,7 @@ public class PersonController {
 	 * @param token
 	 * @return logged person details
 	 */
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/personByToken", method = RequestMethod.GET)
 	public ResponseEntity<PersonDataDTO> personByToken(@RequestHeader("X-Auth-Token") String token) {
 		

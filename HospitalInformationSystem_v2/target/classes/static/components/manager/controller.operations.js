@@ -16,6 +16,9 @@ function ManagerOperationsController($location, $stateParams, managerService,
 	vm.currentPage = 1;
 	vm.pageSize = 10;
 	vm.totalPages;
+	
+	vm.newOperationsBtnActive;
+	vm.allOperationsBtnActive;
 
 
 	vm.getAllOperationsPage = function(newPage) {
@@ -25,6 +28,9 @@ function ManagerOperationsController($location, $stateParams, managerService,
 			vm.totalPages = result.data.totalPages;
 			vm.totalOperations = result.data.totalElements;
 			vm.displayOnlyNew = false;
+			
+			vm.newOperationsBtnActive = false;
+			vm.allOperationsBtnActive = true;
 		})
 		.catch(function() {
 			vm.errorMessage = "Error loadin operations page.";
@@ -38,6 +44,9 @@ function ManagerOperationsController($location, $stateParams, managerService,
 			vm.totalPages = result.data.totalPages;
 			vm.totalOperations = result.data.totalElements;
 			vm.displayOnlyNew = true;
+			
+			vm.newOperationsBtnActive = true;
+			vm.allOperationsBtnActive = false;
 		})
 		.catch(function() {
 			vm.errorMessage = "Error loadin operations page.";

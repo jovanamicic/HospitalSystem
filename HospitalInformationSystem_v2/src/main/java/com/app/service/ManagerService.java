@@ -31,5 +31,9 @@ public class ManagerService {
 	public Manager findOne(int id){
 		return managerRepository.findOne(id);
 	}
+	
+	public Manager findByUsername(String username){
+		return managerRepository.findByUsername(username);
+	}
 
 }

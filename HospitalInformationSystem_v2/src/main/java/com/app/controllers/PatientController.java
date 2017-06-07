@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -85,6 +86,7 @@ public class PatientController {
 	/** Function that register new patient on system.
 	 * @param dto Data about user from form.
 	 */
+	@PreAuthorize("hasAuthority('Add_new_patient')")
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<ObjectIDDTO> registerPatient(@RequestBody PatientDTO dto) {
 		Address address = new Address();
@@ -136,6 +138,7 @@ public class PatientController {
 	 * @param page
 	 * @return Page of patients
 	 */
+	@PreAuthorize("hasAuthority('View_all_patients')")
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public ResponseEntity<Page<Patient>> getAllPatients(@RequestHeader("X-Auth-Token") String token, @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
 		Page<Patient> patients = patientService.findAllPage(page);
@@ -148,6 +151,7 @@ public class PatientController {
 	 * @param page and doctors ID
 	 * @return Page of patients
 	 */
+	@PreAuthorize("hasAuthority('View_all_patients')")
 	@RequestMapping(value = "/my", method = RequestMethod.GET)
 	public ResponseEntity<Page<Patient>> getMyPatients(@RequestHeader("X-Auth-Token") String token, @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
 		
@@ -163,6 +167,7 @@ public class PatientController {
 	 * @param id of patient.
 	 * @return Data about patient.
 	 */
+	@PreAuthorize("hasAuthority('View_patient_profile')")
 	@RequestMapping(value= "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<PatientDTO> getPatient(@PathVariable int id){
 		Patient p = patientService.findOne(id);
@@ -196,6 +201,7 @@ public class PatientController {
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+	
 	
 	@RequestMapping( method = RequestMethod.GET)
 	public ResponseEntity<PatientDTO> getLoggedPatient(@RequestHeader("X-Auth-Token") String token){
@@ -239,6 +245,7 @@ public class PatientController {
 	 * @param person id
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('View_patient_schedule')")
 	@RequestMapping(value = "/schedule", method = RequestMethod.GET)
 	public ResponseEntity<List<MedicalStaffScheduleDTO>> getMySchedule(@RequestHeader("X-Auth-Token") String token){
 		
@@ -258,6 +265,7 @@ public class PatientController {
 	 * @param type and id of examination/operation
 	 * @return
 	 */
+	@PreAuthorize("hasAnyAuthority('View_operation', 'View_examination')")
 	@RequestMapping(value = "/operationExaminationDetails/{type}/{id}", method = RequestMethod.GET)
 	public ResponseEntity<ExaminationOperationDetailsDTO> getDetails(@RequestHeader("X-Auth-Token") String token, @PathVariable String type, @PathVariable int id) {
 		ExaminationOperationDetailsDTO retVal = new ExaminationOperationDetailsDTO();
@@ -289,6 +297,8 @@ public class PatientController {
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 	
+	
+	@PreAuthorize("hasAuthority('Edit_patient_profile')")
 	@RequestMapping(method = RequestMethod.PUT, consumes = "application/json")
 	public ResponseEntity<Void> changeProfile(@RequestBody PatientDTO dto, @RequestHeader("X-Auth-Token") String token) {
 		String username = tokenUtils.getUsernameFromToken(token);
@@ -325,6 +335,7 @@ public class PatientController {
 	 * @param searchData
 	 * @return list of patients
 	 */
+	@PreAuthorize("hasAuthority('Search_patients')")
 	@RequestMapping(value= "/search/{searchData}", method = RequestMethod.GET)
 	public ResponseEntity<Page<Patient>> serachPatients(@RequestHeader("X-Auth-Token") String token, @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page,@PathVariable String searchData){
 		
@@ -333,7 +344,7 @@ public class PatientController {
 	}
 	
 	
-	
+	@PreAuthorize("hasAnyAuthority('Edit_patient_profile', 'Add_new_patient')")
 	@RequestMapping(value= "/username", method = RequestMethod.POST)
 	public ResponseEntity<Void> checkUsername(@RequestBody String username){
 		if (personService.usernameUnique(username)){
@@ -343,6 +354,7 @@ public class PatientController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Edit_patient_profile', 'Add_new_patient')")
 	@RequestMapping(value= "/email", method = RequestMethod.POST)
 	public ResponseEntity<Void> checkEmail(@RequestBody String email){
 		if (personService.emailUnique(email)){
@@ -353,6 +365,7 @@ public class PatientController {
 		}
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Edit_patient_profile', 'Add_new_patient')")
 	@RequestMapping(value= "/personalID", method = RequestMethod.POST)
 	public ResponseEntity<Void> checkPID(@RequestBody String personalID){
 		if (personService.personalIDUnique(personalID)){
@@ -363,6 +376,7 @@ public class PatientController {
 		}
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Edit_patient_profile', 'Add_new_patient')")
 	@RequestMapping(value= "/birthday", method = RequestMethod.POST)
 	public ResponseEntity<Void> checkBirthday(@RequestBody String birthday){
 		Date bday = null;

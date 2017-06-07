@@ -31,11 +31,11 @@ angular.module('hospitalApp.services').factory('medicalStaffService',
 			}
 			
 			function saveOperation(operation) {
-				return $http.post('operations/scheduleOperation', operation);
+				return $http.post('operations/saveOperation', operation);
 			}
 			
 			function saveExamination(examination) {
-				return $http.post('examinations/scheduleExamination', examination);
+				return $http.post('examinations/saveExamination', examination);
 			}
 			
 			function deleteOperation(id) {

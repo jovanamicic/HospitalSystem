@@ -13,4 +13,6 @@ public interface ManagerRepository extends JpaRepository<Manager, Integer> {
 	Page<Manager> findAll(Pageable page);
 	List<Manager> findAll();
 	Manager findOne(int id);
+	Manager findByUsername(String username);
+	
 }

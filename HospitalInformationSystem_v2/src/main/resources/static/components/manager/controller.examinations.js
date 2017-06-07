@@ -16,6 +16,9 @@ function ManagerExaminationsController($location, $stateParams, managerService,
 	vm.currentPage = 1;
 	vm.pageSize = 10;
 	vm.totalPages;
+	
+	vm.newExaminationsBtnActive;
+	vm.allExaminationsBtnActive;
 
 
 	vm.getAllExaminationsPage = function(newPage) {
@@ -25,6 +28,9 @@ function ManagerExaminationsController($location, $stateParams, managerService,
 			vm.totalPages = result.data.totalPages;
 			vm.totalExaminations = result.data.totalElements;
 			vm.displayOnlyNew = false;
+			
+			vm.newExaminationsBtnActive = false;
+			vm.allExaminationsBtnActive = true;
 		})
 		.catch(function() {
 			vm.errorMessage = "Error loadin examinations page.";
@@ -38,6 +44,9 @@ function ManagerExaminationsController($location, $stateParams, managerService,
 			vm.totalPages = result.data.totalPages;
 			vm.totalExaminations = result.data.totalElements;
 			vm.displayOnlyNew = true;
+			
+			vm.newExaminationsBtnActive = true;
+			vm.allExaminationsBtnActive = false;
 		})
 		.catch(function() {
 			vm.errorMessage = "Error loadin examinations page.";

@@ -6,11 +6,11 @@
 
 	<div class="row uniform">
 		<div class="3u 12u$(xsmall)">
-			<a href="#" class="button special fit"
+			<a  ng-class="operationsCtrl.newOperationsBtnActive ? 'button special fit' : 'button fit'"
 				ng-click="operationsCtrl.getNewOperationsPage(0)">Nove operacije</a>
 		</div>
 		<div class="3u 12u$(xsmall)">
-			<a href="#" class="button fit" style="margin-bottom: 3em"
+			<a ng-class="operationsCtrl.allOperationsBtnActive ? 'button special fit' : 'button fit'" style="margin-bottom: 3em"
 				ng-click="operationsCtrl.getAllOperationsPage(0)">Sve operacije</a>
 		</div>
 	</div>

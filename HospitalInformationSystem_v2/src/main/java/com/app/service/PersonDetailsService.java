@@ -1,5 +1,6 @@
 package com.app.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,7 +14,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.app.model.Permission;
 import com.app.model.Person;
+import com.app.model.Role;
+import com.app.model.RoleMember;
+import com.app.model.RolePermission;
+import com.app.repository.PermissionRepository;
 import com.app.repository.PersonRepository;
 
 @Service
@@ -21,6 +27,9 @@ public class PersonDetailsService implements UserDetailsService {
 
 	@Autowired
 	private PersonRepository personRepository;
+	
+	@Autowired
+	private PermissionRepository permissionRepository;
 
 	@Override
 	@Transactional
@@ -31,9 +40,25 @@ public class PersonDetailsService implements UserDetailsService {
 			throw new UsernameNotFoundException(String.format("No person found with username '%s'.", username));
 		} else {
 			// Java 1.8 way
-			List<GrantedAuthority> grantedAuthorities = person.getRoleMembers().stream()
-					.map(authority -> new SimpleGrantedAuthority(authority.getRole().getName()))
+			
+			//returns all roles ID of person
+			List<Role> roles = person.getRoleMembers().stream()
+					.map(rm -> rm.getRole())
 					.collect(Collectors.toList());
+			
+			//return all role premission of person role
+			List<RolePermission> rolePermission = new ArrayList<RolePermission>();
+			for (Role role : roles) {
+				rolePermission.addAll(role.getRolePermissions());
+			}
+			
+			List<GrantedAuthority> grantedAuthorities = rolePermission.stream()
+					.map(rp -> new SimpleGrantedAuthority(rp.getPermission().getName()))
+					.collect(Collectors.toList());
+			
+			for (GrantedAuthority grantedAuthority : grantedAuthorities) {
+				System.out.println(grantedAuthority);
+			}
 			
 			return new org.springframework.security.core.userdetails.User(person.getUsername(), person.getPassword(),
 					grantedAuthorities);

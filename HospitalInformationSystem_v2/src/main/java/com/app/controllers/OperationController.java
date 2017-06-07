@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -63,7 +64,9 @@ public class OperationController {
 	@Autowired
 	private TokenUtils tokenUtils;
 
-	@RequestMapping(value = "/scheduleOperation", method = RequestMethod.POST, consumes = "application/json")
+	
+	@PreAuthorize("hasAuthority('Add_new_operation')")
+	@RequestMapping(value = "/saveOperation", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<Operation> saveOperation(@RequestHeader("X-Auth-Token") String token,
 			@RequestBody MedicalStaffScheduleDTO operation) throws ParseException {
 
@@ -104,8 +107,9 @@ public class OperationController {
 	 * @return
 	 * @throws ParseException
 	 */
+	@PreAuthorize("hasAuthority('Edit_operation')")
 	@RequestMapping(value = "/saveTimeAndRoom", method = RequestMethod.PUT)
-	public ResponseEntity<Operation> updateOperation(@RequestBody OperationUpdateDTO o) throws ParseException {
+	public ResponseEntity<Operation> updateOperation(@RequestHeader("X-Auth-Token") String token, @RequestBody OperationUpdateDTO o) throws ParseException {
 		Operation retVal = operationService.findById(o.getOperationId());
 
 		Room room = roomService.findOne(o.getRoomId());
@@ -134,8 +138,9 @@ public class OperationController {
 	 *            of Operation.
 	 * @return Data about Operation.
 	 */
+	@PreAuthorize("hasAuthority('View_operation')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<OperationDTO> getOperation(@PathVariable int id) {
+	public ResponseEntity<OperationDTO> getOperation(@RequestHeader("X-Auth-Token") String token, @PathVariable int id) {
 
 		Operation o = operationService.findById(id);
 
@@ -158,8 +163,9 @@ public class OperationController {
 	 * @param page
 	 * @return Page of operations.
 	 */
+	@PreAuthorize("hasAuthority('View_all_operations')")
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
-	public ResponseEntity<Page<Operation>> getAllOperationsPageable(
+	public ResponseEntity<Page<Operation>> getAllOperationsPageable(@RequestHeader("X-Auth-Token") String token,
 			@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page) {
 
 		Page<Operation> operations = operationService.findAllPage(page);
@@ -173,8 +179,9 @@ public class OperationController {
 	 * @param page
 	 * @return Page of new operations.
 	 */
+	@PreAuthorize("hasAuthority('View_all_operations')")
 	@RequestMapping(value = "/newOperations", method = RequestMethod.GET)
-	public ResponseEntity<Page<Operation>> getNewOperationsPageable(
+	public ResponseEntity<Page<Operation>> getNewOperationsPageable(@RequestHeader("X-Auth-Token") String token,
 			@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page) {
 
 		Page<Operation> operations = operationService.findNewOperationsPage(page);
@@ -186,6 +193,7 @@ public class OperationController {
 	 * 
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('Delete_operation')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void delete(@RequestHeader("X-Auth-Token") String token, @PathVariable int id) {
 		operationService.delete(id);

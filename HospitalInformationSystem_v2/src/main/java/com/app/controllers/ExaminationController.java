@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -56,8 +57,9 @@ public class ExaminationController {
 	 * @param page
 	 * @return Page of examinations.
 	 */
+	@PreAuthorize("hasAuthority('View_all_examinations')")
 	@RequestMapping(value= "/all", method = RequestMethod.GET)
-	public ResponseEntity<Page<Examination>> getAllExaminationsPageable(@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
+	public ResponseEntity<Page<Examination>> getAllExaminationsPageable(@RequestHeader("X-Auth-Token") String token, @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
 		
 		Page<Examination> examinations = examinationService.findAllPage(page);
 		return new ResponseEntity<>(examinations, HttpStatus.OK);
@@ -67,14 +69,23 @@ public class ExaminationController {
 	 * @param page
 	 * @return Page of new examinations.
 	 */
+	@PreAuthorize("hasAuthority('View_all_examinations')")
 	@RequestMapping(value= "/newExaminations", method = RequestMethod.GET)
-	public ResponseEntity<Page<Examination>> getNewExaminationsPageable(@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
+	public ResponseEntity<Page<Examination>> getNewExaminationsPageable(@RequestHeader("X-Auth-Token") String token, @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
 		
 		Page<Examination> examinations = examinationService.findNewExaminationsPage(page);
 		return new ResponseEntity<>(examinations, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/scheduleExamination",  method = RequestMethod.POST, consumes = "application/json")
+	/**
+	 * Function that returns add new examination to database. 
+	 * @param token
+	 * @param examination
+	 * @return saved examination
+	 * @throws ParseException
+	 */
+	@PreAuthorize("hasAuthority('Add_new_examination')")
+	@RequestMapping(value = "/saveExamination",  method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<Examination> saveExamination(@RequestHeader("X-Auth-Token") String token, @RequestBody MedicalStaffScheduleDTO examination) throws ParseException {
 		
 		//find doctor
@@ -114,7 +125,7 @@ public class ExaminationController {
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Void> finishedExamination(@RequestBody ExaminationDTO dto, @RequestHeader("X-Auth-Token") String token){
+	public ResponseEntity<Void> finishedExamination(@RequestHeader("X-Auth-Token") String token, @RequestBody ExaminationDTO dto){
 		String username = tokenUtils.getUsernameFromToken(token);
 		Person person = personService.findByUsername(username);
 		
@@ -177,6 +188,7 @@ public class ExaminationController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	
 	@RequestMapping(value = "/patients/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Page<Examination>> getPatientExaminations(@PathVariable int id, @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
 		Person patient = personService.findOne(id);
@@ -189,17 +201,20 @@ public class ExaminationController {
 	 * Function that deletes examination from DB
 	 * @return 
 	 */
+	@PreAuthorize("hasAuthority('Delete_examination')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void delete(@RequestHeader("X-Auth-Token") String token, @PathVariable int id){
 		examinationService.delete(id);
 	}
+	
+	
 	
 	/** Function gets data about one examination.
 	 * @param id of Examination.
 	 * @return Data about Examination.
 	 */
 	@RequestMapping(value= "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<ExaminationDTO> getExamination(@PathVariable int id){
+	public ResponseEntity<ExaminationDTO> getExamination(@RequestHeader("X-Auth-Token") String token, @PathVariable int id){
 		
 		Examination ex = examinationService.findById(id);
 		
@@ -221,8 +236,9 @@ public class ExaminationController {
 	 * @return 
 	 * @throws ParseException 
 	 */
+	@PreAuthorize("hasAuthority('Edit_examination')")
 	@RequestMapping(value = "/saveTime", method = RequestMethod.PUT)
-	public ResponseEntity<Examination> updateExamination(@RequestBody ExaminationUpdateDTO o) throws ParseException{
+	public ResponseEntity<Examination> updateExamination(@RequestHeader("X-Auth-Token") String token, @RequestBody ExaminationUpdateDTO o) throws ParseException{
 		Examination retVal = examinationService.findById(o.getExaminationId());
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");

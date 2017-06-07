@@ -55,8 +55,9 @@ public class MedicalStaffController {
 	 * @param page
 	 * @return Page of patients
 	 */
+	@PreAuthorize("hasAuthority('View_all_medical_staff')")
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
-	public ResponseEntity<List<PersonLiteDTO>> getAllDoctors() {
+	public ResponseEntity<List<PersonLiteDTO>> getAllDoctors(@RequestHeader("X-Auth-Token") String token) {
 		List<MedicalStaff> doctors = medicalStaffService.findAll();
 		if (doctors != null) {
 			List<PersonLiteDTO> retVal = new ArrayList<PersonLiteDTO>();
@@ -79,7 +80,7 @@ public class MedicalStaffController {
 	 *            id
 	 * @return all operations and examinations of logged medical stuff
 	 */
-	@PreAuthorize("hasAuthority('ROLE_MEDICAL_STUFF')")
+	@PreAuthorize("hasAuthority('View_medical_staff_schedule')")
 	@RequestMapping(value = "/schedule", method = RequestMethod.GET)
 	public ResponseEntity<List<MedicalStaffScheduleDTO>> getMySchedule(@RequestHeader("X-Auth-Token") String token) {
 		
@@ -100,6 +101,7 @@ public class MedicalStaffController {
 	 *            and id of examination/operation
 	 * @return details about operation or examination
 	 */
+	@PreAuthorize("hasAnyAuthority('View_operation', 'View_examination')")
 	@RequestMapping(value = "/operationExaminationDetails/{type}/{id}", method = RequestMethod.GET)
 	public ResponseEntity<ExaminationOperationDetailsDTO> getDetails(@RequestHeader("X-Auth-Token") String token, @PathVariable String type, @PathVariable int id) {
 		ExaminationOperationDetailsDTO retVal = new ExaminationOperationDetailsDTO();

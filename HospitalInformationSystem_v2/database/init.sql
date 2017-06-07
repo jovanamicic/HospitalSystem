@@ -8,7 +8,7 @@ INSERT INTO `hospital`.`person` (`discriminator`, `person_id`, `email`, `name`, 
 INSERT INTO `hospital`.`person` (`discriminator`, `person_id`, `email`, `name`, `password`, `personalid`, `surname`, `username`, `photo`, `education`) VALUES ('MEDICAL_STAFF', '3', 'mina@gmail.com', 'Mina', '$2a$06$6CekuMHG/UTa3UHLrWfj4O28Yu5cot2AS3slQsh4ZLii628zopTdm', '1212199481012', 'Medić', 'mina', 'images/medicalStuff/mina.jpg', 'Doktor');
 
 -- PATIENT
-INSERT INTO `hospital`.`person` (`discriminator`, `person_id`, `email`, `name`, `password`, `personalid`, `surname`, `username`, `gender`, `chosen_doctor`, `address`, `birthday`) VALUES ('PATIENT', '4', 'pera@gmail.com', 'Petar', '$2a$10$UPGHz1h0ljOL3TiO1n.ZOeTK.1gy89qRdTajENsI5XEpuIg7FqK1y', '0202195481012', 'Perić', 'pera', 'Muško', 1, 1, '1954-02-02');
+INSERT INTO `hospital`.`person` (`discriminator`, `person_id`, `email`, `name`, `password`, `personalid`, `surname`, `username`, `gender`, `chosen_doctor`, `address`, `birthday`) VALUES ('PATIENT', '4', 'pera@gmail.com', 'Petar', '$2a$10$UPGHz1h0ljOL3TiO1n.ZOeTK.1gy89qRdTajENsI5XEpuIg7FqK1y', '4444', 'Perić', 'pera', 'Muško', 1, 1, '1954-02-02');
 INSERT INTO `hospital`.`person` (`discriminator`, `person_id`, `email`, `name`, `password`, `personalid`, `surname`, `username`, `gender`, `chosen_doctor`, `birthday`) VALUES ('PATIENT', '5', 'mika@gmail.com', 'Mika', '$2a$10$4iu9rQqKvmQpyi1PDxW6BesO.NDx9aDXqgM4UvzP8GpRNE3cCUwby', '0303197181012', 'Mikić', 'mika', 'Muško', 1, '1971-03-03');
 INSERT INTO `hospital`.`person` (`discriminator`, `person_id`, `email`, `name`, `password`, `personalid`, `surname`, `username`, `gender`, `chosen_doctor`, `address`, `birthday`) VALUES ('PATIENT', '6', 'djole@gmail.com', 'Djole', '$2a$06$duWUXdaerEURz0U9APos9u.JXcz38woPArt35bG8k6EL7aJfKkSCG', '0404193781012', 'Đolić', 'djole', 'Muško', 2, 2, '1937-04-04');
 
@@ -19,32 +19,12 @@ INSERT INTO `hospital`.`person` (`discriminator`, `person_id`, `email`, `name`, 
 
 
 -- ROLE
-INSERT INTO `hospital`.`role` (`id`, `name`) VALUES (1, 'MEDICAL_STUFF');
-INSERT INTO `hospital`.`role` (`id`, `name`) VALUES (2, 'GENERAL_MANAGER');
-INSERT INTO `hospital`.`role` (`id`, `name`) VALUES (3, 'FINANCE_MANAGER');
-INSERT INTO `hospital`.`role` (`id`, `name`) VALUES (4, 'PATIENT');
-INSERT INTO `hospital`.`role` (`id`, `name`) VALUES (5, 'GOVERNMENT');
+INSERT INTO `hospital`.`role` (`id`, `name`) VALUES (1, 'ROLE_MEDICAL_STAFF');
+INSERT INTO `hospital`.`role` (`id`, `name`) VALUES (2, 'ROLE_GENERAL_MANAGER');
+INSERT INTO `hospital`.`role` (`id`, `name`) VALUES (3, 'ROLE_FINANCE_MANAGER');
+INSERT INTO `hospital`.`role` (`id`, `name`) VALUES (4, 'ROLE_PATIENT');
+INSERT INTO `hospital`.`role` (`id`, `name`) VALUES (5, 'ROLE_GOVERNMENT');
 
--- PERMISSION
-INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (1, 'View_patient_profile');
-INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (2, 'View_patient_schedule');
-INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (3, 'Edit_patient_profile');
-INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (4, 'Edit_patient_password');
-INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (5, 'View_patient_schedule');
-
-INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (6, 'View_medical_staff_schedule');
-INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (7, 'Add_new_patient');
-INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (8, 'View_all_patients');
-
-INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (9, 'View_manager_profile');
-INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (10, 'Edit_manager_profile');
-INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (11, 'Edit_manager_password');
-INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (12, 'View_all_payments');
-INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (13, 'Submit_payment');
-INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (14, 'View_all_operations');
-INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (15, 'View_all_examinations');
-INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (16, 'Edit_operation');
-INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (17, 'Edit_examination');
 
 -- ROLE MEMBER
 INSERT INTO `hospital`.`role_member` (`id`, `person_person_id`, `role_id`) VALUES (1, 1, 1);
@@ -58,6 +38,89 @@ INSERT INTO `hospital`.`role_member` (`id`, `person_person_id`, `role_id`) VALUE
 INSERT INTO `hospital`.`role_member` (`id`, `person_person_id`, `role_id`) VALUES (7, 7, 2);
 INSERT INTO `hospital`.`role_member` (`id`, `person_person_id`, `role_id`) VALUES (8, 8, 2);
 INSERT INTO `hospital`.`role_member` (`id`, `person_person_id`, `role_id`) VALUES (9, 9, 3);
+
+
+-- PERMISSION
+-- manager
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (1, 'Schedule_rooms');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (2, 'View_manager_profile');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (3, 'Edit_manager_profile');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (4, 'Edit_manager_password');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (5, 'View_all_payments');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (6, 'Submit_payment');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (7, 'View_all_operations');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (8, 'View_all_examinations');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (9, 'Edit_operation');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (10, 'Edit_examination');
+
+-- medical staff
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (11, 'Search_patients');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (12, 'View_medical_staff_schedule');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (13, 'Add_new_patient');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (14, 'View_all_patients');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (15, 'Add_new_operation');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (16, 'Add_new_examination');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (17, 'Delete_operation');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (18, 'Delete_examination');
+
+-- patients
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (19, 'View_patient_profile');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (20, 'Edit_patient_profile');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (21, 'Edit_patient_password');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (22, 'View_patient_record');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (23, 'View_operation');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (24, 'View_examination');
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (25, 'View_patient_schedule');
+
+INSERT INTO `hospital`.`permission` (`id`, `name`) VALUES (26, 'View_all_medical_staff');
+
+
+-- ROLE PERMISSION
+
+-- financial manager
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (1, 2, 3);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (2, 3, 3);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (3, 4, 3);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (4, 5, 3);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (5, 6, 3);
+
+-- general manager
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (6, 1, 2);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (7, 2, 2);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (8, 3, 2);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (9, 4, 2);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (10, 7, 2);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (11, 8, 2);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (12, 9, 2);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (13, 10, 2);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (36, 23, 2);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (37, 24, 2);
+
+-- patient
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (14, 19, 4);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (15, 20, 4);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (16, 21, 4);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (17, 22, 4);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (18, 23, 4);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (19, 24, 4);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (20, 25, 4);
+
+-- medical staff
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (21, 11, 1);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (22, 12, 1);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (23, 13, 1);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (24, 14, 1);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (25, 15, 1);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (26, 16, 1);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (27, 17, 1);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (28, 18, 1);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (29, 19, 1);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (30, 22, 1);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (31, 23, 1);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (32, 24, 1);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (33, 7, 1);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (34, 8, 1);
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (35, 26, 1);
 
 
 
