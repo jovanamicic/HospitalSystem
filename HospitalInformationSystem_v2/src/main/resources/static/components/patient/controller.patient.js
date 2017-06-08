@@ -9,6 +9,11 @@ function PatientController($location, $stateParams, patientService,
 		medicalStaffService, localStorageService, $http, $scope, $state) {
 
 	var vm = this;
+	vm.isActive = false;
+	
+	vm.showProifleOptions = function() {
+		vm.isActive = !vm.isActive;
+	}
 	
 	vm.goToProfile = function() {
 		if($stateParams.id != null){

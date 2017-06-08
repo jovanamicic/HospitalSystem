@@ -5,7 +5,8 @@
 	<div id="main">
 
 		<!-- Header image -->
-		<img class='headerImage' ng-src="{{commonCtrl.headerImageSrc}}" style="height: 20em;" />
+		<img class='headerImage' ng-src="{{commonCtrl.headerImageSrc}}"
+			style="height: 20em;" />
 
 		<div class="inner" ui-view></div>
 	</div>
@@ -18,7 +19,8 @@
 			<div class="4u"
 				style="border: None; margin: 0 auto; display: table; width: 50%">
 				<span class="image fit"><img class='image' id="personPhoto"
-					ng-src={{commonCtrl.personImageSrc}} alt="" style="border-radius: 50%" /></span>
+					ng-src={{commonCtrl.personImageSrc}} alt=""
+					style="border-radius: 50%" /></span>
 			</div>
 
 			<!-- Menu -->
@@ -28,15 +30,17 @@
 						{{commonCtrl.loggedPerson.surname}}</h2>
 				</header>
 				<ul id="patientMenu">
-					<!--<li><span class="opener">Moj profil</span>
-							<ul>
-								<li><a ng-click="patientCtrl.goToProfile()">Osnovni podaci</a></li>
-								<li><a ng-click="patientCtrl.goToChangePassword()">Promeni lozinku</a></li>
-							</ul>
-						</li> -->
-					<li><a ng-click="patientCtrl.goToProfile()">Moj profil</a></li>
-					<li><a ng-click="patientCtrl.goToChangePassword()">Promeni lozinku</a></li>
-					<li><a ng-click="patientCtrl.goToRecord()">Zdravstveni karton</a></li>
+					<li ng-click="patientCtrl.showProifleOptions()"><span
+						ng-class="{'opener' : !patientCtrl.isActive, 'opener active' : patientCtrl.isActive}">Moj
+							profil</span>
+						<ul>
+							<li><a ng-click="patientCtrl.goToProfile()">Osnovni
+									podaci</a></li>
+							<li><a ng-click="patientCtrl.goToChangePassword()">Promeni
+									lozinku</a></li>
+						</ul></li>
+					<li><a ng-click="patientCtrl.goToRecord()">Zdravstveni
+							karton</a></li>
 					<li><a ng-click="patientCtrl.goToSchedule()">Kalendar</a></li>
 					<li><a ng-click="commonCtrl.logout()">Odjava</a></li>
 				</ul>
