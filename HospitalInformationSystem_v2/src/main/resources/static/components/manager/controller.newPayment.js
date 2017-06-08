@@ -89,11 +89,11 @@ function NewPaymentController($location, $stateParams, managerService, localStor
 			toastr.success("Nova uplata je snimljena.")
 			
 			vm.newPayment = {
-			account: '',
-			currency: '-',
-			recipient: '-',
-			amount: ''
-	}
+				account: '',
+				currency: '-',
+				recipient: '-',
+				amount: ''
+			}
 		})
 		.catch(function() {
 			vm.errorMessage = "Error saving new payment.";
