@@ -10,15 +10,21 @@ function PatientRecordController($location, $stateParams, patientService,
 
 	var vm = this;
 	vm.nameSurname = "";
+	vm.personalId;
 	vm.examinationShow = false;
 	vm.showBtns = true;
 	vm.asDoctor = false;
+	
+	vm.operationExamination = {};
+	vm.displayModal = "none";
+	
 	
 	vm.getProfile = function(){
 		if($stateParams.id != null){
 			vm.asDoctor = true;
 			patientService.getPatient($stateParams.id).then(
 					function(data){
+						vm.personalId = data.data.personalID;
 						vm.nameSurname = data.data.name + " "+ data.data.surname;
 					}).catch(function(data){
 						toastr.error("Dogodila se greška.");
@@ -72,4 +78,72 @@ function PatientRecordController($location, $stateParams, patientService,
 			}
 	};
 	
+	
+	vm.openModalOperation = function() {
+		vm.displayModal = "block";
+		vm.operationExamination.type = "Operacija"
+	}
+	
+	vm.openModalExamination = function() {
+		vm.displayModal = "block";
+		vm.operationExamination.type = "Pregled"
+	}
+	
+	vm.closeModal = function() {
+		vm.displayModal = "none";
+		vm.operationExamination = {};
+	}
+	
+	
+	vm.save = function() {
+		 var ok = checkInputs();
+		 vm.operationExamination.personalId = 444;
+		 if(ok){
+			 if(vm.operationExamination.type == "Operacija"){
+				 medicalStaffService.saveOperation(vm.operationExamination).then(function(data, status, headers, config) {
+					 vm.closeModal();
+					 toastr.info("Operacija je zakazana za datum " + vm.operationExamination.date);
+	
+				 }).catch(function(data, status, headers, config) {
+					 vm.errorMessageWrongPatientPersonalId = "Something went wrong with saving operation!";
+				 });
+			 }
+			 else if(vm.operationExamination.type == "Pregled"){
+				 medicalStaffService.saveExamination(vm.operationExamination).then(function(data, status, headers, config) {
+					 vm.closeModal();
+					 toastr.info("Pregled je zakazan za datum " + vm.operationExamination.date);
+								
+				 }).catch(function(data, status, headers, config) {
+					 vm.errorMessageWrongPatientPersonalId = "Something went wrong with saving exmination!";
+				 });
+			 }
+		 }
+	 }
+	
+	
+	vm.checkDate = function(){
+		medicalStaffService.checkBirthday(vm.operationExamination.date).then(
+				function(data){
+				}).catch(function(data){
+					vm.wrongDateFormat = true;
+				});
+	}
+	
+	function checkInputs() {
+		if (vm.operationExamination.name == null){
+			 vm.wrongName = true;
+			 return false;
+		 }
+		 if (vm.operationExamination.type == "Operacija"){
+			 if (vm.operationExamination.duration == null){
+				 vm.wrongDuration = true;
+				 return false;
+			 	}
+		 }
+		 if (vm.operationExamination.date == null){
+			 vm.wrongDate = true;
+			 return false;
+		 }
+		 return true;
+	 }
 }
