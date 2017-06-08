@@ -214,5 +214,15 @@ public class OperationController {
 		Page<Operation> operations = operationService.findByRecordId(page, patient.getPersonalID());
 		return new ResponseEntity<>(operations, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/my", method = RequestMethod.GET)
+	public ResponseEntity<Page<Operation>> getLoggedPatientOperations(@RequestHeader("X-Auth-Token") String token, @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
+		
+		String username = tokenUtils.getUsernameFromToken(token);
+		Person patient = personService.findByUsername(username);
+		
+		Page<Operation> retVal= operationService.findByRecordId(page, patient.getPersonalID());
+		return new ResponseEntity<>(retVal, HttpStatus.OK);
+	}
 
 }

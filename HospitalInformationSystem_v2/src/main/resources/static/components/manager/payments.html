@@ -33,7 +33,7 @@
 				</table>
 				
 				<dir-pagination-controls 
-					ng-show="paymentsCtrl.totalPages > 2" total-pages= {{paymentsCtrl.totalPages}}
+					ng-show="paymentsCtrl.totalPages > 1" total-pages= {{paymentsCtrl.totalPages}}
 					boundary-links="true"  direction-links="true" max-size="10"
 					on-page-change="paymentsCtrl.changePage()"
 					template-url="directives/dirPagination.tpl.html">

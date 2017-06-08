@@ -50,19 +50,20 @@
 	</div>
 	<div>
 		<div class="row uniform">
-			<div class="3u 12u$(xsmall)">
-				<a class="button special fit" onclick="resetPagExaminations()">Pregledi</a>
-			</div>
-			<div class="3u 12u$(xsmall)">
-				<a class="button fit" onclick="resetPagOperations()"
-					style="margin-bottom: 3em">Operacije</a>
-			</div>
+		<div class="3u 12u$(xsmall)">
+			<a  ng-class="patientRecordCtrl.examinationsBtnActive ? 'button special fit' : 'button fit'"
+				ng-click="patientRecordCtrl.getExaminationsPage(0)">Pregledi</a>
+		</div>
+		<div class="3u 12u$(xsmall)">
+			<a ng-class="patientRecordCtrl.operationsBtnActive ? 'button special fit' : 'button fit'" style="margin-bottom: 3em"
+				ng-click="patientRecordCtrl.getOperationsPage(0)">Operacije</a>
+		</div>
 		</div>
 
 		<div class="row 200%">
 			<div style="width: 100%">
-				<div class="table-wrapper">
-					<table class="alt" id="patientRecordTable" >
+				<div>
+					<table class="tableKMJ" >
 						<thead>
 							<tr>
 								<th>Datum</th>
@@ -70,13 +71,30 @@
 								<th>Doktor</th>
 							</tr>
 						</thead>
-
-						<tbody id="patientRecordBody">
-							<!-- dinam.add rows -->
+						<tr ng-hide="true" current-page="patientRecordCtrlcurrentPage" 
+							dir-paginate="record in patientRecordCtrl.allRecords | itemsPerPage: patientRecordCtrl.pageSize" >
+						</tr>	
+						<tbody>
+							<tr ng-repeat="record in patientRecordCtrl.allRecords">
+								<td title="Datum">{{ record.date | date:'dd.MM.yyyy'}}</td>
+								<td title="Naziv">{{ record.name }}</td>
+								<td title="Doktor" ng-show="record.doctor">
+									{{ record.doctor.name }} {{ record.doctor.surname }}
+								</td>
+								<td title="Doktor" ng-hide="record.doctor">
+									{{ record.headDoctor.name }} {{ record.headDoctor.surname }}
+								</td>
+							</tr>
 						</tbody>
 
 					</table>
-					<div class="pagination" id="patientRecordPag"></div>
+					
+					<dir-pagination-controls 
+						ng-show="patientRecordCtrl.totalPages > 1" total-pages= {{patientRecordCtrl.totalPages}}
+						boundary-links="true"  direction-links="true" max-size="10"
+						on-page-change="patientRecordCtrl.changePage()"
+						template-url="directives/dirPagination.tpl.html">
+					</dir-pagination-controls>
 				</div>
 			</div>
 		</div>

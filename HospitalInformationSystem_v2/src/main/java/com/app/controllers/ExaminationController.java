@@ -195,6 +195,16 @@ public class ExaminationController {
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/my", method = RequestMethod.GET)
+	public ResponseEntity<Page<Examination>> getLoggedPatientExaminations(@RequestHeader("X-Auth-Token") String token, @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
+		
+		String username = tokenUtils.getUsernameFromToken(token);
+		Person patient = personService.findByUsername(username);
+		
+		Page<Examination> retVal= examinationService.findByRecordIdPage(page, patient.getPersonalID());
+		return new ResponseEntity<>(retVal, HttpStatus.OK);
+	}
+	
 	/**
 	 * Function that deletes examination from DB
 	 * @return 

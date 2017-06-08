@@ -26,7 +26,7 @@
 							<th>Doktor</th>
 						</tr>
 					<thead>
-					<tr ng-hide="true" current-page="currentPage" 
+					<tr ng-hide="true" current-page="operationsCtrl.currentPage" 
 						dir-paginate="operation in operationsCtrl.allOperations | itemsPerPage: operationsCtrl.pageSize" >
 					</tr>
 					<tbody>
@@ -41,7 +41,7 @@
 				</table>
 				
 				<dir-pagination-controls 
-					ng-show="operationsCtrl.totalPages > 2" total-pages= {{operationsCtrl.totalPages}}
+					ng-show="operationsCtrl.totalPages > 1" total-pages= {{operationsCtrl.totalPages}}
 					boundary-links="true"  direction-links="true" max-size="10"
 					on-page-change="operationsCtrl.changePage()"
 					template-url="directives/dirPagination.tpl.html">

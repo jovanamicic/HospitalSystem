@@ -9,7 +9,11 @@ angular.module('hospitalApp.services').factory('patientService',
 				changePassword : changePassword,
 				getSchedule : getSchedule,
 				getOperationExaminationDetails : getOperationExaminationDetails,
-				saveExamination : saveExamination
+				saveExamination : saveExamination,
+				getExaminationsPage : getExaminationsPage,
+				getMyExaminationsPage : getMyExaminationsPage,
+				getOperationsPage : getOperationsPage,
+				getMyOperationsPage : getMyOperationsPage
 			}
 			return service;
 
@@ -47,5 +51,21 @@ angular.module('hospitalApp.services').factory('patientService',
 			
 			function saveExamination(e){
 				return $http.post('/examinations', e);
+			}
+			
+			function getExaminationsPage(page, id) {
+				return $http.get('/examinations/patients/' + id +'?page=' + page)
+			}
+			
+			function getMyExaminationsPage(page) {
+				return $http.get('/examinations/my?page=' + page)
+			}
+			
+			function getOperationsPage(page, id) {
+				return $http.get('/operations/patient/' + id +'?page=' + page)
+			}
+			
+			function getMyOperationsPage(page) {
+				return $http.get('/operations/my?page=' + page)
 			}
 		})

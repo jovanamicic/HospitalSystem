@@ -18,6 +18,16 @@ function PatientRecordController($location, $stateParams, patientService,
 	vm.operationExamination = {};
 	vm.displayModal = "none";
 	
+	vm.allRecords;
+	vm.displayExaminations = true;
+	
+	vm.currentPage = 1;
+	vm.pageSize = 10;
+	vm.totalPages;
+	
+	vm.examinationsBtnActive;
+	vm.operationsBtnActive;
+	
 	
 	vm.getProfile = function(){
 		if($stateParams.id != null){
@@ -26,6 +36,7 @@ function PatientRecordController($location, $stateParams, patientService,
 					function(data){
 						vm.personalId = data.data.personalID;
 						vm.nameSurname = data.data.name + " "+ data.data.surname;
+						vm.patientId = data.data.id;
 					}).catch(function(data){
 						toastr.error("Dogodila se greška.");
 					});
@@ -35,6 +46,7 @@ function PatientRecordController($location, $stateParams, patientService,
 			patientService.getLoggedPatient().then(
 					function(data){
 						vm.nameSurname = data.data.name + " "+ data.data.surname;
+						vm.patientId = data.data.id;
 					}).catch(function(data){
 						toastr.error("Dogodila se greška.");
 					});
@@ -146,4 +158,80 @@ function PatientRecordController($location, $stateParams, patientService,
 		 }
 		 return true;
 	 }
+	
+	
+	vm.getExaminationsPage = function(newPage){
+		
+		if($stateParams.id != null){
+			patientService.getExaminationsPage(newPage, $stateParams.id)
+			.then(function(result) {
+				vm.allRecords = result.data.content;
+				vm.totalPages = result.data.totalPages;
+				vm.totalRecords = result.data.totalElements;
+				vm.displayExaminations = true;
+				
+				vm.examinationsBtnActive = true;
+				vm.operationsBtnActive = false;
+			})
+			.catch(function() {
+				vm.errorMessage = "Error loadin examinations page.";
+			});
+		} else {
+			patientService.getMyExaminationsPage(newPage)
+			.then(function(result) {
+				vm.allRecords = result.data.content;
+				vm.totalPages = result.data.totalPages;
+				vm.totalRecords = result.data.totalElements;
+				vm.displayExaminations = true;
+				
+				vm.examinationsBtnActive = true;
+				vm.operationsBtnActive = false;
+			})
+			.catch(function() {
+				vm.errorMessage = "Error loadin examinations page.";
+			});
+		}
+	}
+	vm.getExaminationsPage(0);
+	
+	vm.getOperationsPage = function(newPage){
+		if($stateParams.id != null){
+			patientService.getOperationsPage(newPage, $stateParams.id)
+			.then(function(result) {
+				vm.allRecords = result.data.content;
+				vm.totalPages = result.data.totalPages;
+				vm.totalRecords = result.data.totalElements;
+				vm.displayOperationsExaminations = false;
+				
+				vm.examinationsBtnActive = false;
+				vm.operationsBtnActive = true;
+			})
+			.catch(function() {
+				vm.errorMessage = "Error loadin operations page.";
+			});
+		} else {
+			patientService.getMyOperationsPage(newPage)
+			.then(function(result) {
+				vm.allRecords = result.data.content;
+				vm.totalPages = result.data.totalPages;
+				vm.totalRecords = result.data.totalElements;
+				vm.displayExaminations = false;
+				
+				vm.examinationsBtnActive = false;
+				vm.operationsBtnActive = true;
+			})
+			.catch(function() {
+				vm.errorMessage = "Error loadin operations page.";
+			});
+		}
+	}
+	
+	vm.changePage = function() {
+		var newPage = vm.currentPage - 1;
+		
+		if (vm.displayExaminations)
+			vm.getExaminationsPage(newPage);
+		else
+			vm.getOperationsPage(newPage);
+	}
 }
