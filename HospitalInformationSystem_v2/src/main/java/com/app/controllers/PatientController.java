@@ -392,4 +392,21 @@ public class PatientController {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 	}
+	
+	@PreAuthorize("hasAnyAuthority('Edit_patient_profile', 'Add_new_patient')")
+	@RequestMapping(value= "/dateCheck", method = RequestMethod.POST)
+	public ResponseEntity<Void> checkDate(@RequestBody String date){
+		Date d = null;
+		try {
+			d = formatter.parse(date);
+		} catch (ParseException e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		if (d.before(new Date())){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		else {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+	}
 }

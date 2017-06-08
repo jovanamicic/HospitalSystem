@@ -15,6 +15,7 @@ angular.module('hospitalApp.services').factory('medicalStaffService',
 				checkPID : checkPID,
 				getDoctors : getDoctors,
 				addPatient : addPatient,
+				checkDate : checkDate,
 			}
 			return service;
 
@@ -72,6 +73,10 @@ angular.module('hospitalApp.services').factory('medicalStaffService',
 			
 			function addPatient(patient) {
 				return $http.post('patients',patient);
+			}
+			
+			function checkDate(date) {
+				return $http.post('patients/dateCheck', date);
 			}
 
 		})

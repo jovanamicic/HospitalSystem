@@ -122,7 +122,7 @@ function PatientRecordController($location, $stateParams, patientService,
 	
 	
 	vm.checkDate = function(){
-		medicalStaffService.checkBirthday(vm.operationExamination.date).then(
+		medicalStaffService.checkDate(vm.operationExamination.date).then(
 				function(data){
 				}).catch(function(data){
 					vm.wrongDateFormat = true;
