@@ -138,6 +138,8 @@ INSERT INTO `hospital`.`room` (`room_id`, `name`) VALUES ('4', 'Sala 4');
 
 -- RECORDS
 INSERT INTO `hospital`.`record` (`record_id`) VALUES ('4444');
+INSERT INTO `hospital`.`record` (`record_id`) VALUES ('0303197181012');
+INSERT INTO `hospital`.`record` (`record_id`) VALUES ('0404193781012');
 
 -- OPERATIONS
 INSERT INTO `hospital`.`operation` (`operation_id`, `date`, `duration`, `name`, `head_doctor_id`, `record_id`) VALUES ('1', '2017-05-20', '2', 'Operacija nosa', '1', '4444');

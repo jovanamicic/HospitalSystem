@@ -97,12 +97,12 @@ function PatientRecordController($location, $stateParams, patientService,
 	
 	vm.save = function() {
 		 var ok = checkInputs();
-		 vm.operationExamination.personalId = 444;
+		 vm.operationExamination.personalId = vm.personalId;
 		 if(ok){
 			 if(vm.operationExamination.type == "Operacija"){
 				 medicalStaffService.saveOperation(vm.operationExamination).then(function(data, status, headers, config) {
-					 vm.closeModal();
 					 toastr.info("Operacija je zakazana za datum " + vm.operationExamination.date);
+					 vm.closeModal();
 	
 				 }).catch(function(data, status, headers, config) {
 					 vm.errorMessageWrongPatientPersonalId = "Something went wrong with saving operation!";
@@ -110,8 +110,8 @@ function PatientRecordController($location, $stateParams, patientService,
 			 }
 			 else if(vm.operationExamination.type == "Pregled"){
 				 medicalStaffService.saveExamination(vm.operationExamination).then(function(data, status, headers, config) {
-					 vm.closeModal();
 					 toastr.info("Pregled je zakazan za datum " + vm.operationExamination.date);
+					 vm.closeModal();
 								
 				 }).catch(function(data, status, headers, config) {
 					 vm.errorMessageWrongPatientPersonalId = "Something went wrong with saving exmination!";
