@@ -12,7 +12,7 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     //MANAGER
     .state('manager', {
     	url: '/manager',
-    	templateUrl : 'components/manager/menu.html',
+    	templateUrl : 'components/manager/managerMenu.html',
     	controller : 'CommonController',
     	controllerAs: 'commonCtrl'
     })
