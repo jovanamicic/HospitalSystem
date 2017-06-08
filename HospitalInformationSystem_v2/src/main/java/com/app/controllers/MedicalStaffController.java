@@ -8,16 +8,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.converters.MedicalStaffScheduleConverter;
 import com.app.dto.ExaminationOperationDetailsDTO;
-import com.app.dto.ExaminationOperationIdDTO;
 import com.app.dto.MedicalStaffScheduleDTO;
-import com.app.dto.ObjectIDDTO;
 import com.app.dto.PersonLiteDTO;
 import com.app.model.Examination;
 import com.app.model.MedicalStaff;
@@ -28,7 +26,6 @@ import com.app.service.ExaminationService;
 import com.app.service.MedicalStaffService;
 import com.app.service.OperationService;
 import com.app.service.PersonService;
-import com.app.converters.*;
 
 @RestController
 @RequestMapping(value = "medicalstaff")

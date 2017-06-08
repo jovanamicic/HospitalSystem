@@ -1,12 +1,9 @@
 package com.app.controllers;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.PasswordDTO;
-import com.app.dto.PersonDTO;
 import com.app.dto.PersonDataDTO;
-import com.app.dto.PersonLiteDTO;
 import com.app.dto.RoleDTO;
 import com.app.model.Manager;
 import com.app.model.MedicalStaff;
@@ -69,16 +64,12 @@ public class PersonController {
 		Person person = personService.findByUsername(username);
 		Person p = personService.findOne(person.getId());
 		if(p != null){
-			System.out.println(dto.getOldPassword());
-			System.out.println(p.getPassword());
 			if (passwordEncoder.matches(dto.getOldPassword(), p.getPassword())) {
 				p.setPassword(passwordEncoder.encode(dto.getNewPassword()));
-				System.out.println("upisao u bazu");
 				p = personService.save(p);
 				return new ResponseEntity<>(HttpStatus.OK);
 			}
 			else{
-				System.out.println("lozinka ee ne posklapa");
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
 		}

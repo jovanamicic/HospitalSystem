@@ -25,7 +25,7 @@ public class Examination implements Serializable {
 	@Column(name = "examination_id", unique = true, nullable = false)
 	private int id;
 
-	@Column(name = "name", unique = false, nullable = true)
+	@Column(name = "name", unique = false, nullable = false)
 	private String name;
 	
 	@Column(name = "date", unique = false, nullable = false)

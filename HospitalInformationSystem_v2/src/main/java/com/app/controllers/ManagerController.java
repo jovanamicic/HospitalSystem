@@ -1,7 +1,5 @@
 package com.app.controllers;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +15,6 @@ import com.app.converters.ManagerConverter;
 import com.app.dto.ManagerDTO;
 import com.app.dto.PatientDTO;
 import com.app.model.Manager;
-import com.app.model.Person;
 import com.app.security.TokenUtils;
 import com.app.service.ManagerService;
 import com.app.service.PersonService;

@@ -12,10 +12,10 @@
 				<li class="fa-calendar" title="Datum">
 					{{examinationCtrl.examination.date | date:'dd.MM.yyyy'}}</li>
 				<li class="fa-hospital-o" title="Dijagnoza">
-					{{examinationCtrl.examination.diagnosis}}
+					{{examinationCtrl.examination.diagnosis ? examinationCtrl.examination.diagnosis : ' - '}}
 				</li>
 				<li class="fa-heartbeat" title="Simptomi">
-					{{examinationCtrl.examination.symptons}}
+					{{examinationCtrl.examination.symptons ? examinationCtrl.examination.symptons : ' - '}}
 				</li>
 				<li class="fa-tag" title="Vreme i sala">
 					<label class = "bold-italic">{{examinationCtrl.time}}</label>
