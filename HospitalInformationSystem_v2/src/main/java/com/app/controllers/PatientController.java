@@ -300,7 +300,7 @@ public class PatientController {
 	
 	@PreAuthorize("hasAuthority('Edit_patient_profile')")
 	@RequestMapping(method = RequestMethod.PUT, consumes = "application/json")
-	public ResponseEntity<Void> changeProfile(@RequestBody PatientDTO dto, @RequestHeader("X-Auth-Token") String token) {
+	public ResponseEntity<Void> changeProfile(@RequestHeader("X-Auth-Token") String token, @RequestBody PatientDTO dto) {
 		String username = tokenUtils.getUsernameFromToken(token);
 		Person person = personService.findByUsername(username);
 		Patient p = patientService.findOne(person.getId());

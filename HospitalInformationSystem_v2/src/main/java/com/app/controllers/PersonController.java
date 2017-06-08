@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -36,7 +38,8 @@ public class PersonController {
 	@Autowired
 	private TokenUtils tokenUtils;
 
-	
+	@Autowired 
+	private PasswordEncoder passwordEncoder;
 	
 	/**
 	 * Function that return person based on its ID.
@@ -66,13 +69,18 @@ public class PersonController {
 		Person person = personService.findByUsername(username);
 		Person p = personService.findOne(person.getId());
 		if(p != null){
-			if (p.getPassword().equals(dto.getOldPassword())){
-				p.setPassword(dto.getNewPassword());
+			System.out.println(dto.getOldPassword());
+			System.out.println(p.getPassword());
+			if (passwordEncoder.matches(dto.getOldPassword(), p.getPassword())) {
+				p.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+				System.out.println("upisao u bazu");
 				p = personService.save(p);
 				return new ResponseEntity<>(HttpStatus.OK);
 			}
-			else
+			else{
+				System.out.println("lozinka ee ne posklapa");
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
 		}
 		else
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

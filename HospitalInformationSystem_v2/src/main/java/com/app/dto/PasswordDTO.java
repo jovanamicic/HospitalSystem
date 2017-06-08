@@ -1,7 +1,10 @@
 package com.app.dto;
 
+import com.app.security.ValidPassword;
+
 public class PasswordDTO {
 	
+	@ValidPassword
 	private String newPassword;
 	private String oldPassword;
 	

@@ -3566,6 +3566,13 @@ input[type="submit"].disabled, input[type="submit"]:disabled, input[type="reset"
 	margin-left: 3%;
 }
 
+.errorSpan2 {
+	color: red;
+	font-size: small;
+	margin-left: 3%;
+	display: block;
+}
+
 
 /*
  TOGGLE BUTTON - GENERAL MANAGER - OPERACIJE
@@ -3666,3 +3673,6 @@ input[type="submit"].disabled, input[type="submit"]:disabled, input[type="reset"
 	background-color: #cfcfcf;
 }
 
+.disabled {
+  cursor: not-allowed;
+}

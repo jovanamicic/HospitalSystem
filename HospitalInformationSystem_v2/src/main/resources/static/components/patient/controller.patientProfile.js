@@ -16,7 +16,7 @@ function PatientProfileController($location, $stateParams,
 	
 	vm.loadPatient = function(){
 		if($stateParams.id != null){
-			vm.asDoctor = true; //hide all what doctor does not need
+			vm.asDoctor = true; // hide all what doctor does not need
 			patientService.getPatient($stateParams.id).then(
 					function(data){
 						vm.patient = data.data;
@@ -90,21 +90,78 @@ function PatientProfileController($location, $stateParams,
 		}
 	}
 	
+	vm.checkNewPassword = function() {
+		if (vm.newPassword.length < 8){
+			vm.passwordLenght = true;
+		}
+		else
+			vm.passwordLenght = false;
+		
+		if ((/[A-Z]/).test(vm.newPassword))
+			vm.passwordUpperCase = false;
+		else{
+			vm.passwordUpperCase = true;
+		}
+		
+		if (vm.newPassword.match(/\d+/g) == null)
+			vm.passwordNumber = true;
+		else{
+			vm.passwordNumber = false;
+		}
+		
+		if (!/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(vm.newPassword))
+			vm.passwordSpecialChar = true;
+		else{
+			vm.passwordSpecialChar = false;
+		}
+	}
+	
+	vm.checkRePassword = function() {
+		if(vm.newPassword != vm.newRPassword)
+			vm.newRePasswordWrong = true;
+		else
+			vm.newRePasswordWrong = false;
+	}
+	
 	vm.changePassword = function(){
-		if (vm.newPassword == vm.newRPassword && vm.oldPassword != "" && vm.newPassword != "" && vm.newRPassword != ""){
+		if (vm.oldPassword == "" || vm.oldPassword == null)
+			vm.oldPasswordEmpty = true;
+		
+		if (vm.newPassword == "" || vm.newPassword == null)
+			vm.passwordLenght = true;
+		
+		if (vm.newPassword != vm.newRPassword )
+			vm.newRePasswordWrong = true;
+		
+		if (vm.newPassword == vm.newRPassword && vm.oldPassword != "" && vm.newPassword != "" && vm.newRPassword != "" && vm.passwordLenght == false && vm.passwordUpperCase == false && vm.passwordNumber == false && vm.passwordSpecialChar == false){
 			vm.password = {
 					oldPassword : vm.oldPassword,
 					newPassword : vm.newPassword
 			};
 			patientService.changePassword(vm.password).then(function(data){
-				toastr.success("Vaša lozinka je uspešno izmenjena.")
+				toastr.success("Vaša lozinka je uspešno izmenjena.");
+				vm.clear();
 			}).catch(function(data){
-				toastr.error("Uneli ste pogrešnu staru lozinku. Molimo Vas pokušajte ponovo!");
+				vm.oldPasswordWrong = true;
 			});
 		}
 		else{
-			toastr.error("Dogodila se greška, molimo Vas pokušajte ponovo!");
+			toastr.error("Ispravite greške!");
 		}
+		
+	}
+	
+	vm.clear = function() {
+		vm.oldPassword = "";
+		vm.newPassword = "";
+		vm.newRPassword = "";
+		
+		vm.oldPasswordEmpty = false;
+		vm.newRePasswordWrong = false;
+		vm.passwordLenght = false;
+		vm.passwordUpperCase = false;
+		vm.passwordNumber = false;
+		vm.passwordSpecialChar = false;
 		
 	}
 	
