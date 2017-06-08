@@ -4,7 +4,7 @@ angular.module('hospitalApp.services').factory('managerService', function($http)
 			getPersonByToken : getPersonByToken,
 			getRoleByToken : getRoleByToken,
 			updateUser : updateUser ,
-			updatePassword : updatePassword,
+			changePassword : changePassword,
 			getAllOperationsPage : getAllOperationsPage,
 			getNewOperationsPage : getNewOperationsPage,
 			getAllExaminationsPage : getAllExaminationsPage,
@@ -23,7 +23,7 @@ angular.module('hospitalApp.services').factory('managerService', function($http)
 		return $http.put('managers', user);
 	}
 	
-	function updatePassword(passwords) {
+	function changePassword(passwords) {
 		return $http.put('/persons/password', passwords);
 	}
 	
