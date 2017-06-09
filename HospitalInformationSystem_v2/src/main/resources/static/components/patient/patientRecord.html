@@ -26,8 +26,9 @@
 
 		<div class="row 200%">
 			<div style="width: 100%">
-				<div>
-					<table class="tableKMJ" ng-hide="patientRecordCtrl.allRecords.length == 0">
+			
+				<div ng-if="patientRecordCtrl.displayExaminations">
+					<table class="tableKMJ" ng-hide="patientRecordCtrl.examinations.length == 0">
 						<thead>
 							<tr>
 								<th>Datum</th>
@@ -35,17 +36,52 @@
 								<th>Doktor</th>
 							</tr>
 						</thead>
-						<tr ng-hide="true" current-page="patientRecordCtrlcurrentPage" 
-							dir-paginate="record in patientRecordCtrl.allRecords | itemsPerPage: patientRecordCtrl.pageSize" >
+						<tr ng-hide="true" pagination-id="examinations"
+							current-page="patientRecordCtrl.currentPageExaminations" 
+							dir-paginate="record in patientRecordCtrl.examinations | itemsPerPage: patientRecordCtrl.pageSize" >
 						</tr>	
 						<tbody>
-							<tr ng-repeat="record in patientRecordCtrl.allRecords">
+							<tr ng-repeat="record in patientRecordCtrl.examinations">
 								<td title="Datum">{{ record.date | date:'dd.MM.yyyy'}}</td>
 								<td title="Naziv">{{ record.name }}</td>
 								<td title="Doktor" ng-show="record.doctor">
 									{{ record.doctor.name }} {{ record.doctor.surname }}
 								</td>
-								<td title="Doktor" ng-hide="record.doctor">
+							</tr>
+						</tbody>
+
+					</table>
+					
+					<h3 ng-show="patientRecordCtrl.examinations.length == 0" style="text-align: center; margin-top: 5%">Trenutno
+					nemata podataka u zdravstvenom kartonu.</h3>
+					
+					<dir-pagination-controls pagination-id="examinations"
+						ng-show="patientRecordCtrl.totalPagesExaminations > 1" 
+						total-pages= {{patientRecordCtrl.totalPagesExaminations}}
+						boundary-links="true"  direction-links="true" max-size="10"
+						on-page-change="patientRecordCtrl.changePageExaminations()"
+						template-url="directives/dirPagination.tpl.html">
+					</dir-pagination-controls>
+				</div>
+				
+				<div ng-if="patientRecordCtrl.displayExaminations == false">
+					<table class="tableKMJ" ng-hide="patientRecordCtrl.operations.length == 0">
+						<thead>
+							<tr>
+								<th>Datum</th>
+								<th>Naziv</th>
+								<th>Doktor</th>
+							</tr>
+						</thead>
+						<tr ng-hide="true" pagination-id="operations"
+							current-page="patientRecordCtrl.currentPageOperations" 
+							dir-paginate="record in patientRecordCtrl.operations | itemsPerPage: patientRecordCtrl.pageSize" >
+						</tr>	
+						<tbody>
+							<tr ng-repeat="record in patientRecordCtrl.operations">
+								<td title="Datum">{{ record.date | date:'dd.MM.yyyy'}}</td>
+								<td title="Naziv">{{ record.name }}</td>
+								<td title="Doktor">
 									{{ record.headDoctor.name }} {{ record.headDoctor.surname }}
 								</td>
 							</tr>
@@ -53,16 +89,18 @@
 
 					</table>
 					
-					<h3 ng-show="patientRecordCtrl.allRecords.length == 0" style="text-align: center; margin-top: 5%">Trenutno
+					<h3 ng-show="patientRecordCtrl.operations.length == 0" style="text-align: center; margin-top: 5%">Trenutno
 					nemata podataka u zdravstvenom kartonu.</h3>
 					
-					<dir-pagination-controls 
-						ng-show="patientRecordCtrl.totalPages > 1" total-pages= {{patientRecordCtrl.totalPages}}
+					<dir-pagination-controls pagination-id="operations"
+						ng-show="patientRecordCtrl.totalPagesOperations > 1" 
+						total-pages= {{patientRecordCtrl.totalPagesOperations}}
 						boundary-links="true"  direction-links="true" max-size="10"
-						on-page-change="patientRecordCtrl.changePage()"
+						on-page-change="patientRecordCtrl.changePageOperations()"
 						template-url="directives/dirPagination.tpl.html">
 					</dir-pagination-controls>
 				</div>
+				
 			</div>
 		</div>
 	</div>
