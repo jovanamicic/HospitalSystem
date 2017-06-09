@@ -1,11 +1,10 @@
-var app = angular.module('hospitalApp',
-				[ 'hospitalApp.controllers', 
-				  'hospitalApp.services',
-				  'hospitalApp.routes',
-				  'ui.router',
-				  'LocalStorageModule',
-				  'ui.calendar',
-				  'angularUtils.directives.dirPagination'])
+var app = angular
+		.module(
+				'hospitalApp',
+				[ 'hospitalApp.controllers', 'hospitalApp.services',
+						'hospitalApp.routes', 'ui.router',
+						'LocalStorageModule', 'ui.calendar',
+						'angularUtils.directives.dirPagination' ])
 		.config(
 				function($httpProvider) {
 					$httpProvider.interceptors
@@ -33,6 +32,8 @@ var app = angular.module('hospitalApp',
 												return $q.reject(response);
 											}
 										};
-									} ]);
+									} ])
+					//$httpProvider.interceptors
+					//		.push('CsrfTokenInterceptorService');
+					;
 				});
-

@@ -14,7 +14,7 @@
   "devDependencies": {},
   "resolutions": {
     "jquery": "^3.2.1",
-    "angular": "~1.4.x",
+    "angular": "^1.x",
     "moment": ">=2.5.0"
   }
 }
