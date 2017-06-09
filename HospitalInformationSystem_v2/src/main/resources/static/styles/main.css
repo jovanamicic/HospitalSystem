@@ -3665,7 +3665,7 @@ input[type="submit"].disabled, input[type="submit"]:disabled, input[type="reset"
 .tableKMJ {
 	margin-top: 10px;
 	align:center;
-	cursor: default;
+	cursor: pointer;
 }
 
 
