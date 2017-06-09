@@ -77,19 +77,23 @@ function PatientProfileController($location, $stateParams,
 	vm.loadPatient();
 	
 	vm.checkUsername = function(){
-		patientService.checkUsername(vm.patient.username).then(function(){
-					console.log("OK moze ovo");
-				}).catch(function(data){
-					toastr.error("Korisničko ime se već koristi! Unesite drugo.");
-				});
+		if(vm.patient.username != null){
+			patientService.checkUsername(vm.patient.username).then(function(){
+						console.log("OK moze ovo");
+					}).catch(function(data){
+						toastr.error("Korisničko ime se već koristi! Unesite drugo.");
+					});
+		}
 	}
 	
 	vm.checkEmail = function(){
+		if (vm.patient.email != null){
 		medicalStaffService.checkEmail(vm.patient.email).then(
 				function(data){
 				}).catch(function(data){
 					toastr.error("Email adresa se već koristi! Unesite drugu adresu.");
 				});
+		}
 	}
 	
 	vm.changeProfile = function(){

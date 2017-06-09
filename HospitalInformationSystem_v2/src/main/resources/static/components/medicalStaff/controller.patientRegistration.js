@@ -32,28 +32,35 @@ function MedicalStaffPatientRegistrationController($location, $stateParams,
 	
 	
 	vm.checkEmail = function(){
+		console.log(vm.email);
+		if (vm.email != null){
 		medicalStaffService.checkEmail(vm.email).then(
 				function(data){
 				}).catch(function(data){
 					toastr.error("Email adresa se već koristi! Unesite drugu adresu.");
 				});
+		}
 	}
 	
 	//check if bday is before today
 	vm.checkBirthday = function(){
-		medicalStaffService.checkBirthday(vm.birthday).then(
-				function(data){
-				}).catch(function(data){
-					toastr.error("Uneli ste neispravan datum!");
-				});
+		if(vm.birthday != null){
+			medicalStaffService.checkBirthday(vm.birthday).then(
+					function(data){
+					}).catch(function(data){
+						toastr.error("Uneli ste neispravan datum!");
+					});
+		}
 	}
 	
 	vm.checkPID = function(){
-		medicalStaffService.checkPID(vm.personalID).then(
-				function(data){
-				}).catch(function(data){
-					toastr.error("JMBG se već koristi!");
-				});
+		if (vm.personalID != null){
+			medicalStaffService.checkPID(vm.personalID).then(
+					function(data){
+					}).catch(function(data){
+						toastr.error("JMBG se već koristi!");
+					});
+		}
 	}
 	
 	vm.addPatient = function(){
