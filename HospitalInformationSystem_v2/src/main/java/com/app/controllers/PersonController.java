@@ -39,21 +39,6 @@ public class PersonController {
 	@Autowired 
 	private PasswordEncoder passwordEncoder;
 	
-	/**
-	 * Function that return person based on its ID.
-	 * @param ID of a person.
-	 * @return Person object.
-	 */
-	@RequestMapping(value = "/getPerson/{personID}", method = RequestMethod.GET)
-	public ResponseEntity<PersonDataDTO> getPerson(@PathVariable int personID){
-		Person person = personService.findOne(personID);
-		
-		if(person == null)
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		
-		PersonDataDTO retVal = new PersonDataDTO(person.getName(), person.getSurname(), person.getUsername(), person.getPhoto(), person.getEmail());
-		return new ResponseEntity<>(retVal, HttpStatus.OK);
-	}
 	
 	/** Function that update users password.
 	 * @param dto old and new passwords.

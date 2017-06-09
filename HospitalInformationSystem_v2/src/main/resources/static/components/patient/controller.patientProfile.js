@@ -7,12 +7,13 @@ PatientProfileController.$inject = [ '$location', '$stateParams',
 		'$state' ];
 
 function PatientProfileController($location, $stateParams,
-		patientService, medicalStaffService, localStorageService, $http, $scope, $state) {
+		patientService, medicalStaffService, localStorageService, $http, $scope, $stat) {
 
 	var vm = this;
 	vm.patient = {};
 	vm.doctor = "";
 	vm.asDoctor = false;
+	
 	
 	vm.loadPatient = function(){
 		if($stateParams.id != null){
