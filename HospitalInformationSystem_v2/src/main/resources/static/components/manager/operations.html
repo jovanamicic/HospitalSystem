@@ -19,7 +19,7 @@
 		<div style="width: 100%">
 		
 			<div ng-if="operationsCtrl.displayOnlyNew">
-				<table class="tableKMJ">
+				<table class="tableKMJ" ng-hide="operationsCtrl.newOperations.length == 0">
 					<thead>
 						<tr>
 							<th>Datum</th>
@@ -41,6 +41,10 @@
 					</tbody>
 				</table>
 				
+				<h3 ng-show="operationsCtrl.newOperations.length == 0" style="text-align: center; margin-top: 5%">
+					Trenutno nema novih operacija.
+				</h3>
+				
 				<dir-pagination-controls pagination-id="new"
 					ng-show="operationsCtrl.totalPagesNew > 1" 
 					total-pages={{operationsCtrl.totalPagesNew}}
@@ -51,7 +55,7 @@
 			</div>
 			
 			<div ng-if ="operationsCtrl.displayOnlyNew == false">
-				<table class="tableKMJ">
+				<table class="tableKMJ" ng-hide="operationsCtrl.allOperations.length == 0">
 					<thead>
 						<tr>
 							<th>Datum</th>
@@ -72,6 +76,10 @@
 						</tr>
 					</tbody>
 				</table>
+				
+				<h3 ng-show="operationsCtrl.allOperations.length == 0" style="text-align: center; margin-top: 5%">
+					Trenutno nema operacija.
+				</h3>
 				
 				<dir-pagination-controls pagination-id="all"
 					ng-show="operationsCtrl.totalPagesAll > 1" 

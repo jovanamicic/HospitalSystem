@@ -19,7 +19,7 @@
 		<div style="width: 100%">
 		
 			<div ng-if="examinationsCtrl.displayOnlyNew">
-				<table class="tableKMJ">
+				<table class="tableKMJ" ng-hide="examinationsCtrl.newExaminations.length == 0">
 					<thead>
 						<tr>
 							<th>Datum</th>
@@ -41,6 +41,10 @@
 					</tbody>
 				</table>
 				
+				<h3 ng-show="examinationsCtrl.newExaminations.length == 0" style="text-align: center; margin-top: 5%">
+					Trenutno nema novih pregleda.
+				</h3>
+				
 				<!-- PAGINATION CONTROLLS -->
 				<dir-pagination-controls pagination-id="new"
 					ng-show="examinationsCtrl.totalPagesNew > 1" 
@@ -52,7 +56,7 @@
 			</div>
 		
 			<div ng-if="examinationsCtrl.displayOnlyNew == false">
-				<table class="tableKMJ">
+				<table class="tableKMJ" ng-hide="examinationsCtrl.allExaminations.length == 0">
 					<thead>
 						<tr>
 							<th>Datum</th>
@@ -73,6 +77,10 @@
 						</tr>
 					</tbody>
 				</table>
+				
+				<h3 ng-show="examinationsCtrl.allExaminations.length == 0" style="text-align: center; margin-top: 5%">
+					Trenutno nema pregleda.
+				</h3>
 				
 				<!-- PAGINATION CONTROLLS -->
 				<dir-pagination-controls pagination-id="all"
