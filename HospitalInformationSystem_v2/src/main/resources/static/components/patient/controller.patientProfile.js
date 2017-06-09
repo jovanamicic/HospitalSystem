@@ -16,6 +16,10 @@ function PatientProfileController($location, $stateParams,
 	vm.showRecord = false;
 	vm.startExaminationShow = false;
 	
+	vm.operationExamination = {};
+	vm.displayModal = "none";
+	
+	vm.patientNameSurname;
 	
 	vm.loadPatient = function(){
 		if($stateParams.id != null){
@@ -23,6 +27,7 @@ function PatientProfileController($location, $stateParams,
 			patientService.getPatient($stateParams.id).then(
 					function(data){
 						vm.patient = data.data;
+						vm.patientNameSurname = data.data.name + " " + data.data.surname;
 						if (vm.patient.doctor != -1) {
 							patientService.getPerson(vm.patient.doctor).then(
 								function(data){
@@ -77,19 +82,24 @@ function PatientProfileController($location, $stateParams,
 	vm.loadPatient();
 	
 	vm.checkUsername = function(){
-		patientService.checkUsername(vm.patient.username).then(function(){
-					console.log("OK moze ovo");
-				}).catch(function(data){
-					toastr.error("Korisničko ime se već koristi! Unesite drugo.");
-				});
+		
+		if(vm.patient.username != ""){
+			patientService.checkUsername(vm.patient.username).then(function(){
+						console.log("OK moze ovo");
+					}).catch(function(data){
+						toastr.error("Korisničko ime se već koristi! Unesite drugo.");
+					});
+		}
 	}
 	
 	vm.checkEmail = function(){
+		if (vm.patient.email != "" || vm.patient.email != null){
 		medicalStaffService.checkEmail(vm.patient.email).then(
 				function(data){
 				}).catch(function(data){
 					toastr.error("Email adresa se već koristi! Unesite drugu adresu.");
 				});
+		}
 	}
 	
 	vm.changeProfile = function(){
@@ -187,6 +197,7 @@ function PatientProfileController($location, $stateParams,
 		vm.passwordUpperCase = false;
 		vm.passwordNumber = false;
 		vm.passwordSpecialChar = false;
+		vm.wrongDateFormat = false;
 	}
 	
 	vm.startExamination = function(){
@@ -212,5 +223,80 @@ function PatientProfileController($location, $stateParams,
 		    	});
 		 }
 	};
+	
+	vm.openModalOperation = function() {
+		vm.displayModal = "block";
+		vm.operationExamination.type = "Operacija"
+	}
+	
+	vm.openModalExamination = function() {
+		vm.displayModal = "block";
+		vm.operationExamination.type = "Pregled"
+	}
+	
+	vm.closeModal = function() {
+		vm.displayModal = "none";
+		vm.operationExamination = {};
+		vm.clear();
+	}
+	
+	
+	vm.save = function() {
+		 var ok = checkInputs();
+		 vm.operationExamination.personalId = vm.patient.personalID;
+		 if(ok){
+			 if(vm.operationExamination.type == "Operacija"){
+				 medicalStaffService.saveOperation(vm.operationExamination).then(function(data, status, headers, config) {
+					 toastr.info("Operacija je zakazana za datum " + vm.operationExamination.date);
+					 vm.closeModal();
+					 vm.getExaminationsPage(0);
+	
+				 }).catch(function(data, status, headers, config) {
+					 vm.errorMessageWrongPatientPersonalId = "Something went wrong with saving operation!";
+				 });
+			 }
+			 else if(vm.operationExamination.type == "Pregled"){
+				 medicalStaffService.saveExamination(vm.operationExamination).then(function(data, status, headers, config) {
+					 toastr.info("Pregled je zakazan za datum " + vm.operationExamination.date);
+					 vm.closeModal();
+					 vm.getExaminationsPage(0);
+								
+				 }).catch(function(data, status, headers, config) {
+					 vm.errorMessageWrongPatientPersonalId = "Something went wrong with saving exmination!";
+				 });
+			 }
+		 }
+	 }
+	
+	
+	vm.checkDate = function(){
+		medicalStaffService.checkDate(vm.operationExamination.date).then(
+				function(data){
+					vm.wrongDateFormat = false;
+				}).catch(function(data){
+					vm.wrongDateFormat = true;
+				});
+	}
+	
+	function checkInputs() {
+		if (vm.operationExamination.name == null){
+			 vm.wrongName = true;
+			 return false;
+		 }
+		 if (vm.operationExamination.type == "Operacija"){
+			 if (vm.operationExamination.duration == null){
+				 vm.wrongDuration = true;
+				 return false;
+			 	}
+		 }
+		 if (vm.operationExamination.date == null){
+			 vm.wrongDate = true;
+			 return false;
+		 }
+		 if (vm.wrongDateFormat == true){
+			 return false;
+		 }
+		 return true;
+	 }
 	
 }

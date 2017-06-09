@@ -33,6 +33,8 @@ import com.app.model.Operation;
 import com.app.model.Patient;
 import com.app.model.Person;
 import com.app.model.Record;
+import com.app.model.Role;
+import com.app.model.RoleMember;
 import com.app.security.TokenUtils;
 import com.app.service.AddressService;
 import com.app.service.ExaminationService;
@@ -41,6 +43,8 @@ import com.app.service.OperationService;
 import com.app.service.PatientService;
 import com.app.service.PersonService;
 import com.app.service.RecordService;
+import com.app.service.RoleMemberService;
+import com.app.service.RoleService;
 
 @RestController
 @RequestMapping(value = "patients")
@@ -49,7 +53,6 @@ public class PatientController {
 	private static final int DEFAULT_PAGE_SIZE = 10;
 	private static final int DEFAULT_PAGE_NUMBER = 0;
 	private SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy"); 
-	
 	
 	@Autowired
 	private PatientService patientService;
@@ -77,6 +80,12 @@ public class PatientController {
 	
 	@Autowired 
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private RoleMemberService roleMemberService;
+	
+	@Autowired
+	private RoleService roleService;
 	
 	
 	/** Function that register new patient on system.
@@ -121,14 +130,19 @@ public class PatientController {
 			patient.setBirthday(birthday);
 		}
 		patient.setUsername(patient.getName().toLowerCase()+patient.getSurname().toLowerCase());
-		
-		
 		patient.setPassword(passwordEncoder.encode("lozinka"));
-		
+
 		patient = patientService.save(patient);
 		
+		//Patient role
+		Role role = roleService.findByName("ROLE_PATIENT");
+		RoleMember rm = new RoleMember();
+		rm.setPerson(patient);
+		rm.setRole(role);
+		roleMemberService.save(rm);
+		
 		Record record = new Record();
-		record.setId(patient.getPersonalID());
+		record.setId(patient.getPersonalID());  //TODO code ID of record
 		record.setExaminations(new HashSet<Examination>());
 		record.setOperations(new HashSet<Operation>());
 		
@@ -334,12 +348,15 @@ public class PatientController {
 			p.setAddress(address);
 		}
 		
-		if(personService.emailUnique(dto.getEmail()))
-			p.setEmail(dto.getEmail());
+		if(dto.getEmail()!=null){
+			if(personService.emailUnique(dto.getEmail()))
+				p.setEmail(dto.getEmail());
+		}
 		
-		if(personService.usernameUnique(dto.getUsername()))
-			p.setUsername(dto.getUsername());
-		
+		if(dto.getUsername() != null){
+			if(personService.usernameUnique(dto.getUsername()))
+				p.setUsername(dto.getUsername());
+		}
 		patientService.save(p);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

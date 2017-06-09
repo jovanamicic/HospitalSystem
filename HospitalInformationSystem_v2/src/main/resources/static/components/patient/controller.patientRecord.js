@@ -12,8 +12,6 @@ function PatientRecordController($location, $stateParams, patientService,
 	vm.nameSurname = "";
 	vm.personalId;
 	
-	vm.operationExamination = {};
-	vm.displayModal = "none";
 	
 	vm.examinations;
 	vm.operations;
@@ -66,75 +64,6 @@ function PatientRecordController($location, $stateParams, patientService,
 	};
 	
 	
-	vm.openModalOperation = function() {
-		vm.displayModal = "block";
-		vm.operationExamination.type = "Operacija"
-	}
-	
-	vm.openModalExamination = function() {
-		vm.displayModal = "block";
-		vm.operationExamination.type = "Pregled"
-	}
-	
-	vm.closeModal = function() {
-		vm.displayModal = "none";
-		vm.operationExamination = {};
-	}
-	
-	
-	vm.save = function() {
-		 var ok = checkInputs();
-		 vm.operationExamination.personalId = vm.personalId;
-		 if(ok){
-			 if(vm.operationExamination.type == "Operacija"){
-				 medicalStaffService.saveOperation(vm.operationExamination).then(function(data, status, headers, config) {
-					 toastr.info("Operacija je zakazana za datum " + vm.operationExamination.date);
-					 vm.closeModal();
-					 vm.getExaminationsPage(0);
-	
-				 }).catch(function(data, status, headers, config) {
-					 vm.errorMessageWrongPatientPersonalId = "Something went wrong with saving operation!";
-				 });
-			 }
-			 else if(vm.operationExamination.type == "Pregled"){
-				 medicalStaffService.saveExamination(vm.operationExamination).then(function(data, status, headers, config) {
-					 toastr.info("Pregled je zakazan za datum " + vm.operationExamination.date);
-					 vm.closeModal();
-					 vm.getExaminationsPage(0);
-								
-				 }).catch(function(data, status, headers, config) {
-					 vm.errorMessageWrongPatientPersonalId = "Something went wrong with saving exmination!";
-				 });
-			 }
-		 }
-	 }
-	
-	
-	vm.checkDate = function(){
-		medicalStaffService.checkDate(vm.operationExamination.date).then(
-				function(data){
-				}).catch(function(data){
-					vm.wrongDateFormat = true;
-				});
-	}
-	
-	function checkInputs() {
-		if (vm.operationExamination.name == null){
-			 vm.wrongName = true;
-			 return false;
-		 }
-		 if (vm.operationExamination.type == "Operacija"){
-			 if (vm.operationExamination.duration == null){
-				 vm.wrongDuration = true;
-				 return false;
-			 	}
-		 }
-		 if (vm.operationExamination.date == null){
-			 vm.wrongDate = true;
-			 return false;
-		 }
-		 return true;
-	 }
 	
 	
 	vm.getExaminationsPage = function(newPage){
