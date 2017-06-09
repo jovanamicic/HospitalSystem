@@ -35,6 +35,7 @@ function LoginController($location, $stateParams, loginService, localStorageServ
 				
 					
 				}).catch(function(data, status, headers, config) {
+					toastr.error("Pogrešno korisničko ime ili lozinka. Molimo Vas pokušajte ponovo!");
 					vm.errorMessage = "Wrong email or password, try again!";
 		});
 	}
