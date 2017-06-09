@@ -64,7 +64,13 @@ public class OperationController {
 	@Autowired
 	private TokenUtils tokenUtils;
 
-	
+	/**
+	 * Function that creates new operation.
+	 * @param token
+	 * @param operation
+	 * @return
+	 * @throws ParseException
+	 */
 	@PreAuthorize("hasAuthority('Add_new_operation')")
 	@RequestMapping(value = "/saveOperation", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<Operation> saveOperation(@RequestHeader("X-Auth-Token") String token,
@@ -102,23 +108,37 @@ public class OperationController {
 	}
 
 	/**
-	 * Function that update time and room for operation
-	 * 
+	 * Function that update time and room for operation.
+	 * @param token
+	 * @param o
 	 * @return
-	 * @throws ParseException
 	 */
 	@PreAuthorize("hasAuthority('Edit_operation')")
 	@RequestMapping(value = "/saveTimeAndRoom", method = RequestMethod.PUT)
-	public ResponseEntity<Operation> updateOperation(@RequestHeader("X-Auth-Token") String token, @RequestBody OperationUpdateDTO o) throws ParseException {
+	public ResponseEntity<Operation> updateOperation(@RequestHeader("X-Auth-Token") String token,
+			@RequestBody OperationUpdateDTO o) {
 		Operation retVal = operationService.findById(o.getOperationId());
 
+		if (retVal == null)
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		
 		Room room = roomService.findOne(o.getRoomId());
+		
+		if (room == null)
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		
 		retVal.setRoom(room);
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-		Date convertedDate = sdf.parse(o.getDate());
-		retVal.setDate(convertedDate);
-
+		Date convertedDate;
+		try {
+			convertedDate = sdf.parse(o.getDate());
+			retVal.setDate(convertedDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
 		retVal = operationService.save(retVal);
 
 		// save room schedule
@@ -133,14 +153,14 @@ public class OperationController {
 
 	/**
 	 * Function gets data about one operation.
-	 * 
+	 * @param token
 	 * @param id
-	 *            of Operation.
-	 * @return Data about Operation.
+	 * @return
 	 */
 	@PreAuthorize("hasAuthority('View_operation')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<OperationDTO> getOperation(@RequestHeader("X-Auth-Token") String token, @PathVariable int id) {
+	public ResponseEntity<OperationDTO> getOperation(@RequestHeader("X-Auth-Token") String token,
+			@PathVariable int id) {
 
 		Operation o = operationService.findById(id);
 
@@ -150,6 +170,7 @@ public class OperationController {
 				OperationDTO retVal = OperationConverter.toDTO(o, (Patient) p);
 				return new ResponseEntity<>(retVal, HttpStatus.OK);
 			} catch (Exception e) {
+				e.printStackTrace();
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
 		}
@@ -158,10 +179,10 @@ public class OperationController {
 	}
 
 	/**
-	 * Function returns operations.
-	 * 
+	 * Function returns operations pageable.
+	 * @param token
 	 * @param page
-	 * @return Page of operations.
+	 * @return
 	 */
 	@PreAuthorize("hasAuthority('View_all_operations')")
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
@@ -169,15 +190,14 @@ public class OperationController {
 			@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page) {
 
 		Page<Operation> operations = operationService.findAllPage(page);
-		System.out.println(operations.getContent().size());
 		return new ResponseEntity<>(operations, HttpStatus.OK);
 	}
 
 	/**
-	 * Function returns all new operations.
-	 * 
+	 * Function returns all new operations pageable.
+	 * @param token
 	 * @param page
-	 * @return Page of new operations.
+	 * @return
 	 */
 	@PreAuthorize("hasAuthority('View_all_operations')")
 	@RequestMapping(value = "/newOperations", method = RequestMethod.GET)
@@ -189,9 +209,9 @@ public class OperationController {
 	}
 
 	/**
-	 * Function that deletes operation from DB
-	 * 
-	 * @return
+	 * Function that deletes operation from DB.
+	 * @param token
+	 * @param id
 	 */
 	@PreAuthorize("hasAuthority('Delete_operation')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -200,28 +220,48 @@ public class OperationController {
 	}
 
 	/**
-	 * Function returns all operations of patient.
-	 * 
+	 * Function returns all operations of patient pageable.
+	 * @param token
+	 * @param id
 	 * @param page
-	 * @return Page of new operations.
+	 * @return
 	 */
-	@RequestMapping(value = "/patient/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Page<Operation>> getOperationsOfPatientPageable(@PathVariable int id,
+	@PreAuthorize("hasAuthority('View_patient_record')")
+	@RequestMapping(value = "/patients/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Page<Operation>> getOperationsOfPatientPageable(@RequestHeader("X-Auth-Token") String token,
+			@PathVariable int id,
 			@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page) {
 
-		Person patient = personService.findOne(id);
+		Patient patient = patientService.findOne(id);
+		
+		if (patient == null)
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		String username = tokenUtils.getUsernameFromToken(token);
+		Person person = personService.findByUsername(username);
+
+		if (patient.getChosenDoctor().getId() != person.getId())
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
 		Page<Operation> operations = operationService.findByRecordId(page, patient.getPersonalID());
 		return new ResponseEntity<>(operations, HttpStatus.OK);
 	}
-	
+
+	/**
+	 * Function that returns all operations of logged patient.
+	 * @param token
+	 * @param page
+	 * @return
+	 */
+	@PreAuthorize("hasAuthority('View_patient_record')")
 	@RequestMapping(value = "/my", method = RequestMethod.GET)
-	public ResponseEntity<Page<Operation>> getLoggedPatientOperations(@RequestHeader("X-Auth-Token") String token, @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
-		
+	public ResponseEntity<Page<Operation>> getLoggedPatientOperations(@RequestHeader("X-Auth-Token") String token,
+			@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page) {
+
 		String username = tokenUtils.getUsernameFromToken(token);
 		Person patient = personService.findByUsername(username);
-		
-		Page<Operation> retVal= operationService.findByRecordId(page, patient.getPersonalID());
+
+		Page<Operation> retVal = operationService.findByRecordId(page, patient.getPersonalID());
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 

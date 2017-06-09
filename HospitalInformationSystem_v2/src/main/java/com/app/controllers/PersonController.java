@@ -40,10 +40,11 @@ public class PersonController {
 	private PasswordEncoder passwordEncoder;
 	
 	
-	/** Function that update users password.
-	 * @param dto old and new passwords.
-	 * @param session
-	 * @return Status code.
+	/** 
+	 * Function that update users password.
+	 * @param dto Old and new passwords
+	 * @param token
+	 * @return
 	 */
 	@PreAuthorize("hasAnyAuthority('Edit_patient_password', 'Edit_manager_password')")
 	@RequestMapping(value = "/password", method = RequestMethod.PUT)
@@ -84,10 +85,8 @@ public class PersonController {
 	
 	/**
 	 * Function that returns logged person role.
-	 * 
 	 * @param token
-	 *            Session token from header.
-	 * @return Person role.
+	 * @return
 	 */
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/roleByToken", method = RequestMethod.GET)
@@ -109,9 +108,9 @@ public class PersonController {
 	}
 	
 	/**
-	 * Function that return logged person
+	 * Function that return logged person.
 	 * @param token
-	 * @return logged person details
+	 * @return
 	 */
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/personByToken", method = RequestMethod.GET)
@@ -127,8 +126,16 @@ public class PersonController {
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 	
+	
+	/**
+	 * Function that returns data of person.
+	 * @param token
+	 * @param personID
+	 * @return
+	 */
+	@PreAuthorize("hasAnyAuthority('View_patient_profile', 'View_all_patients')")
 	@RequestMapping(value = "/{personID}", method = RequestMethod.GET)
-	public ResponseEntity<PersonDataDTO> getPersonData(@PathVariable int personID){
+	public ResponseEntity<PersonDataDTO> getPersonData(@RequestHeader("X-Auth-Token") String token, @PathVariable int personID){
 		Person person = personService.findOne(personID);
 		
 		if(person == null)

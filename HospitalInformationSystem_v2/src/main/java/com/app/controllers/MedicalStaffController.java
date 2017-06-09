@@ -48,9 +48,8 @@ public class MedicalStaffController {
 
 	/**
 	 * Function that returns all doctors.
-	 * 
-	 * @param page
-	 * @return Page of patients
+	 * @param token
+	 * @return
 	 */
 	@PreAuthorize("hasAuthority('View_all_medical_staff')")
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
@@ -67,15 +66,14 @@ public class MedicalStaffController {
 			}
 			return new ResponseEntity<>(retVal, HttpStatus.OK);
 		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 	/**
-	 * Function that return schedule for logged medical stuff
-	 * 
-	 * @param person
-	 *            id
-	 * @return all operations and examinations of logged medical stuff
+	 * Function that return schedule for logged medical stuff.
+	 * (all operations and examinations of logged medical stuff)
+	 * @param token
+	 * @return
 	 */
 	@PreAuthorize("hasAuthority('View_medical_staff_schedule')")
 	@RequestMapping(value = "/schedule", method = RequestMethod.GET)
@@ -92,11 +90,11 @@ public class MedicalStaffController {
 	}
 
 	/**
-	 * Function that return details of operation or examination
-	 * 
+	 * Function that return details of operation or examination.
+	 * @param token
 	 * @param type
-	 *            and id of examination/operation
-	 * @return details about operation or examination
+	 * @param id
+	 * @return
 	 */
 	@PreAuthorize("hasAnyAuthority('View_operation', 'View_examination')")
 	@RequestMapping(value = "/operationExaminationDetails/{type}/{id}", method = RequestMethod.GET)
@@ -105,8 +103,15 @@ public class MedicalStaffController {
 
 		if (type.equalsIgnoreCase("operacija")) {
 			Operation operation = operationService.findById(id);
+			
+			if (operation == null)
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
 			Person patient = personService.findByPersonalID(operation.getRecordOperation().getId());
 
+			if (patient == null)
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
 			retVal.setDate(operation.getDate().toString());
 			retVal.setDoctorId(operation.getHeadDoctor().getId());
 			retVal.setDoctor(operation.getHeadDoctor().getName() + " " + operation.getHeadDoctor().getSurname());
@@ -116,8 +121,15 @@ public class MedicalStaffController {
 			retVal.setPatientId(patient.getId());
 		} else {
 			Examination examination = examinationService.findById(id);
+			
+			if (examination == null)
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
 			Person patient = personService.findByPersonalID(examination.getRecord().getId());
 
+			if (patient == null)
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
 			retVal.setDate(examination.getDate().toString());
 			retVal.setDoctorId(examination.getDoctor().getId());
 			retVal.setDoctor(examination.getDoctor().getName() + " " + examination.getDoctor().getSurname());
@@ -130,17 +142,17 @@ public class MedicalStaffController {
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 
-	//ovo se mozda vise ne koristi
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<PersonLiteDTO> getDoctor(@PathVariable int id) {
-		MedicalStaff ms = medicalStaffService.findOne(id);
-		PersonLiteDTO retVal = new PersonLiteDTO();
-		if (ms != null) {
-			retVal.setName(ms.getName());
-			retVal.setSurname(ms.getSurname());
-			return new ResponseEntity<>(retVal, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
+//	//ovo se mozda vise ne koristi
+//	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+//	public ResponseEntity<PersonLiteDTO> getDoctor(@PathVariable int id) {
+//		MedicalStaff ms = medicalStaffService.findOne(id);
+//		PersonLiteDTO retVal = new PersonLiteDTO();
+//		if (ms != null) {
+//			retVal.setName(ms.getName());
+//			retVal.setSurname(ms.getSurname());
+//			return new ResponseEntity<>(retVal, HttpStatus.OK);
+//		}
+//		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//	}
 
 }

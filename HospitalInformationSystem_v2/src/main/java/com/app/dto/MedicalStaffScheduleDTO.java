@@ -1,9 +1,5 @@
 package com.app.dto;
 
-import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 public class MedicalStaffScheduleDTO {
 
 	private int id;

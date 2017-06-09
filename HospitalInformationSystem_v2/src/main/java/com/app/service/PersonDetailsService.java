@@ -14,12 +14,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.app.model.Permission;
 import com.app.model.Person;
 import com.app.model.Role;
-import com.app.model.RoleMember;
 import com.app.model.RolePermission;
-import com.app.repository.PermissionRepository;
 import com.app.repository.PersonRepository;
 
 @Service
@@ -28,9 +25,6 @@ public class PersonDetailsService implements UserDetailsService {
 	@Autowired
 	private PersonRepository personRepository;
 	
-	@Autowired
-	private PermissionRepository permissionRepository;
-
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String username) {

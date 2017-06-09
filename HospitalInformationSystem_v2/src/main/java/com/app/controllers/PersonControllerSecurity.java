@@ -34,6 +34,10 @@ public class PersonControllerSecurity {
 	@Autowired
 	TokenUtils tokenUtils;
 
+	/**
+	 * @param personDTO
+	 * @return
+	 */
 	@PreAuthorize("permitAll")
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<MyToken> login(@RequestBody PersonDTO personDTO) {

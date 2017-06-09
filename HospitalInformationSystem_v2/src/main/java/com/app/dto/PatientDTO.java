@@ -1,7 +1,5 @@
 package com.app.dto;
 
-import java.util.Date;
-
 public class PatientDTO {
 	
 	private String name;
