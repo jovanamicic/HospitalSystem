@@ -81,12 +81,51 @@
 				<a id="saveProfile" class="button special fit" ng-hide="patientProfileCtrl.asDoctor"
 					ng-click="patientProfileCtrl.changeProfile()">Sačuvaj</a>
 			</div>
+			<div class="6u 12u$(xsmall)" ng-show="patientProfileCtrl.asDoctor">
+				<a class="button special fit"
+					ng-click="patientProfileCtrl.startExamination()">Započni
+					pregled</a>
+			</div>
 
-			<div class="6u$ 12u$(xsmall)" id="recordBtn">
+			<div class="6u 12u$(xsmall)" ng-show="patientProfileCtrl.asDoctor">
+				<a ng-click="patientProfileCtrl.openModalExamination()" class="button fit">Zakaži pregled</a>
+			</div>
+			
+			<div class="6u 12u$(xsmall)" id="recordBtn" ng-show="patientProfileCtrl.showRecord">
 				<a ng-click="patientProfileCtrl.patientRecord()" class="button special fit">Zdravstveni
 					karton</a>
 			</div>
+			<div class="6u 12u$(xsmall)" ng-show="patientProfileCtrl.asDoctor">
+				<a ng-click="patientProfileCtrl.openModalOperation()" class="button fit"
+				id="Operacija">Zakaži operaciju</a>
+			</div>
 		</div>
 	</form>
-
+	<div id="examinationDiv" ng-show="patientProfileCtrl.startExaminationShow">
+		<form>
+			<div class="row uniform">
+				<div class="6u$">
+					<textarea rows="4" id="symptons" placeholder="Unesite simptome*"
+						ng-model="patientProfileCtrl.symptons" required></textarea>
+				</div>
+				<div class="6u$ ">
+					<textarea rows="4" id="diagnosis" placeholder="Unesite dijagnozu*"
+						ng-model="patientProfileCtrl.diagnosis" required></textarea>
+				</div>
+				<div class="6u$ ">
+					<textarea rows="4" id="therapy" placeholder="Unesite terapiju*"
+						ng-model="patientProfileCtrl.therapy" required></textarea>
+				</div>
+				<!-- Break -->
+				<div class="12u$">
+					<ul class="actions">
+						<li><a class="button special"
+							ng-click="patientProfileCtrl.saveExamination()">Završi</a></li>
+						<li><input type="reset" value="Otkaži"></li>
+					</ul>
+				</div>
+			</div>
+		</form>
+	</div>
+	
 </section>

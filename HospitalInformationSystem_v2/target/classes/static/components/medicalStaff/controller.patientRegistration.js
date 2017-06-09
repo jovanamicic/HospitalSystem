@@ -79,7 +79,7 @@ function MedicalStaffPatientRegistrationController($location, $stateParams,
 		medicalStaffService.addPatient(vm.patient).then(
 				function(data){
 					vm.patient = data;
-					//TODO relocation to patient profile + data.id
+					$state.go("medicalStaff.patients");
 				}).catch(function(data){
 					toastr.error("Dogodila se greška.");
 				});

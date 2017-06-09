@@ -2,7 +2,7 @@ angular.module('hospitalApp.services').factory('patientService',
 		function($http) {
 			var service = {
 				getPatient : getPatient,
-				getDoctor : getDoctor,
+				getPerson : getPerson,
 				checkUsername : checkUsername,
 				updatePatient : updatePatient,
 				getLoggedPatient : getLoggedPatient,
@@ -25,8 +25,8 @@ angular.module('hospitalApp.services').factory('patientService',
 				return $http.get('patients/');
 			}
 			
-			function getDoctor(id) {
-				return $http.get('medicalstaff/'+id);
+			function getPerson(id) {
+				return $http.get('persons/'+id);
 			}
 			
 			function checkUsername(username) {

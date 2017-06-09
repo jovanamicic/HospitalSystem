@@ -141,4 +141,18 @@ public class PersonController {
 
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/{personID}", method = RequestMethod.GET)
+	public ResponseEntity<PersonDataDTO> getPersonData(@PathVariable int personID){
+		Person person = personService.findOne(personID);
+		
+		if(person == null)
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		
+		PersonDataDTO retVal = new PersonDataDTO();
+		retVal.setName(person.getName());
+		retVal.setSurname(person.getSurname());
+		retVal.setUsername(person.getUsername());
+		return new ResponseEntity<>(retVal, HttpStatus.OK);
+	}
 }

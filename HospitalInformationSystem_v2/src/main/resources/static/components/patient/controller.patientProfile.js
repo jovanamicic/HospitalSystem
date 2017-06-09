@@ -3,16 +3,18 @@ angular.module('hospitalApp.controllers').controller(
 		PatientProfileController)
 
 PatientProfileController.$inject = [ '$location', '$stateParams',
-		'patientService', 'medicalStaffService', 'localStorageService', '$http', '$scope',
+		'patientService', 'medicalStaffService', 'commonService', 'localStorageService', '$http', '$scope',
 		'$state' ];
 
 function PatientProfileController($location, $stateParams,
-		patientService, medicalStaffService, localStorageService, $http, $scope, $state) {
+		patientService, medicalStaffService, commonService, localStorageService, $http, $scope, $state) {
 
 	var vm = this;
 	vm.patient = {};
 	vm.doctor = "";
 	vm.asDoctor = false;
+	vm.showRecord = false;
+	vm.startExaminationShow = false;
 	
 	vm.loadPatient = function(){
 		if($stateParams.id != null){
@@ -20,10 +22,23 @@ function PatientProfileController($location, $stateParams,
 			patientService.getPatient($stateParams.id).then(
 					function(data){
 						vm.patient = data.data;
-						patientService.getDoctor(vm.patient.doctor).then(
+						patientService.getPerson(vm.patient.doctor).then(
 								function(data){
 									var doc = data.data;
 									vm.doctor = doc.name + " " + doc.surname;
+									//check if chosen doctor is logged
+									commonService.getPersonByToken().then(
+											function(data, status, headers, config) {
+												vm.loggedPerson = data.data;
+												if (vm.loggedPerson.username == doc.username){
+													vm.showRecord = true;
+												}
+												else {
+													vm.showRecord = false;
+												}
+											}).catch(function(data, status, headers, config) {
+												console.log("Dogodila se greška.");
+									});
 								}).catch(function(data){
 									toastr.error("Dogodila se greška.");
 								});
@@ -36,10 +51,11 @@ function PatientProfileController($location, $stateParams,
 			patientService.getLoggedPatient().then(
 					function(data){
 						vm.patient = data.data;
-						patientService.getDoctor(vm.patient.doctor).then(
+						patientService.getPerson(vm.patient.doctor).then(
 								function(data){
 									var doc = data.data;
 									vm.doctor = doc.name + " " + doc.surname;
+									vm.showRecord = true;
 								}).catch(function(data){
 									toastr.error("Dogodila se greška.");
 								});
@@ -49,7 +65,6 @@ function PatientProfileController($location, $stateParams,
 		}
 	}
 	vm.loadPatient();
-
 	
 	vm.checkUsername = function(){
 		patientService.checkUsername(vm.patient.username).then(function(){
@@ -162,7 +177,30 @@ function PatientProfileController($location, $stateParams,
 		vm.passwordUpperCase = false;
 		vm.passwordNumber = false;
 		vm.passwordSpecialChar = false;
-		
 	}
+	
+	vm.startExamination = function(){
+		vm.startExaminationShow = true;
+	}
+	
+	vm.saveExamination = function(){
+		vm.startExaminationShow = false;
+		 if (vm.symptoms == "" || vm.diagnosis == "" || vm.therapy == ""){
+		    	toastr.error("Niste popunili sva polja!");
+		 }
+		 else {
+			 vm.examination = {
+					 patientID : $stateParams.id,
+					 symptons : vm.symtoms,
+					 diagnosis : vm.diagnosis,
+					 therapy : vm.therapy
+			 }
+		    	patientService.saveExamination(vm.examination).then(function(data){
+		    		toastr.info("Pregled je sačuvan!");
+		    	}).catch(function(data){
+		    		toastr.error("Dogodila se greška.");
+		    	});
+		 }
+	};
 	
 }

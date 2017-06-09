@@ -7,43 +7,7 @@
 					patientRecordCtrl.nameSurname }}</span></a>
 		</h2>
 	</header>
-	<div id="buttons" ng-show="patientRecordCtrl.asDoctor">
-		<a class="button special"
-			ng-click="patientRecordCtrl.startExamination()">Započni pregled</a>
-		<div style="float: right">
-			<a ng-click="patientRecordCtrl.openModalExamination()" class="button"
-				id="Pregled">Zakaži pregled</a> <a
-				ng-click="patientRecordCtrl.openModalOperation()" class="button"
-				id="Operacija">Zakaži operaciju</a>
-		</div>
-	</div>
 
-	<div id="examinationDiv" ng-show="patientRecordCtrl.examinationShow">
-		<form>
-			<div class="row uniform">
-				<div class="6u$">
-					<textarea rows="4" id="symptons" placeholder="Unesite simptome*"
-						ng-model="patientRecordCtrl.symptons" required></textarea>
-				</div>
-				<div class="6u$ ">
-					<textarea rows="4" id="diagnosis" placeholder="Unesite dijagnozu*"
-						ng-model="patientRecordCtrl.diagnosis" required></textarea>
-				</div>
-				<div class="6u$ ">
-					<textarea rows="4" id="therapy" placeholder="Unesite terapiju*"
-						ng-model="patientRecordCtrl.therapy" required></textarea>
-				</div>
-				<!-- Break -->
-				<div class="12u$" ng-show="patientRecordCtrl.showBtns">
-					<ul class="actions">
-						<li><a class="button special"
-							ng-click="patientRecordCtrl.saveExamination()">Završi</a></li>
-						<li><input type="reset" value="Otkaži"></li>
-					</ul>
-				</div>
-			</div>
-		</form>
-	</div>
 	<!-- Record -->
 	<div>
 		<p></p>

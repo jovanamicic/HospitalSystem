@@ -130,6 +130,7 @@ public class MedicalStaffController {
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 
+	//ovo se mozda vise ne koristi
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<PersonLiteDTO> getDoctor(@PathVariable int id) {
 		MedicalStaff ms = medicalStaffService.findOne(id);
