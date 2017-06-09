@@ -17,7 +17,8 @@
 
 	<div class="row 200%">
 		<div style="width: 100%">
-			<div>
+		
+			<div ng-if="examinationsCtrl.displayOnlyNew">
 				<table class="tableKMJ">
 					<thead>
 						<tr>
@@ -26,7 +27,40 @@
 							<th>Doktor</th>
 						</tr>
 					<thead>
-					<tr ng-hide="true" current-page="examinationsCtrl.currentPage" 
+					<tr ng-hide="true" current-page="examinationsCtrl.currentPageNew" pagination-id="new"
+						dir-paginate="examination in examinationsCtrl.newExaminations | itemsPerPage: examinationsCtrl.pageSize" >
+					</tr>
+					<tbody>
+						<tr ng-repeat="examination in examinationsCtrl.newExaminations"
+							ng-click="examinationsCtrl.showExamination(examination.id)">
+							<td title="Datum">{{ examination.date | date:'dd.MM.yyyy'}}</td>
+							<td title="Naziv">{{ examination.name }}</td>
+							<td title="Doktor">{{ examination.doctor.name }} {{
+								examination.doctor.surname }}</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<!-- PAGINATION CONTROLLS -->
+				<dir-pagination-controls pagination-id="new"
+					ng-show="examinationsCtrl.totalPagesNew > 1" 
+					total-pages={{examinationsCtrl.totalPagesNew}}
+					boundary-links="true"  direction-links="true" max-size="10"
+					on-page-change="examinationsCtrl.changePageNew()"
+					template-url="directives/dirPagination.tpl.html">
+				</dir-pagination-controls>
+			</div>
+		
+			<div ng-if="examinationsCtrl.displayOnlyNew == false">
+				<table class="tableKMJ">
+					<thead>
+						<tr>
+							<th>Datum</th>
+							<th>Naziv</th>
+							<th>Doktor</th>
+						</tr>
+					<thead>
+					<tr ng-hide="true" current-page="examinationsCtrl.currentPageAll" pagination-id="all"
 						dir-paginate="examination in examinationsCtrl.allExaminations | itemsPerPage: examinationsCtrl.pageSize" >
 					</tr>
 					<tbody>
@@ -40,14 +74,17 @@
 					</tbody>
 				</table>
 				
-				<dir-pagination-controls 
-					ng-show="examinationsCtrl.totalPages > 1" total-pages= {{examinationsCtrl.totalPages}}
+				<!-- PAGINATION CONTROLLS -->
+				<dir-pagination-controls pagination-id="all"
+					ng-show="examinationsCtrl.totalPagesAll > 1" 
+					total-pages={{examinationsCtrl.totalPagesAll}}
 					boundary-links="true"  direction-links="true" max-size="10"
-					on-page-change="examinationsCtrl.changePage()"
+					on-page-change="examinationsCtrl.changePageAll()"
 					template-url="directives/dirPagination.tpl.html">
 				</dir-pagination-controls>
 			</div>
-
 		</div>
+		
+		
 	</div>
 </section>

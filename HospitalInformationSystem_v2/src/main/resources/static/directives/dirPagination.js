@@ -102,7 +102,7 @@
                         }
                     });
                 }
-
+                
                 // Delegate to the link function returned by the new compilation of the ng-repeat
                 compiled(scope);
                     
@@ -231,7 +231,7 @@
                 onPageChange: '&?',
                 paginationId: '=?',
                 autoHide: '=?',
-                totalP: "@totalPages",
+                totalP: '@totalPages',
             },
             link: dirPaginationControlsLinkFn
         };
@@ -407,7 +407,8 @@
          */
         function generatePagesArray(currentPage, collectionLength, rowsPerPage, paginationRange) {
             var pages = [];
-            var totalPages = Math.ceil(collectionLength / rowsPerPage);
+            //var totalPages = Math.ceil(collectionLength / rowsPerPage);
+            var totalPages = collectionLength;
             var halfWay = Math.ceil(paginationRange / 2);
             var position;
 
