@@ -77,7 +77,8 @@ function PatientProfileController($location, $stateParams,
 	vm.loadPatient();
 	
 	vm.checkUsername = function(){
-		if(vm.patient.username != null){
+		
+		if(vm.patient.username != ""){
 			patientService.checkUsername(vm.patient.username).then(function(){
 						console.log("OK moze ovo");
 					}).catch(function(data){
@@ -87,7 +88,7 @@ function PatientProfileController($location, $stateParams,
 	}
 	
 	vm.checkEmail = function(){
-		if (vm.patient.email != null){
+		if (vm.patient.email != "" || vm.patient.email != null){
 		medicalStaffService.checkEmail(vm.patient.email).then(
 				function(data){
 				}).catch(function(data){
