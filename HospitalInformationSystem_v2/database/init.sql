@@ -83,7 +83,7 @@ INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALU
 INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (3, 4, 3);
 INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (4, 5, 3);
 INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (5, 6, 3);
-
+INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (38, 26, 3);
 -- general manager
 INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (6, 1, 2);
 INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (7, 2, 2);
