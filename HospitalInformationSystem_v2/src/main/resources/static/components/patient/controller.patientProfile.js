@@ -7,7 +7,11 @@ PatientProfileController.$inject = [ '$location', '$stateParams',
 		'$state' ];
 
 function PatientProfileController($location, $stateParams,
+<<<<<<< HEAD
 		patientService, medicalStaffService, commonService, localStorageService, $http, $scope, $state) {
+=======
+		patientService, medicalStaffService, localStorageService, $http, $scope, $stat) {
+>>>>>>> branch 'master' of https://github.com/missjo94/HospitalSystem.git
 
 	var vm = this;
 	vm.patient = {};
@@ -15,6 +19,7 @@ function PatientProfileController($location, $stateParams,
 	vm.asDoctor = false;
 	vm.showRecord = false;
 	vm.startExaminationShow = false;
+	
 	
 	vm.loadPatient = function(){
 		if($stateParams.id != null){
