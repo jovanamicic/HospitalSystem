@@ -52,7 +52,7 @@ public class PatientController {
 	
 	private static final int DEFAULT_PAGE_SIZE = 10;
 	private static final int DEFAULT_PAGE_NUMBER = 0;
-	private SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy"); 
+	private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy"); 
 	
 	@Autowired
 	private PatientService patientService;
