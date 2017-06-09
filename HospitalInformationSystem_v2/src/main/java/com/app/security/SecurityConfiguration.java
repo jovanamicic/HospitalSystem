@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
@@ -62,10 +63,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
 		//if we use AngularJS on client side
-		.and().csrf().disable();//csrfTokenRepository(csrfTokenRepository()); 
+		.and().csrf().csrfTokenRepository(csrfTokenRepository()).and()
+		
+		.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 		
 		// add filter for adding CSRF token in the request
-		//httpSecurity.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);
+		httpSecurity.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);
 
 		// httpSecurity.requiresChannel().anyRequest().requiresSecure();
 		httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
@@ -78,11 +81,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	 * 
 	 * @return
 	 */
-//	private CsrfTokenRepository csrfTokenRepository() {
-//		HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
-//		repository.setHeaderName("X-XSRF-TOKEN");
-//		return repository;
-//	}
+	private CsrfTokenRepository csrfTokenRepository() {
+		HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+		repository.setHeaderName("X-XSRF-TOKEN");
+		return repository;
+	}
 	
-
+	
 }

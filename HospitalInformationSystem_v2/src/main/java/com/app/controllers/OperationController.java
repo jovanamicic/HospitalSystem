@@ -224,6 +224,7 @@ public class OperationController {
 		return new ResponseEntity<>(operations, HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasAuthority('View_patient_record')")
 	@RequestMapping(value = "/my", method = RequestMethod.GET)
 	public ResponseEntity<Page<Operation>> getLoggedPatientOperations(@RequestHeader("X-Auth-Token") String token,
 			@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page) {

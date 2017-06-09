@@ -33,7 +33,7 @@ var app = angular
 											}
 										};
 									} ])
-					//$httpProvider.interceptors
-					//		.push('CsrfTokenInterceptorService');
+					$httpProvider.interceptors
+							.push('CsrfTokenInterceptorService');
 					;
 				});

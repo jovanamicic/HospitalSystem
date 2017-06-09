@@ -130,17 +130,17 @@ public class MedicalStaffController {
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 
-	//ovo se mozda vise ne koristi
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<PersonLiteDTO> getDoctor(@PathVariable int id) {
-		MedicalStaff ms = medicalStaffService.findOne(id);
-		PersonLiteDTO retVal = new PersonLiteDTO();
-		if (ms != null) {
-			retVal.setName(ms.getName());
-			retVal.setSurname(ms.getSurname());
-			return new ResponseEntity<>(retVal, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
+//	//ovo se mozda vise ne koristi
+//	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+//	public ResponseEntity<PersonLiteDTO> getDoctor(@PathVariable int id) {
+//		MedicalStaff ms = medicalStaffService.findOne(id);
+//		PersonLiteDTO retVal = new PersonLiteDTO();
+//		if (ms != null) {
+//			retVal.setName(ms.getName());
+//			retVal.setSurname(ms.getSurname());
+//			return new ResponseEntity<>(retVal, HttpStatus.OK);
+//		}
+//		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//	}
 
 }
