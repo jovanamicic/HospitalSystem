@@ -19,16 +19,16 @@ angular.module('hospitalApp.services').factory('medicalStaffService',
 			}
 			return service;
 
-			function getPatients() {
-				return $http.get('patients/all');
+			function getPatients(page) {
+				return $http.get('patients/all?page=' + page);
 			}
 			
-			function getMyPatients() {
-				return $http.get('patients/my');
+			function getMyPatients(page) {
+				return $http.get('patients/my?page=' + page);
 			}
 			
-			function getPatientsBySearchData(searchData) {
-				return $http.get('patients/search/' + searchData);
+			function getPatientsBySearchData(searchData, page) {
+				return $http.get('patients/search/' + searchData + '?page=' + page);
 			}
 			
 			function saveOperation(operation) {

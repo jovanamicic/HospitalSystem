@@ -7,7 +7,27 @@ MedicalStaffPatientsController.$inject = [ '$location', '$stateParams',
 function MedicalStaffPatientsController($location, $stateParams, medicalStaffService, localStorageService, $http, $scope, $state) {
 
 	var vm = this;
-	vm.patients;
+
+	vm.displayAll = true;
+	vm.displayNew = false;
+	vm.displaySearchResults = false;
+	
+	vm.allPatients;
+	vm.myPatients;
+	vm.foundedPatients;
+	
+	vm.itemsPerPage = 10;
+	vm.pageSize = 10;
+	
+	vm.currentPageAll = 1;
+	vm.currentPageMy = 1;
+	vm.currentPageSearch = 1;
+	
+	vm.totalPagesAll;
+	vm.totalPagesMy;
+	vm.totalPagesSearch;
+	
+	
 	
 	vm.allPatientsBtnActive;
 	vm.myPatientsBtnctive;
@@ -17,57 +37,99 @@ function MedicalStaffPatientsController($location, $stateParams, medicalStaffSer
 	vm.searchData;
 	
 
-	vm.getAllPatients = function() {
-		medicalStaffService.getPatients().then(
-				function(data, status, headers, config) {
-					vm.patients = [];
-					vm.patients = data.data.content;
+	vm.getAllPatients = function(newPage) {
+		
+		if (newPage == 0)
+			vm.currentPageAll = 1;
+		
+		medicalStaffService.getPatients(newPage).then(
+				function(data) {
+					vm.allPatients = data.data.content;
+					vm.totalPagesAll = data.data.totalPages;
+					
+					vm.displayAll = true;
+					vm.displayMy = false;
+					vm.displaySearchResults = false;
 					
 					vm.allPatientsBtnActive = true;
 					vm.myPatientsBtnctive = false;
 					
-				}).catch(function(data, status, headers, config) {
+				}).catch(function() {
 					vm.errorMessage = "Something went wrong with getting all patients!";
 		});
 	}
-	vm.getAllPatients();
+	vm.getAllPatients(0);
 	
 	
-	vm.getMyPatients = function() {
-		medicalStaffService.getMyPatients().then(
-				function(data, status, headers, config) {
-					vm.patients = [];
-					vm.patients = data.data.content;
+	vm.getMyPatients = function(newPage) {
+		
+		if (newPage == 0)
+			vm.currentPageMy = 1;
+		
+		medicalStaffService.getMyPatients(newPage).then(
+				function(data) {
+					vm.myPatients = data.data.content;
+					vm.totalPagesMy = data.data.totalPages;
+					
+					vm.displayAll = false;
+					vm.displayMy = true;
+					vm.displaySearchResults = false;
 					
 					vm.allPatientsBtnActive = false;
 					vm.myPatientsBtnctive = true;
 					
-				}).catch(function(data, status, headers, config) {
+				}).catch(function() {
 					vm.errorMessage = "Something went wrong with getting my patients!";
 		});
 	}
 	
-	vm.searchPatients  = function() {
-		medicalStaffService.getPatientsBySearchData(vm.searchData).then(
-				function(data, status, headers, config) {
-					vm.patients = [];
-					vm.patients = data.data.content;
+	vm.searchPatients  = function(newPage) {
+		
+		if (newPage == 0)
+			vm.currentPageSearch = 1;
+		
+		if (!vm.searchData || vm.searchData.length == 0) {
+			vm.getAllPatients(0);
+			return;
+		}
+		
+		medicalStaffService.getPatientsBySearchData(vm.searchData, newPage).then(
+				function(data) {
+					vm.foundedPatients = data.data.content;
+					vm.totalPagesSearch = data.data.totalPages;
+					
+					vm.displayAll = false;
+					vm.displayMy = false;
+					vm.displaySearchResults = true;
 					
 					vm.allPatientsBtnActive = true;
 					vm.myPatientsBtnctive = false;
 					
-				}).catch(function(data, status, headers, config) {
+				}).catch(function() {
 					vm.errorMessage = "Something went wrong with searching patients!";
 		});
 	}
 	
 	vm.emptySearch = function() {
+		console.log('empty')
 		if (vm.searchData.length == 0)
-			vm.getAllPatients();
+			vm.getAllPatients(0);
 	}
 	
 	vm.showPatient = function(id) {
 		$location.path('/medicalStaff/patient/profile/'+id);
+	}
+	
+	vm.changePageAll = function() {
+		vm.getAllPatients(vm.currentPageAll - 1);
+	}
+	
+	vm.changePageMy = function() {
+		vm.getMyPatients(vm.currentPageAll - 1);
+	}
+	
+	vm.changePageSearch = function() {
+		vm.searchPatients(vm.currentPageSearch - 1);
 	}
 	
 }

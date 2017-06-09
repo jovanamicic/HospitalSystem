@@ -89,6 +89,42 @@
 					template-url="directives/dirPagination.tpl.html">
 				</dir-pagination-controls>
 			</div>
+			
+			<div ng-if="operationsCtrl.displayOnlyNew">
+				<table class="tableKMJ" ng-hide="operationsCtrl.newOperations.length == 0">
+					<thead>
+						<tr>
+							<th>Datum</th>
+							<th>Naziv</th>
+							<th>Doktor</th>
+						</tr>
+					<thead>
+					<tr ng-hide="true" current-page="operationsCtrl.currentPageNew" pagination-id="new"
+						dir-paginate="operation in operationsCtrl.newOperations | itemsPerPage: operationsCtrl.pageSize" >
+					</tr>
+					<tbody>
+						<tr ng-repeat="operation in operationsCtrl.newOperations"
+							ng-click="operationsCtrl.showOperation(operation.id)">
+							<td title="Datum">{{ operation.date | date:'dd.MM.yyyy'}}</td>
+							<td title="Naziv">{{ operation.name }}</td>
+							<td title="Doktor">{{ operation.headDoctor.name }} {{
+								operation.headDoctor.surname }}</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<h3 ng-show="operationsCtrl.newOperations.length == 0" style="text-align: center; margin-top: 5%">
+					Trenutno nema novih operacija.
+				</h3>
+				
+				<dir-pagination-controls pagination-id="new"
+					ng-show="operationsCtrl.totalPagesNew > 1" 
+					total-pages={{operationsCtrl.totalPagesNew}}
+					boundary-links="true"  direction-links="true" max-size="10"
+					on-page-change="operationsCtrl.changePageNew()"
+					template-url="directives/dirPagination.tpl.html">
+				</dir-pagination-controls>
+			</div>
 
 		</div>
 	</div>
