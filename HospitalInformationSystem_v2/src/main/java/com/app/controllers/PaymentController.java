@@ -25,38 +25,37 @@ import com.app.service.PersonService;
 @RestController
 @RequestMapping(value = "payments")
 public class PaymentController {
-	
+
 	private static final int DEFAULT_PAGE_SIZE = 10;
 	private static final int DEFAULT_PAGE_NUMBER = 0;
-	
+
 	@Autowired
 	private PaymentService paymentService;
-	
+
 	@Autowired
 	private PersonService personService;
-	
+
 	@Autowired
 	private TokenUtils tokenUtils;
-	
-	
-	/** Function saves new payment in database.
+
+	/**
+	 * Function saves new payment in database.
+	 * 
+	 * @param token
 	 * @param dto
-	 * @param session
 	 * @return
 	 */
 	@PreAuthorize("hasAuthority('Submit_payment')")
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Void> savePayment(
-			@RequestHeader("X-Auth-Token") String token,
-			@RequestBody PaymentDTO dto) {
-		
-		if (dto == null){
+	public ResponseEntity<Void> savePayment(@RequestHeader("X-Auth-Token") String token, @RequestBody PaymentDTO dto) {
+
+		if (dto == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
+
 		String username = tokenUtils.getUsernameFromToken(token);
 		Person manager = personService.findByUsername(username);
-		
+
 		Payment p = new Payment();
 		p.setAccount(dto.getAccount());
 		p.setAmount(dto.getAmount());
@@ -64,17 +63,21 @@ public class PaymentController {
 		p.setRecipient(dto.getRecipient());
 		p.setDate(new Date());
 		p.setManager(manager);
-		
 		p = paymentService.save(p);
+
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
-	
-	/** Function returns all payments from database. 
-	 * @return Page of Payments.
+
+	/**
+	 * Function returns all payments pageable.
+	 * @param token
+	 * @param page
+	 * @return
 	 */
 	@PreAuthorize("hasAuthority('View_all_payments')")
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
-	public ResponseEntity<Page<Payment>> getAll(@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page) {
+	public ResponseEntity<Page<Payment>> getAll(@RequestHeader("X-Auth-Token") String token,
+			@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page) {
 		Page<Payment> payments = paymentService.findAllPage(page);
 		return new ResponseEntity<>(payments, HttpStatus.OK);
 	}

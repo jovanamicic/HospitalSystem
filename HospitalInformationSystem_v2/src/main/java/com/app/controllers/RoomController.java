@@ -22,9 +22,9 @@ public class RoomController {
 	private RoomService roomService;
 	
 	/**
-	 * Function that returns all rooms pageable
-	 * @param page
-	 * @return Page of rooms
+	 * Function that returns all rooms.
+	 * @param token
+	 * @return
 	 */
 	@PreAuthorize("hasAuthority('Schedule_rooms')")
 	@RequestMapping(method = RequestMethod.GET)

@@ -26,8 +26,10 @@ public class RoomScheduleController {
 	
 	/**
 	 * Function that returns time when room with passed id is free on specific day.
-	 * @param room id.
-	 * @return List of String.
+	 * @param token
+	 * @param roomId
+	 * @param date
+	 * @return
 	 */
 	@PreAuthorize("hasAuthority('Schedule_rooms')")
 	@RequestMapping(value = "/available/{roomId}/{date}", method = RequestMethod.GET)

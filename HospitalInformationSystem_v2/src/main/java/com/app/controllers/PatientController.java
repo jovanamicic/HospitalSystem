@@ -90,12 +90,12 @@ public class PatientController {
 	
 	/** Function that register new patient on system.
 	 * @param dto Data about user from form.
+	 * @return
 	 */
 	@PreAuthorize("hasAuthority('Add_new_patient')")
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<ObjectIDDTO> registerPatient(@RequestBody PatientDTO dto) {
 		Patient patient = new Patient();
-		System.out.println(dto);
 		if (dto.getCountry() != null || dto.getCity() != null || dto.getZipCode() != null || dto.getStreet() != null || dto.getNumber()!= null){
 			Address address = new Address();
 			if (dto.getCountry() != null)
@@ -154,9 +154,10 @@ public class PatientController {
 	
 	
 	/**
-	 * Function that returns all patients pageable
+	 * Function that returns all patients pageable.
+	 * @param token
 	 * @param page
-	 * @return Page of patients
+	 * @return
 	 */
 	@PreAuthorize("hasAuthority('View_all_patients')")
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
@@ -167,9 +168,10 @@ public class PatientController {
 	
 	
 	/**
-	 * Function that returns all patients of logged doctor pageable
-	 * @param page and doctors ID
-	 * @return Page of patients
+	 * Function that returns all patients of logged doctor pageable.
+	 * @param token
+	 * @param page
+	 * @return
 	 */
 	@PreAuthorize("hasAuthority('View_all_patients')")
 	@RequestMapping(value = "/my", method = RequestMethod.GET)
@@ -183,13 +185,15 @@ public class PatientController {
 	}
 	
 	
-	/** Function gets data about one patient.
-	 * @param id of patient.
-	 * @return Data about patient.
+	/** 
+	 * Function gets data about one patient.
+	 * @param token
+	 * @param id
+	 * @return
 	 */
 	@PreAuthorize("hasAuthority('View_patient_profile')")
 	@RequestMapping(value= "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<PatientDTO> getPatient(@PathVariable int id){
+	public ResponseEntity<PatientDTO> getPatient(@RequestHeader("X-Auth-Token") String token, @PathVariable int id){
 		Patient p = patientService.findOne(id);
 		
 		PatientDTO retVal = new PatientDTO();
@@ -228,6 +232,11 @@ public class PatientController {
 	}
 	
 	
+	/**
+	 * Function that returns logged patient.
+	 * @param token
+	 * @return
+	 */
 	@PreAuthorize("hasAuthority('View_patient_profile')")
 	@RequestMapping( method = RequestMethod.GET)
 	public ResponseEntity<PatientDTO> getLoggedPatient(@RequestHeader("X-Auth-Token") String token){
@@ -242,7 +251,7 @@ public class PatientController {
 			retVal.setSurname(p.getSurname());
 			if(p.getBirthday() != null)
 				retVal.setBirthday(formatter.format(p.getBirthday()));
-			retVal.setPersonalID(p.getPersonalID()+"");
+			retVal.setPersonalID(p.getPersonalID() + "");
 			if(p.getGender() != null)
 				retVal.setGender(p.getGender());
 			
@@ -250,7 +259,7 @@ public class PatientController {
 				Address a = p.getAddress();
 				retVal.setCountry(a.getCountry());
 				retVal.setCity(a.getCity());
-				retVal.setZipCode(a.getZipCode()+"");
+				retVal.setZipCode(a.getZipCode() + "");
 				retVal.setStreet(a.getStreet());
 				retVal.setNumber(a.getNumber());
 				retVal.setDoctor(p.getChosenDoctor().getId());
@@ -271,9 +280,8 @@ public class PatientController {
 	}
 	
 	/**
-	 * Function that return schedule for logged patient
-	 * @param page
-	 * @param person id
+	 * Function that return schedule for logged patient.
+	 * @param token
 	 * @return
 	 */
 	@PreAuthorize("hasAuthority('View_patient_schedule')")
@@ -292,8 +300,10 @@ public class PatientController {
 	
 	
 	/**
-	 * Function that return details of operation or examination
-	 * @param type and id of examination/operation
+	 * Function that return details of operation or examination.
+	 * @param token
+	 * @param type
+	 * @param id
 	 * @return
 	 */
 	@PreAuthorize("hasAnyAuthority('View_operation', 'View_examination')")
@@ -303,8 +313,13 @@ public class PatientController {
 
 		if (type.equalsIgnoreCase("operacija")) {
 			Operation operation = operationService.findById(id);
+			if (operation == null)
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
 			Person patient = personService.findByPersonalID(operation.getRecordOperation().getId());
-
+			if (patient == null)
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
 			retVal.setDate(operation.getDate().toString());
 			retVal.setDoctorId(operation.getHeadDoctor().getId());
 			retVal.setDoctor(operation.getHeadDoctor().getName() + " " + operation.getHeadDoctor().getSurname());
@@ -314,8 +329,13 @@ public class PatientController {
 			retVal.setPatientId(patient.getId());
 		} else {
 			Examination examination = examinationService.findById(id);
+			if (examination == null)
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
 			Person patient = personService.findByPersonalID(examination.getRecord().getId());
-
+			if (patient == null)
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
 			retVal.setDate(examination.getDate().toString());
 			retVal.setDoctorId(examination.getDoctor().getId());
 			retVal.setDoctor(examination.getDoctor().getName() + " " + examination.getDoctor().getSurname());
@@ -329,12 +349,21 @@ public class PatientController {
 	}
 	
 	
+	/**
+	 * Function that updates patient profile.
+	 * @param token
+	 * @param dto
+	 * @return
+	 */
 	@PreAuthorize("hasAuthority('Edit_patient_profile')")
 	@RequestMapping(method = RequestMethod.PUT, consumes = "application/json")
 	public ResponseEntity<Void> changeProfile(@RequestHeader("X-Auth-Token") String token, @RequestBody PatientDTO dto) {
 		String username = tokenUtils.getUsernameFromToken(token);
 		Person person = personService.findByUsername(username);
 		Patient p = patientService.findOne(person.getId());
+		
+		if (p == null)
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		
 		if (p.getAddress() != null) {
 			Address address = p.getAddress();
@@ -349,15 +378,20 @@ public class PatientController {
 			p.setAddress(address);
 		}
 		
-		if(dto.getEmail()!=null){
-			if(personService.emailUnique(dto.getEmail()))
+		if(dto.getEmail()!= null){
+			if (personService.emailUnique(dto.getEmail()))
 				p.setEmail(dto.getEmail());
+			else 
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
-		if(dto.getUsername() != null){
-			if(personService.usernameUnique(dto.getUsername()))
+		if (dto.getUsername() != null){
+			if (personService.usernameUnique(dto.getUsername()))
 				p.setUsername(dto.getUsername());
+			else
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		
 		patientService.save(p);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -365,9 +399,11 @@ public class PatientController {
 	
 	/**
 	 * Function that returns patients based on serach string.
-	 * Doctor can search patients by personal ID, name and surname
+	 * Doctor can search patients by personal ID, name and surname.
+	 * @param token
+	 * @param page
 	 * @param searchData
-	 * @return list of patients
+	 * @return
 	 */
 	@PreAuthorize("hasAuthority('Search_patients')")
 	@RequestMapping(value= "/search/{searchData}", method = RequestMethod.GET)
@@ -378,27 +414,40 @@ public class PatientController {
 	}
 	
 	
+	/**
+	 * Function that checks if username is unique in DB.
+	 * @param username
+	 * @return
+	 */
 	@PreAuthorize("hasAnyAuthority('Edit_patient_profile', 'Add_new_patient')")
 	@RequestMapping(value= "/username", method = RequestMethod.POST)
 	public ResponseEntity<Void> checkUsername(@RequestBody String username){
-		if (personService.usernameUnique(username)){
+		if (personService.usernameUnique(username))
 			return new ResponseEntity<>(HttpStatus.OK);
-		}
 		else
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
+	/**
+	 * Function that checks if email is unique in DB.
+	 * @param email
+	 * @return
+	 */
 	@PreAuthorize("hasAnyAuthority('Edit_patient_profile', 'Add_new_patient')")
 	@RequestMapping(value= "/email", method = RequestMethod.POST)
 	public ResponseEntity<Void> checkEmail(@RequestBody String email){
-		if (personService.emailUnique(email)){
+		if (personService.emailUnique(email))
 			return new ResponseEntity<>(HttpStatus.OK);
-		}
 		else{
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
+	/**
+	 * Function that checks if personal id is unique in DB.
+	 * @param personalID
+	 * @return
+	 */
 	@PreAuthorize("hasAnyAuthority('Edit_patient_profile', 'Add_new_patient')")
 	@RequestMapping(value= "/personalID", method = RequestMethod.POST)
 	public ResponseEntity<Void> checkPID(@RequestBody String personalID){
@@ -410,6 +459,11 @@ public class PatientController {
 		}
 	}
 	
+	/**
+	 * Function that checks if birthday is valid.
+	 * @param birthday
+	 * @return
+	 */
 	@PreAuthorize("hasAnyAuthority('Edit_patient_profile', 'Add_new_patient')")
 	@RequestMapping(value= "/birthday", method = RequestMethod.POST)
 	public ResponseEntity<Void> checkBirthday(@RequestBody String birthday){
@@ -427,6 +481,11 @@ public class PatientController {
 		}
 	}
 	
+	/**
+	 * Function that checks if date is valid.
+	 * @param date
+	 * @return
+	 */
 	@PreAuthorize("hasAnyAuthority('Edit_patient_profile', 'Add_new_patient')")
 	@RequestMapping(value= "/dateCheck", method = RequestMethod.POST)
 	public ResponseEntity<Void> checkDate(@RequestBody String date){
