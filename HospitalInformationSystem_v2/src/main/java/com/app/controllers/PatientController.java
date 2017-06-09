@@ -192,6 +192,8 @@ public class PatientController {
 			
 			if (p.getChosenDoctor() != null)
 				retVal.setDoctor(p.getChosenDoctor().getId());
+			else
+				retVal.setDoctor(-1);
 			
 			return new ResponseEntity<>(retVal, HttpStatus.OK);
 		}
@@ -229,6 +231,8 @@ public class PatientController {
 			
 			if (p.getChosenDoctor() != null)
 				retVal.setDoctor(p.getChosenDoctor().getId());
+			else
+				retVal.setDoctor(-1);
 			
 			return new ResponseEntity<>(retVal, HttpStatus.OK);
 		}

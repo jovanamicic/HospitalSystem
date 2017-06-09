@@ -23,7 +23,8 @@ function PatientProfileController($location, $stateParams,
 			patientService.getPatient($stateParams.id).then(
 					function(data){
 						vm.patient = data.data;
-						patientService.getPerson(vm.patient.doctor).then(
+						if (vm.patient.doctor != -1) {
+							patientService.getPerson(vm.patient.doctor).then(
 								function(data){
 									var doc = data.data;
 									vm.doctor = doc.name + " " + doc.surname;
@@ -43,6 +44,10 @@ function PatientProfileController($location, $stateParams,
 								}).catch(function(data){
 									toastr.error("Dogodila se greška.");
 								});
+						} else {
+							vm.showRecord = false;
+							vm.doctor = "Nema izabranog lekara.";
+						}
 					}).catch(function(data){
 						toastr.error("Dogodila se greška.");
 					});
@@ -52,7 +57,8 @@ function PatientProfileController($location, $stateParams,
 			patientService.getLoggedPatient().then(
 					function(data){
 						vm.patient = data.data;
-						patientService.getPerson(vm.patient.doctor).then(
+						if (vm.patient.doctor != -1) {
+							patientService.getPerson(vm.patient.doctor).then(
 								function(data){
 									var doc = data.data;
 									vm.doctor = doc.name + " " + doc.surname;
@@ -60,6 +66,9 @@ function PatientProfileController($location, $stateParams,
 								}).catch(function(data){
 									toastr.error("Dogodila se greška.");
 								});
+						} else {
+							vm.doctor = "Nema izabranog lekara."
+						}
 					}).catch(function(data){
 						toastr.error("Dogodila se greška.");
 					});
