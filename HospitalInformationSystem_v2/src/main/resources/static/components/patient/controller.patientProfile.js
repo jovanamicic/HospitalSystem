@@ -249,7 +249,6 @@ function PatientProfileController($location, $stateParams,
 				 medicalStaffService.saveOperation(vm.operationExamination).then(function(data, status, headers, config) {
 					 toastr.info("Operacija je zakazana za datum " + vm.operationExamination.date);
 					 vm.closeModal();
-					 vm.getExaminationsPage(0);
 	
 				 }).catch(function(data, status, headers, config) {
 					 vm.errorMessageWrongPatientPersonalId = "Something went wrong with saving operation!";
@@ -259,7 +258,6 @@ function PatientProfileController($location, $stateParams,
 				 medicalStaffService.saveExamination(vm.operationExamination).then(function(data, status, headers, config) {
 					 toastr.info("Pregled je zakazan za datum " + vm.operationExamination.date);
 					 vm.closeModal();
-					 vm.getExaminationsPage(0);
 								
 				 }).catch(function(data, status, headers, config) {
 					 vm.errorMessageWrongPatientPersonalId = "Something went wrong with saving exmination!";

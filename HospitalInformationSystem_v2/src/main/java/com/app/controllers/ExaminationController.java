@@ -29,6 +29,7 @@ import com.app.model.Person;
 import com.app.model.Record;
 import com.app.security.TokenUtils;
 import com.app.service.ExaminationService;
+import com.app.service.PatientService;
 import com.app.service.PersonService;
 import com.app.service.RecordService;
 
@@ -46,6 +47,9 @@ public class ExaminationController {
 	PersonService personService;
 	
 	@Autowired
+	PatientService patientService;
+	
+	@Autowired
 	RecordService recordService;
 	
 	@Autowired
@@ -58,7 +62,6 @@ public class ExaminationController {
 	@PreAuthorize("hasAuthority('View_all_examinations')")
 	@RequestMapping(value= "/all", method = RequestMethod.GET)
 	public ResponseEntity<Page<Examination>> getAllExaminationsPageable(@RequestHeader("X-Auth-Token") String token, @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
-		
 		Page<Examination> examinations = examinationService.findAllPage(page);
 		return new ResponseEntity<>(examinations, HttpStatus.OK);
 	}
@@ -186,14 +189,21 @@ public class ExaminationController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	
+	@PreAuthorize("hasAuthority('View_patient_record')")
 	@RequestMapping(value = "/patients/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Page<Examination>> getPatientExaminations(@PathVariable int id, @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
-		Person patient = personService.findOne(id);
+	public ResponseEntity<Page<Examination>> getPatientExaminations(@RequestHeader("X-Auth-Token") String token, @PathVariable int id, @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
+		Patient patient = patientService.findOne(id);
+		
+		String username = tokenUtils.getUsernameFromToken(token);
+		Person person = personService.findByUsername(username);
+		
+		if(patient.getChosenDoctor().getId() != person.getId())
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
 		Page<Examination> retVal= examinationService.findByRecordIdPage(page, patient.getPersonalID());
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
+	
 	
 	@RequestMapping(value = "/my", method = RequestMethod.GET)
 	public ResponseEntity<Page<Examination>> getLoggedPatientExaminations(@RequestHeader("X-Auth-Token") String token, @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){

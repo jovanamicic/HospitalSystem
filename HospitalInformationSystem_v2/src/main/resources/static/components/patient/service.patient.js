@@ -62,7 +62,7 @@ angular.module('hospitalApp.services').factory('patientService',
 			}
 			
 			function getOperationsPage(page, id) {
-				return $http.get('/operations/patient/' + id +'?page=' + page)
+				return $http.get('/operations/patients/' + id +'?page=' + page)
 			}
 			
 			function getMyOperationsPage(page) {

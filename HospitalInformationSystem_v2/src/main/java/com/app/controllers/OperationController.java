@@ -64,7 +64,6 @@ public class OperationController {
 	@Autowired
 	private TokenUtils tokenUtils;
 
-	
 	@PreAuthorize("hasAuthority('Add_new_operation')")
 	@RequestMapping(value = "/saveOperation", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<Operation> saveOperation(@RequestHeader("X-Auth-Token") String token,
@@ -109,7 +108,8 @@ public class OperationController {
 	 */
 	@PreAuthorize("hasAuthority('Edit_operation')")
 	@RequestMapping(value = "/saveTimeAndRoom", method = RequestMethod.PUT)
-	public ResponseEntity<Operation> updateOperation(@RequestHeader("X-Auth-Token") String token, @RequestBody OperationUpdateDTO o) throws ParseException {
+	public ResponseEntity<Operation> updateOperation(@RequestHeader("X-Auth-Token") String token,
+			@RequestBody OperationUpdateDTO o) throws ParseException {
 		Operation retVal = operationService.findById(o.getOperationId());
 
 		Room room = roomService.findOne(o.getRoomId());
@@ -140,7 +140,8 @@ public class OperationController {
 	 */
 	@PreAuthorize("hasAuthority('View_operation')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<OperationDTO> getOperation(@RequestHeader("X-Auth-Token") String token, @PathVariable int id) {
+	public ResponseEntity<OperationDTO> getOperation(@RequestHeader("X-Auth-Token") String token,
+			@PathVariable int id) {
 
 		Operation o = operationService.findById(id);
 
@@ -205,23 +206,32 @@ public class OperationController {
 	 * @param page
 	 * @return Page of new operations.
 	 */
-	@RequestMapping(value = "/patient/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Page<Operation>> getOperationsOfPatientPageable(@PathVariable int id,
+	@PreAuthorize("hasAuthority('View_patient_record')")
+	@RequestMapping(value = "/patients/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Page<Operation>> getOperationsOfPatientPageable(@RequestHeader("X-Auth-Token") String token,
+			@PathVariable int id,
 			@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page) {
 
-		Person patient = personService.findOne(id);
+		Patient patient = patientService.findOne(id);
+
+		String username = tokenUtils.getUsernameFromToken(token);
+		Person person = personService.findByUsername(username);
+
+		if (patient.getChosenDoctor().getId() != person.getId())
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
 		Page<Operation> operations = operationService.findByRecordId(page, patient.getPersonalID());
 		return new ResponseEntity<>(operations, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/my", method = RequestMethod.GET)
-	public ResponseEntity<Page<Operation>> getLoggedPatientOperations(@RequestHeader("X-Auth-Token") String token, @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
-		
+	public ResponseEntity<Page<Operation>> getLoggedPatientOperations(@RequestHeader("X-Auth-Token") String token,
+			@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page) {
+
 		String username = tokenUtils.getUsernameFromToken(token);
 		Person patient = personService.findByUsername(username);
-		
-		Page<Operation> retVal= operationService.findByRecordId(page, patient.getPersonalID());
+
+		Page<Operation> retVal = operationService.findByRecordId(page, patient.getPersonalID());
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 
