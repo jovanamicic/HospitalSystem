@@ -127,8 +127,10 @@ public class PersonController {
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 	
+	
+	@PreAuthorize("hasAnyAuthority('View_patient_profile', 'View_all_patients')")
 	@RequestMapping(value = "/{personID}", method = RequestMethod.GET)
-	public ResponseEntity<PersonDataDTO> getPersonData(@PathVariable int personID){
+	public ResponseEntity<PersonDataDTO> getPersonData(@RequestHeader("X-Auth-Token") String token, @PathVariable int personID){
 		Person person = personService.findOne(personID);
 		
 		if(person == null)

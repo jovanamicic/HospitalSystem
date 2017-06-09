@@ -228,6 +228,7 @@ public class PatientController {
 	}
 	
 	
+	@PreAuthorize("hasAuthority('View_patient_profile')")
 	@RequestMapping( method = RequestMethod.GET)
 	public ResponseEntity<PatientDTO> getLoggedPatient(@RequestHeader("X-Auth-Token") String token){
 		String username = tokenUtils.getUsernameFromToken(token);

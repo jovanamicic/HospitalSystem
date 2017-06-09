@@ -125,6 +125,7 @@ public class ExaminationController {
 	 * @param session
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('Add_new_examination')")
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<Void> finishedExamination(@RequestHeader("X-Auth-Token") String token, @RequestBody ExaminationDTO dto){
 		String username = tokenUtils.getUsernameFromToken(token);
@@ -205,6 +206,7 @@ public class ExaminationController {
 	}
 	
 	
+	@PreAuthorize("hasAuthority('View_patient_record')")
 	@RequestMapping(value = "/my", method = RequestMethod.GET)
 	public ResponseEntity<Page<Examination>> getLoggedPatientExaminations(@RequestHeader("X-Auth-Token") String token, @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page){
 		
@@ -231,6 +233,7 @@ public class ExaminationController {
 	 * @param id of Examination.
 	 * @return Data about Examination.
 	 */
+	@PreAuthorize("hasAuthority('View_examination')")
 	@RequestMapping(value= "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<ExaminationDTO> getExamination(@RequestHeader("X-Auth-Token") String token, @PathVariable int id){
 		
