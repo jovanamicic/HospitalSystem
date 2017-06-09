@@ -7,7 +7,7 @@
 	<div class="row 200%">
 		<div style="width: 100%">
 			<div>
-				<table class="tableKMJ" id="paymentsTable">
+				<table class="tableKMJ" ng-hide="paymentsCtrl.allPayments.length == 0">
 					<thead>
 						<tr>
 							<th>Datum</th>
@@ -31,6 +31,10 @@
 						</tr>
 					</tbody>
 				</table>
+				
+				<h3 ng-show="paymentsCtrl.allPayments.length == 0" style="text-align: center; margin-top: 5%">
+					Trenutno nema uplata.
+				</h3>
 				
 				<dir-pagination-controls 
 					ng-show="paymentsCtrl.totalPages > 1" total-pages= {{paymentsCtrl.totalPages}}

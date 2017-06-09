@@ -15,12 +15,18 @@ function PatientRecordController($location, $stateParams, patientService,
 	vm.operationExamination = {};
 	vm.displayModal = "none";
 	
-	vm.allRecords;
+	vm.examinations;
+	vm.operations;
+	
+	vm.itemsPerPage = 10;
+	vm.pageSize = 10;
 	vm.displayExaminations = true;
 	
-	vm.currentPage = 1;
-	vm.pageSize = 10;
-	vm.totalPages;
+	vm.currentPageExaminations = 1;
+	vm.currentPageOperations = 1;
+	
+	vm.totalPagesExaminations;
+	vm.totalPagesOperations;
 	
 	vm.examinationsBtnActive;
 	vm.operationsBtnActive;
@@ -133,12 +139,14 @@ function PatientRecordController($location, $stateParams, patientService,
 	
 	vm.getExaminationsPage = function(newPage){
 		
+		if (newPage == 0)
+			vm.currentPageExaminations = 1;
+		
 		if($stateParams.id != null){
 			patientService.getExaminationsPage(newPage, $stateParams.id)
 			.then(function(result) {
-				vm.allRecords = result.data.content;
-				vm.totalPages = result.data.totalPages;
-				vm.totalRecords = result.data.totalElements;
+				vm.examinations = result.data.content;
+				vm.totalPagesExaminations = result.data.totalPages;
 				vm.displayExaminations = true;
 				
 				vm.examinationsBtnActive = true;
@@ -150,9 +158,8 @@ function PatientRecordController($location, $stateParams, patientService,
 		} else {
 			patientService.getMyExaminationsPage(newPage)
 			.then(function(result) {
-				vm.allRecords = result.data.content;
-				vm.totalPages = result.data.totalPages;
-				vm.totalRecords = result.data.totalElements;
+				vm.examinations = result.data.content;
+				vm.totalPagesExaminations = result.data.totalPages;
 				vm.displayExaminations = true;
 				
 				vm.examinationsBtnActive = true;
@@ -166,13 +173,16 @@ function PatientRecordController($location, $stateParams, patientService,
 	vm.getExaminationsPage(0);
 	
 	vm.getOperationsPage = function(newPage){
+		
+		if (newPage == 0)
+			vm.currentPageOperations = 1;
+		
 		if($stateParams.id != null){
 			patientService.getOperationsPage(newPage, $stateParams.id)
 			.then(function(result) {
-				vm.allRecords = result.data.content;
-				vm.totalPages = result.data.totalPages;
-				vm.totalRecords = result.data.totalElements;
-				vm.displayOperationsExaminations = false;
+				vm.operations = result.data.content;
+				vm.totalPagesOperations = result.data.totalPages;
+				vm.displayExaminations = false;
 				
 				vm.examinationsBtnActive = false;
 				vm.operationsBtnActive = true;
@@ -183,9 +193,8 @@ function PatientRecordController($location, $stateParams, patientService,
 		} else {
 			patientService.getMyOperationsPage(newPage)
 			.then(function(result) {
-				vm.allRecords = result.data.content;
-				vm.totalPages = result.data.totalPages;
-				vm.totalRecords = result.data.totalElements;
+				vm.operations = result.data.content;
+				vm.totalPagesOperations = result.data.totalPages;
 				vm.displayExaminations = false;
 				
 				vm.examinationsBtnActive = false;
@@ -197,12 +206,11 @@ function PatientRecordController($location, $stateParams, patientService,
 		}
 	}
 	
-	vm.changePage = function() {
-		var newPage = vm.currentPage - 1;
-		
-		if (vm.displayExaminations)
-			vm.getExaminationsPage(newPage);
-		else
-			vm.getOperationsPage(newPage);
+	vm.changePageExaminations = function() {
+		vm.getExaminationsPage(vm.currentPageExaminations - 1);
+	}
+	
+	vm.changePageOperations = function() {
+		vm.getOperationsPage(vm.currentPageOperations - 1);
 	}
 }
