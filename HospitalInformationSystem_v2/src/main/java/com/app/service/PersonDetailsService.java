@@ -56,10 +56,6 @@ public class PersonDetailsService implements UserDetailsService {
 					.map(rp -> new SimpleGrantedAuthority(rp.getPermission().getName()))
 					.collect(Collectors.toList());
 			
-			for (GrantedAuthority grantedAuthority : grantedAuthorities) {
-				System.out.println(grantedAuthority);
-			}
-			
 			return new org.springframework.security.core.userdetails.User(person.getUsername(), person.getPassword(),
 					grantedAuthorities);
 		}

@@ -1,5 +1,8 @@
 package com.app.controllers;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,11 +66,28 @@ public class PersonController {
 		String username = tokenUtils.getUsernameFromToken(token);
 		Person person = personService.findByUsername(username);
 		Person p = personService.findOne(person.getId());
+		
+		String newPassword = dto.getNewPassword();
+		Pattern pattern = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(newPassword);
+		
 		if(p != null){
 			if (passwordEncoder.matches(dto.getOldPassword(), p.getPassword())) {
-				p.setPassword(passwordEncoder.encode(dto.getNewPassword()));
-				p = personService.save(p);
-				return new ResponseEntity<>(HttpStatus.OK);
+				
+				//check new password
+				if (newPassword.length() < 8)
+					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				else if (newPassword.equals(newPassword.toLowerCase()))
+					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				else if (!newPassword.matches(".*\\d+.*"))
+					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				else if (!matcher.find())
+					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				else {
+					p.setPassword(passwordEncoder.encode(newPassword));
+					p = personService.save(p);
+					return new ResponseEntity<>(HttpStatus.OK);
+				}
 			}
 			else{
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
