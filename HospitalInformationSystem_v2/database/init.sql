@@ -8,9 +8,9 @@ INSERT INTO `hospital`.`person` (`discriminator`, `person_id`, `email`, `name`, 
 INSERT INTO `hospital`.`person` (`discriminator`, `person_id`, `email`, `name`, `password`, `personalid`, `surname`, `username`, `photo`, `education`) VALUES ('MEDICAL_STAFF', '3', 'mina@gmail.com', 'Mina', '$2a$06$6CekuMHG/UTa3UHLrWfj4O28Yu5cot2AS3slQsh4ZLii628zopTdm', '1212199481012', 'Medić', 'mina', 'images/medicalStuff/mina.jpg', 'Doktor');
 
 -- PATIENT
-INSERT INTO `hospital`.`person` (`discriminator`, `person_id`, `email`, `name`, `password`, `personalid`, `surname`, `username`, `gender`, `chosen_doctor`, `address`, `birthday`) VALUES ('PATIENT', '4', 'pera@gmail.com', 'Petar', '$2a$10$UPGHz1h0ljOL3TiO1n.ZOeTK.1gy89qRdTajENsI5XEpuIg7FqK1y', '4444', 'Perić', 'pera', 'Muško', 1, 1, '1954-02-02');
-INSERT INTO `hospital`.`person` (`discriminator`, `person_id`, `email`, `name`, `password`, `personalid`, `surname`, `username`, `gender`, `chosen_doctor`, `birthday`) VALUES ('PATIENT', '5', 'mika@gmail.com', 'Mika', '$2a$10$4iu9rQqKvmQpyi1PDxW6BesO.NDx9aDXqgM4UvzP8GpRNE3cCUwby', '0303197181012', 'Mikić', 'mika', 'Muško', 1, '1971-03-03');
-INSERT INTO `hospital`.`person` (`discriminator`, `person_id`, `email`, `name`, `password`, `personalid`, `surname`, `username`, `gender`, `chosen_doctor`, `address`, `birthday`) VALUES ('PATIENT', '6', 'djole@gmail.com', 'Djole', '$2a$06$duWUXdaerEURz0U9APos9u.JXcz38woPArt35bG8k6EL7aJfKkSCG', '0404193781012', 'Đolić', 'djole', 'Muško', 2, 2, '1937-04-04');
+-- INSERT INTO `hospital`.`person` (`discriminator`, `person_id`, `email`, `name`, `password`, `personalid`, `surname`, `username`, `gender`, `chosen_doctor`, `address`, `birthday`) VALUES ('PATIENT', '4', 'pera@gmail.com', 'Petar', '$2a$10$UPGHz1h0ljOL3TiO1n.ZOeTK.1gy89qRdTajENsI5XEpuIg7FqK1y', '4444', 'Perić', 'pera', 'Muško', 1, 1, '1954-02-02');
+-- INSERT INTO `hospital`.`person` (`discriminator`, `person_id`, `email`, `name`, `password`, `personalid`, `surname`, `username`, `gender`, `chosen_doctor`, `birthday`) VALUES ('PATIENT', '5', 'mika@gmail.com', 'Mika', '$2a$10$4iu9rQqKvmQpyi1PDxW6BesO.NDx9aDXqgM4UvzP8GpRNE3cCUwby', '0303197181012', 'Mikić', 'mika', 'Muško', 1, '1971-03-03');
+-- INSERT INTO `hospital`.`person` (`discriminator`, `person_id`, `email`, `name`, `password`, `personalid`, `surname`, `username`, `gender`, `chosen_doctor`, `address`, `birthday`) VALUES ('PATIENT', '6', 'djole@gmail.com', 'Djole', '$2a$06$duWUXdaerEURz0U9APos9u.JXcz38woPArt35bG8k6EL7aJfKkSCG', '0404193781012', 'Đolić', 'djole', 'Muško', 2, 2, '1937-04-04');
 
 -- MANAGER
 INSERT INTO `hospital`.`person` (`discriminator`, `person_id`, `email`, `name`, `password`, `personalid`, `surname`, `username`, `role`) VALUES ('MANAGER', '7', 'marko@gmail.com', 'Marko', '$2a$06$G7pro00k5GkmtzXvIW8TCO6Cd5KHpu42F8E9zYSzynRUg2hdzLw0S', '0232195481012', 'Marković', 'marko', 'general');
@@ -31,9 +31,9 @@ INSERT INTO `hospital`.`role_member` (`id`, `person_person_id`, `role_id`) VALUE
 INSERT INTO `hospital`.`role_member` (`id`, `person_person_id`, `role_id`) VALUES (2, 2, 1);
 INSERT INTO `hospital`.`role_member` (`id`, `person_person_id`, `role_id`) VALUES (3, 3, 1);
 
-INSERT INTO `hospital`.`role_member` (`id`, `person_person_id`, `role_id`) VALUES (4, 4, 4);
-INSERT INTO `hospital`.`role_member` (`id`, `person_person_id`, `role_id`) VALUES (5, 5, 4);
-INSERT INTO `hospital`.`role_member` (`id`, `person_person_id`, `role_id`) VALUES (6, 6, 4);
+-- INSERT INTO `hospital`.`role_member` (`id`, `person_person_id`, `role_id`) VALUES (4, 4, 4);
+-- INSERT INTO `hospital`.`role_member` (`id`, `person_person_id`, `role_id`) VALUES (5, 5, 4);
+-- INSERT INTO `hospital`.`role_member` (`id`, `person_person_id`, `role_id`) VALUES (6, 6, 4);
 
 INSERT INTO `hospital`.`role_member` (`id`, `person_person_id`, `role_id`) VALUES (7, 7, 2);
 INSERT INTO `hospital`.`role_member` (`id`, `person_person_id`, `role_id`) VALUES (8, 8, 2);
@@ -137,17 +137,17 @@ INSERT INTO `hospital`.`room` (`room_id`, `name`) VALUES ('3', 'Sala 3');
 INSERT INTO `hospital`.`room` (`room_id`, `name`) VALUES ('4', 'Sala 4');
 
 -- RECORDS
-INSERT INTO `hospital`.`record` (`record_id`) VALUES ('4444');
-INSERT INTO `hospital`.`record` (`record_id`) VALUES ('0303197181012');
-INSERT INTO `hospital`.`record` (`record_id`) VALUES ('0404193781012');
+-- INSERT INTO `hospital`.`record` (`record_id`) VALUES ('4444');
+-- INSERT INTO `hospital`.`record` (`record_id`) VALUES ('0303197181012');
+-- INSERT INTO `hospital`.`record` (`record_id`) VALUES ('0404193781012');
 
 -- OPERATIONS
-INSERT INTO `hospital`.`operation` (`operation_id`, `date`, `duration`, `name`, `head_doctor_id`, `record_id`) VALUES ('1', '2017-05-20', '2', 'Operacija nosa', '1', '4444');
-INSERT INTO `hospital`.`operation` (`operation_id`, `date`, `duration`, `name`, `head_doctor_id`, `record_id`) VALUES ('2', '2017-05-21', '4', 'Operacija nosa', '1', '4444');
-INSERT INTO `hospital`.`operation` (`operation_id`, `date`, `duration`, `name`, `head_doctor_id`, `record_id`) VALUES ('3', '2017-05-21', '1', 'Operacija sinusa', '1', '4444');
-INSERT INTO `hospital`.`operation` (`operation_id`, `date`, `duration`, `name`, `head_doctor_id`, `record_id`) VALUES ('4', '2017-05-21', '5', 'Operacija kicme', '2', '4444');
+-- INSERT INTO `hospital`.`operation` (`operation_id`, `date`, `duration`, `name`, `head_doctor_id`, `record_id`) VALUES ('1', '2017-05-20', '2', 'Operacija nosa', '1', '4444');
+-- INSERT INTO `hospital`.`operation` (`operation_id`, `date`, `duration`, `name`, `head_doctor_id`, `record_id`) VALUES ('2', '2017-05-21', '4', 'Operacija nosa', '1', '4444');
+-- INSERT INTO `hospital`.`operation` (`operation_id`, `date`, `duration`, `name`, `head_doctor_id`, `record_id`) VALUES ('3', '2017-05-21', '1', 'Operacija sinusa', '1', '4444');
+-- INSERT INTO `hospital`.`operation` (`operation_id`, `date`, `duration`, `name`, `head_doctor_id`, `record_id`) VALUES ('4', '2017-05-21', '5', 'Operacija kicme', '2', '4444');
 
 -- EXAMINATIONS
-INSERT INTO `hospital`.`examination` (`examination_id`, `date`, `name`, `new`, `passed`, `doctor_id`, `record_id`) VALUES ('1', '2017-01-07', 'EKG', TRUE, FALSE, '1', '4444');
-INSERT INTO `hospital`.`examination` (`examination_id`, `date`, `name`, `new`, `passed`, `doctor_id`, `record_id`) VALUES ('2', '2017-05-07', 'Hitan pregled', TRUE, FALSE, '1', '4444');
-INSERT INTO `hospital`.`examination` (`examination_id`, `date`, `name`, `new`, `passed`, `doctor_id`, `record_id`) VALUES ('3', '2017-05-07 00:00:00', 'EEG', FALSE, FALSE, '1', '4444');
+-- INSERT INTO `hospital`.`examination` (`examination_id`, `date`, `name`, `new`, `passed`, `doctor_id`, `record_id`) VALUES ('1', '2017-01-07', 'EKG', TRUE, FALSE, '1', '4444');
+-- INSERT INTO `hospital`.`examination` (`examination_id`, `date`, `name`, `new`, `passed`, `doctor_id`, `record_id`) VALUES ('2', '2017-05-07', 'Hitan pregled', TRUE, FALSE, '1', '4444');
+-- INSERT INTO `hospital`.`examination` (`examination_id`, `date`, `name`, `new`, `passed`, `doctor_id`, `record_id`) VALUES ('3', '2017-05-07 00:00:00', 'EEG', FALSE, FALSE, '1', '4444');
