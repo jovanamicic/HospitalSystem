@@ -1,7 +1,13 @@
 package com.app.controllers;
 
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.crypto.NoSuchPaddingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +27,8 @@ import com.app.model.Examination;
 import com.app.model.MedicalStaff;
 import com.app.model.Operation;
 import com.app.model.Person;
+import com.app.security.AESencryption;
+import com.app.security.Base64Utility;
 import com.app.security.TokenUtils;
 import com.app.service.ExaminationService;
 import com.app.service.MedicalStaffService;
@@ -45,6 +53,12 @@ public class MedicalStaffController {
 
 	@Autowired
 	private TokenUtils tokenUtils;
+	
+	@Autowired
+	private AESencryption aesEncription;
+	
+	@Autowired
+	private Base64Utility base64Utility;
 
 	/**
 	 * Function that returns all doctors.
@@ -95,10 +109,15 @@ public class MedicalStaffController {
 	 * @param type
 	 * @param id
 	 * @return
+	 * @throws NoSuchPaddingException 
+	 * @throws NoSuchProviderException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws InvalidKeyException 
+	 * @throws IOException 
 	 */
 	@PreAuthorize("hasAnyAuthority('View_operation', 'View_examination')")
 	@RequestMapping(value = "/operationExaminationDetails/{type}/{id}", method = RequestMethod.GET)
-	public ResponseEntity<ExaminationOperationDetailsDTO> getDetails(@RequestHeader("X-Auth-Token") String token, @PathVariable String type, @PathVariable int id) {
+	public ResponseEntity<ExaminationOperationDetailsDTO> getDetails(@RequestHeader("X-Auth-Token") String token, @PathVariable String type, @PathVariable int id) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, IOException {
 		ExaminationOperationDetailsDTO retVal = new ExaminationOperationDetailsDTO();
 
 		if (type.equalsIgnoreCase("operacija")) {
@@ -107,7 +126,12 @@ public class MedicalStaffController {
 			if (operation == null)
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			
-			Person patient = personService.findByPersonalID(operation.getRecordOperation().getId());
+			String encodedPersonalId = operation.getRecordOperation().getId();
+			byte[] personalIdBytes = base64Utility.decode(encodedPersonalId);
+			byte[] decriptetBytes = aesEncription.decrypt(personalIdBytes);
+			String decripted = new String(decriptetBytes);
+			Long personalIdDecoded = Long.parseLong(decripted);
+			Person patient = personService.findByPersonalID(personalIdDecoded);
 
 			if (patient == null)
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -125,7 +149,13 @@ public class MedicalStaffController {
 			if (examination == null)
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			
-			Person patient = personService.findByPersonalID(examination.getRecord().getId());
+			String encodedPersonalId = examination.getRecord().getId();
+			byte[] personalIdBytes = base64Utility.decode(encodedPersonalId);
+			byte[] decriptetBytes = aesEncription.decrypt(personalIdBytes);
+			String decripted = new String(decriptetBytes);
+			Long personalIdDecoded = Long.parseLong(decripted);
+			Person patient = personService.findByPersonalID(personalIdDecoded);
+			
 
 			if (patient == null)
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

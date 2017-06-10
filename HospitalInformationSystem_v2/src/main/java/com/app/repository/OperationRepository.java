@@ -12,8 +12,8 @@ import com.app.model.Operation;
 public interface OperationRepository extends JpaRepository<Operation, Integer> {
 	
 	List<Operation> findByHeadDoctorId(int id);
-	List<Operation> findByRecordOperationId(long id);
+	List<Operation> findByRecordOperationId(String id);
 	Page<Operation> findByRoomIdIsNull(Pageable page);
 	Page<Operation> findAll(Pageable page);
-	Page<Operation> findByRecordOperationId(Pageable page, long id);
+	Page<Operation> findByRecordOperationId(Pageable page, String id);
 }

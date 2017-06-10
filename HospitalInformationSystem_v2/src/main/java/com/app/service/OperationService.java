@@ -24,7 +24,7 @@ public class OperationService {
 		return operationRepository.findByHeadDoctorId(id);
 	}
 	
-	public List<Operation> findByRecordId(long id){
+	public List<Operation> findByRecordId(String id){
 		return operationRepository.findByRecordOperationId(id);
 	}
 	
@@ -44,7 +44,7 @@ public class OperationService {
 		operationRepository.delete(id);
 	}
 	
-	public Page<Operation> findByRecordId(Pageable page, long id){
+	public Page<Operation> findByRecordId(Pageable page, String id){
 		return operationRepository.findByRecordOperationId(page, id);
 	}
 }

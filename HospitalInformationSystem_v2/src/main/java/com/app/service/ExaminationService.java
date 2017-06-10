@@ -29,11 +29,11 @@ public class ExaminationService {
 		return examinationRepository.findByDoctorId(id);
 	}
 	
-	public List<Examination> findByRecordId(long id){
+	public List<Examination> findByRecordId(String id){
 		return examinationRepository.findByRecordId(id);
 	}
 	
-	public Page<Examination> findByRecordIdPage(Pageable page, long id){
+	public Page<Examination> findByRecordIdPage(Pageable page, String id){
 		return examinationRepository.findByRecordId(page, id);
 	}
 	

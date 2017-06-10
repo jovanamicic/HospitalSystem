@@ -8,7 +8,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -22,7 +25,7 @@ public class Record  implements Serializable {
 	
 	@Id
 	@Column(name = "record_id", unique = true, nullable = false)
-	private Long id;
+	private String id;
 	
 	@JsonBackReference
 	@OneToMany(mappedBy = "record", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
@@ -34,11 +37,12 @@ public class Record  implements Serializable {
 	
 	public Record(){}
 
-	public Long getId() {
+	
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

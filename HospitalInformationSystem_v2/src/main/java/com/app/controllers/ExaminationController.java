@@ -27,6 +27,8 @@ import com.app.model.Examination;
 import com.app.model.Patient;
 import com.app.model.Person;
 import com.app.model.Record;
+import com.app.security.AESencryption;
+import com.app.security.Base64Utility;
 import com.app.security.TokenUtils;
 import com.app.service.ExaminationService;
 import com.app.service.PatientService;
@@ -54,6 +56,12 @@ public class ExaminationController {
 
 	@Autowired
 	private TokenUtils tokenUtils;
+	
+	@Autowired
+	private AESencryption aesEncription;
+	
+	@Autowired
+	private Base64Utility base64Utility;
 
 	/**
 	 * Function returns examinations pageable.
@@ -110,7 +118,8 @@ public class ExaminationController {
 		}
 
 		// find patient record
-		Record record = recordService.findById(patient.getPersonalID());
+		String personalIdEncoded = base64Utility.encode(aesEncription.encrypt( patient.getPersonalID() + ""));
+		Record record = recordService.findById(personalIdEncoded);
 		if (record == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -147,7 +156,9 @@ public class ExaminationController {
 
 		Person doctor = personService.findOne(person.getId());
 		Person patient = personService.findOne(dto.getPatientID());
-		Record record = recordService.findById(patient.getPersonalID());
+		
+		String personalIdEncoded = base64Utility.encode(aesEncription.encrypt( patient.getPersonalID() + ""));
+		Record record = recordService.findById(personalIdEncoded);
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		Date date = null;
@@ -223,7 +234,8 @@ public class ExaminationController {
 		if (patient.getChosenDoctor().getId() != person.getId())
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
-		Page<Examination> retVal = examinationService.findByRecordIdPage(page, patient.getPersonalID());
+		String personalIdEncoded = base64Utility.encode(aesEncription.encrypt( patient.getPersonalID() + ""));
+		Page<Examination> retVal = examinationService.findByRecordIdPage(page, personalIdEncoded);
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 
@@ -242,7 +254,8 @@ public class ExaminationController {
 		String username = tokenUtils.getUsernameFromToken(token);
 		Person patient = personService.findByUsername(username);
 
-		Page<Examination> retVal = examinationService.findByRecordIdPage(page, patient.getPersonalID());
+		String personalIdEncoded = base64Utility.encode(aesEncription.encrypt( patient.getPersonalID() + ""));
+		Page<Examination> retVal = examinationService.findByRecordIdPage(page, personalIdEncoded);
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 
@@ -274,7 +287,13 @@ public class ExaminationController {
 
 		if (ex != null) {
 			try {
-				Person p = personService.findByPersonalID(ex.getRecord().getId());
+				String encodedPersonalId = ex.getRecord().getId();
+				byte[] personalIdBytes = base64Utility.decode(encodedPersonalId);
+				byte[] decriptetBytes = aesEncription.decrypt(personalIdBytes);
+				String decripted = new String(decriptetBytes);
+				Long personalIdDecoded = Long.parseLong(decripted);
+				Person p = personService.findByPersonalID(personalIdDecoded);
+				
 				ExaminationDTO retVal = ExaminationConverter.toDTO(ex, (Patient) p);
 				return new ResponseEntity<>(retVal, HttpStatus.OK);
 			} catch (Exception e) {
