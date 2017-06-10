@@ -28,6 +28,10 @@ public class AESencryption {
 	private KeyStoreReader keyStoreReader;
 	
 	static String IV = "AAAAAAAAAAAAAAAA";
+	private final String KEY_STORE_PASS = "kmjkmj";
+	private final String ALIAS = "kmj128";
+	private final String PASS = "kmjkmj";
+	
 	
 
 	public AESencryption() {
@@ -64,7 +68,7 @@ public class AESencryption {
 		String keyStoreFile = System.getProperty("user.dir").substring(0, index);
 		keyStoreFile = keyStoreFile + "HospitalSystem\\KMJ2.keystore";
 		
-		SecretKey key = keyStoreReader.readSecretKey(keyStoreFile, "kmjkmj", "kmj128", "kmjkmj");
+		SecretKey key = keyStoreReader.readSecretKey(keyStoreFile, KEY_STORE_PASS, ALIAS, PASS);
 		try {
 			Cipher desCipherEnc = Cipher.getInstance("AES/CBC/PKCS5Padding", "BC");
 			desCipherEnc.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(IV.getBytes("UTF-8")));
@@ -104,7 +108,7 @@ public class AESencryption {
 		String keyStoreFile = System.getProperty("user.dir").substring(0, index);
 		keyStoreFile = keyStoreFile + "HospitalSystem\\KMJ2.keystore";
 		
-		SecretKey key = keyStoreReader.readSecretKey(keyStoreFile, "kmjkmj", "kmj128", "kmjkmj");
+		SecretKey key = keyStoreReader.readSecretKey(keyStoreFile, KEY_STORE_PASS, ALIAS, PASS);
 		try {
 			Cipher desCipherDec = Cipher.getInstance("AES/CBC/PKCS5Padding", "BC");
 			desCipherDec.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(IV.getBytes("UTF-8")));
