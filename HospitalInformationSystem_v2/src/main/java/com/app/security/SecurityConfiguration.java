@@ -74,12 +74,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		httpSecurity.requiresChannel().anyRequest().requiresSecure();
 		
-		httpSecurity.authorizeRequests()
-		.antMatchers("/login").authenticated() //Specify the URL path(s) requiring authentication...
-        .and()
-            .x509() //... and that x509 authentication is enabled
-                .subjectPrincipalRegex("CN=(.*?)(?:,|$)")
-                .userDetailsService(userDetailsService);
+//		httpSecurity.authorizeRequests()
+//		.antMatchers("/login").authenticated() //Specify the URL path(s) requiring authentication...
+//        .and()
+//            .x509() //... and that x509 authentication is enabled
+//                .subjectPrincipalRegex("CN=(.*?)(?:,|$)")
+//                .userDetailsService(userDetailsService);
 //		httpSecurity.authorizeRequests().anyRequest().authenticated().and().x509()
 //          .subjectPrincipalRegex("CN=(.*?)(?:,|$)").userDetailsService(userDetailsService());
 		
