@@ -75,16 +75,18 @@ function addPatient(){
 
 function checkEmail(){
 	var email = $('#email').val();
-	$.ajax({
-		type : "POST",
-		contentType: "application/json",
-		url : "/patients/email",
-		data : email,
-		error : function(e) {
-			toastr.error("Email adresa se već koristi! Unesite drugu adresu.");
-			$('#email').val("");
-		} 
-	});
+	if (email != null){
+		$.ajax({
+			type : "POST",
+			contentType: "application/json",
+			url : "/patients/email",
+			data : email,
+			error : function(e) {
+				toastr.error("Email adresa se već koristi! Unesite drugu adresu.");
+				$('#email').val("");
+			} 
+		});
+	}
 }
 
 function checkPID(){
@@ -103,14 +105,16 @@ function checkPID(){
 
 function checkBirthday(){
 	var birthday = $('#birthday').val();
-	$.ajax({
-		type : "POST",
-		contentType: "application/json",
-		url : "/patients/birthday",
-		data : birthday,
-		error : function(e) {
-			toastr.error("Uneli ste neispravan datum!");
-			$('#birthday').val("");
-		} 
-	});
+	if(birthday != ""){
+		$.ajax({
+			type : "POST",
+			contentType: "application/json",
+			url : "/patients/birthday",
+			data : birthday,
+			error : function(e) {
+				toastr.error("Uneli ste neispravan datum!");
+				$('#birthday').val("");
+			} 
+		});
+	}
 }

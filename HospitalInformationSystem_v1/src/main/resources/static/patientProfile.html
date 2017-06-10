@@ -8,10 +8,10 @@
 <!-- CSS files -->
 <link rel="stylesheet" href="static/css/main.css" />
 <link rel="stylesheet" href="static/css/toastr.min.css" />
+<link rel="stylesheet" href="static/css/my-modal.css" />
 
 <!-- JS files -->
 <script src="static/js/jquery.min.js"></script>
-
 <script src='static/jsController/common/sessionUser.js'></script>
 <script src='static/jsController/logout/logout.js'></script>
 <script src='static/jsController/patient/patientProfile.js'></script>
@@ -106,16 +106,50 @@
 							</div>
 
 							<!-- Break -->
-							<div class="6u$ 12u$(xsmall)" id="buttons">
+							<div class="6u$ 12u$(xsmall)" id="saveProfile">
 								<a id = "saveProfile" href="#" class="button special fit" onclick="changeProfile()">Sačuvaj</a>
 							</div>
 							
-							<div class="6u$ 12u$(xsmall)" id="recordBtn">
+							<div class="6u 12u$(xsmall)" id="recordBtn">
 								<a href="#" onClick="patientRecord()" class="button special fit">Zdravstveni karton</a>
+							</div>
+							<div class="6u 12u$(xsmall)" id="scheduleExaminationBtn">
+								<a onclick="openModal(this)" class="button fit" id="Pregled">Zakaži pregled</a>
+							</div>
+							<div class="6u 12u$(xsmall)" id="examinationBtn">
+								<a class="button special fit" onClick="startExamination()">Započni pregled</a>
+							</div>
+							<div class="6u 12u$(xsmall)" id="scheduleOperationBtn">
+								<a onclick="openModal(this)" class="button fit" id="Operacija">Zakaži operaciju</a>
 							</div>
 						</div>
 					</form>
-
+					<div id="examinationDiv" style="display: none;">
+						<form>
+							<div class="row uniform">
+								<div class="6u$">
+									<textarea rows="4" id="symptons"
+										placeholder="Unesite simptome*" required></textarea>
+								</div>
+								<div class="6u$ ">
+									<textarea rows="4" id="diagnosis"
+										placeholder="Unesite dijagnozu*" required></textarea>
+								</div>
+								<div class="6u$ ">
+									<textarea rows="4" id="therapy" placeholder="Unesite terapiju*"
+										required></textarea>
+								</div>
+								<!-- Break -->
+								<div class="12u$">
+									<ul class="actions">
+										<li><a href="#" class="button special"
+											onclick="saveExamination()">Završi</a></li>
+										<li><input type="reset" value="Otkaži"></li>
+									</ul>
+								</div>
+							</div>
+						</form>
+					</div>
 				</section>
 
 			</div>
@@ -158,6 +192,61 @@
 			</div>
 		</div>
 	</div>
+	
+	
+		<!-- The Modal for set up operation or examination -->
+	<div id="myModal" class="modal">
+		<!-- Modal content -->
+		<div class="modal-content">
+			<div class="modal-header">
+				<span class="close" id="spanClose">&times;</span>
+				<h2 style="text-align: center; margin-top: 5%">Zakazivanje</h2>
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="row uniform">
+			
+						<div class="12u$" style="margin-top: 5%; ">
+							<input type="text" id="type" placeholder="Vrsta" disabled="disabled">
+						
+						</div>
+						
+						<div class="12u$">
+							<input onfocus="disposeErrors(this)" type="text" id="name" placeholder="Naziv " required>
+							<span id="invalidName" class="errorSpan" style="display: none"></span>
+						</div>
+						
+						<div class="12u$" style="display: none" id="durationDiv">
+							<input onfocus="disposeErrors(this)" type="text" id="duration" placeholder="Trajanje operacije" required>
+							<span id="invalidDuration" class="errorSpan" style="display: none"></span>
+						</div>
+						
+						<div class="12u$" style="display: none">
+							<input type="text" id="personalID" placeholder="JMBG pacijenta">
+						</div>
+						
+						<div class="12u$">
+							<input type="text" id="patientName" placeholder="Pacijent" disabled="disabled" >
+						</div>
+
+						<!-- Break -->
+						<div class="12u$">
+							<input onfocus="disposeErrors(this)" type="text" id="date" placeholder="Datum" title="Unesite datum u obliku dd-mm-GGG" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4}" required>
+							<span id="invalidDate" class="errorSpan" style="display: none"></span>
+						</div>
+						<!-- Break -->
+						<div class="12u$">
+							<ul class="actions" style="text-align: center;">
+								<li><a onclick="save()" class="button" id="Pregled">Potvrdi</a></li>
+							</ul>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	
 	<!-- Scripts -->
 	<script src="static/js/skel.min.js"></script>
 	<script src="static/js/util.js"></script>

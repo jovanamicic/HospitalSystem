@@ -47,7 +47,7 @@ public class PatientController {
 	
 	private static final int DEFAULT_PAGE_SIZE = 10;
 	private static final int DEFAULT_PAGE_NUMBER = 0;
-	private SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy"); 
+	private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy"); 
 	
 	
 	@Autowired
@@ -77,31 +77,40 @@ public class PatientController {
 	 */
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<ObjectIDDTO> registerPatient(@RequestBody PatientDTO dto) {
-		Address address = new Address();
-		address.setCountry(dto.getCountry());
-		address.setCity(dto.getCity());
-		address.setZipCode(Integer.parseInt(dto.getZipCode()));
-		address.setStreet(dto.getStreet());
-		address.setNumber(dto.getNumber());
-
-		address = addressService.save(address);
-		
 		Patient patient = new Patient();
+		if (dto.getCountry() != "" || dto.getCity() != "" || dto.getZipCode() != "" || dto.getStreet() != "" || dto.getNumber()!= ""){
+			Address address = new Address();
+			if (dto.getCountry() != "")
+				address.setCountry(dto.getCountry());
+			if(dto.getCity() != "")
+				address.setCity(dto.getCity());
+			if(dto.getZipCode() != "")
+				address.setZipCode(Integer.parseInt(dto.getZipCode()));
+			if(dto.getStreet() != "")
+				address.setStreet(dto.getStreet());
+			if(dto.getNumber() != "")
+				address.setNumber(dto.getNumber());
+	
+			address = addressService.save(address);
+			patient.setAddress(address);
+		}
 		patient.setName(dto.getName());
 		patient.setSurname(dto.getSurname());
 		patient.setPersonalID(Long.parseLong(dto.getPersonalID()));
-		patient.setAddress(address);
 		patient.setGender(dto.getGender());
-		patient.setEmail(dto.getEmail());
+		if(dto.getEmail() != "")
+			patient.setEmail(dto.getEmail());
 		MedicalStaff doctor = medicalStaffService.findOne(dto.getDoctor());
 		patient.setChosenDoctor(doctor);
-		Date birthday = null;
-		try {
-			birthday = formatter.parse(dto.getBirthday());
-		} catch (ParseException e) {
-			e.printStackTrace();
+		if(dto.getBirthday() != ""){
+			Date birthday = null;
+			try {
+				birthday = formatter.parse(dto.getBirthday());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			patient.setBirthday(birthday);
 		}
-		patient.setBirthday(birthday);
 		patient.setUsername(patient.getName().toLowerCase()+patient.getSurname().toLowerCase());
 		patient.setPassword("lozinka");
 		
@@ -156,9 +165,11 @@ public class PatientController {
 			
 			retVal.setName(p.getName());
 			retVal.setSurname(p.getSurname());
-			retVal.setBirthday(formatter.format(p.getBirthday()));
+			if(p.getBirthday() != null)
+				retVal.setBirthday(formatter.format(p.getBirthday()));
 			retVal.setPersonalID(p.getPersonalID()+"");
-			retVal.setGender(p.getGender());
+			if(p.getGender() != null)
+				retVal.setGender(p.getGender());
 			
 			if (p.getAddress() != null) {
 				Address a = p.getAddress();
@@ -171,7 +182,8 @@ public class PatientController {
 			}
 			
 			retVal.setUsername(p.getUsername());
-			retVal.setEmail(p.getEmail());
+			if(p.getEmail() != null)
+				retVal.setEmail(p.getEmail());
 			
 			if (p.getChosenDoctor() != null)
 				retVal.setDoctor(p.getChosenDoctor().getId());

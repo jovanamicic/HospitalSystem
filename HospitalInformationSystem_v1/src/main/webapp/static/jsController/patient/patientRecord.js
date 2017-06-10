@@ -28,14 +28,12 @@ function switchMenu(){
 		//doctor is logged
 		document.getElementById("doctorMenu").style.display= "block";
 		document.getElementById("patientMenu").style.display= "none";
-		document.getElementById("buttons").style.display= "block";
 		document.getElementById("aNameSurname").style.display= "inline";
 	}
 	else{
 		//patient is logged
 		document.getElementById("doctorMenu").style.display= "none";
 		document.getElementById("patientMenu").style.display= "block";
-		document.getElementById("buttons").style.display= "none";
 		document.getElementById("aNameSurname").style.display= "none";
 	}
 }
@@ -64,46 +62,6 @@ function goToPatientProfile(){
 	window.location.href = "/patientProfile.html?id=" + id;
 }
 
-function startExamination(){
-	document.getElementById("examinationDiv").style.display= "block";
-	document.getElementById("buttons").style.display= "none";
-}
-
-function JSONExamination(patientID,symptoms, diagnosis, therapy) {
-	return JSON.stringify({
-		"patientID" : patientID,
-		"symptoms" : symptoms,
-		"diagnosis" : diagnosis,
-		"therapy" : therapy
-	});
-}
-
-function saveExamination(){
-	var patientID = getParam("id");
-	var symptoms = $('#symptoms').val();
-    var diagnosis = $('#diagnosis').val();
-    var therapy = $('#therapy').val();
-    
-    if (symptoms == "" || diagnosis == "" || therapy == ""){
-    	toastr.error("Niste popunili sva polja!");
-    	}
-    else {
-	$.ajax({
-		type : "POST",
-		contentType: "application/json",
-		url : "/examinations",
-		data : JSONExamination(patientID, symptoms, diagnosis, therapy),
-		success : function(data) {
-			toastr.info("Pregled je sačuvan!");
-			document.getElementById("examinationDiv").style.display= "none";
-			document.getElementById("buttons").style.display= "block";
-		},
-		error : function(e) {
-			alert('Error: ' + e);
-		} 
-	});
-    }
-}
 
 function getExaminations(){
 	var patientID = getParam("id");
@@ -165,136 +123,7 @@ function getOperations(){
 	});
 }
 
-/**
- * Function that opens modal for set up operation or examination
- * @returns
- */
-function openModal(element){
-	if(element.id == "Pregled")
-		document.getElementById("durationDiv").style.display = "none";
-	else
-		document.getElementById("durationDiv").style.display = "block";
-	
-	$("#type").val(element.id);
-	
-	modal.style.display = "block";
-	
-}
 
-
-/**
- * Function that saves new operation or examination
- * 
- * @returns saved operation or examination
- */
-function save() {
-	
-	if($('#name')[0].checkValidity()){
-		if($('#date')[0].checkValidity()){
-			if(checkDate($('#date').val())){
-				var duration;
-				if (document.getElementById("duration").style.display != "block") {
-					duration = $('#duration').val();
-				}
-				
-				var personalID = $('#personalID').val();
-				var type = $('#type').val();
-				var name = $('#name').val();
-				var date = $('#date').val();
-				var doctorId = sessionStorage.getItem("person");
-				var url;
-				
-		
-				if (type == "Operacija")
-					url = "/operations/scheduleOperation";
-				else
-					url = "/examinations/scheduleExamination";
-		
-				$.ajax({
-							type : "POST",
-							contentType : "application/json",
-							url : url,
-							data : JSONExaminationOperation(personalID, type, name, date,
-									doctorId, duration),
-							success : function(data) {
-								modal.style.display = "none";
-								
-								//clean modal
-								$('#type').val("");
-								$('#name').val("");
-								$('#date').val("");
-								
-								if (type == "operacija")
-									toastr.info("Operacija je zakazana za datum " + date);
-								else
-									toastr.info("Pregled je zakazan za datum " + date);
-							},
-							error : function(e) {
-								toastr.error("Došlo je do greške prilikom zakazivanja. Pokušajte ponovo.");
-							}
-						});
-			}
-			else {
-				$('#date').focus();
-				document.getElementById("invalidDate").style.display = "inline";
-				$('#invalidDate').text("Datum zakazivanja mora biti veći od današnjeg.");
-				$('#date').val("");
-			}
-		}
-		else {
-			$('#date').focus();
-			document.getElementById("invalidDate").style.display = "inline";
-			$('#invalidDate').text("Format unosa dd-mm-gggg");
-			$('#date').val("");
-		}
-	}
-	else {
-		$('#name').focus();
-		document.getElementById("invalidName").style.display = "inline";
-		$('#invalidName').text("Obavezno polje.");
-	}
-	
-}
-
-
-/**
- * Function that disposes span errors on focus
- * @returns
- */
-function disposeErrors(element){
-	document.getElementById(element.id).nextSibling.nextSibling.style.display = "none";
-}
-
-/**
- * Function that checks is date of operation/examination in past
- */
-function checkDate(date){
-	var now = new Date();
-	var date = date.split("-");
-	date = new Date(date[1] + "-" + date[0] + "-" + date[2]);
-	if (date < now) {
-		  return false;
-	}
-	return true;
-}
-
-//Get the modal
-var modal = document.getElementById('myModal');
-
-//Get the <span> element that closes the modal
-var span = document.getElementById("spanClose");
-
-//When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-	modal.style.display = "none";
-}
-
-//When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-	if (event.target == modal) {
-		modal.style.display = "none";
-	}
-}
 
 
 function fillInTable(data, table, type) {
@@ -469,4 +298,6 @@ function resetPagOperations() {
 	currentPage = 0;
 	getOperations();
 }
+
+
 

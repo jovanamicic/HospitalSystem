@@ -133,7 +133,7 @@ function fillInTable(data, table) {
 			return function() {
 				var cell = row.getElementsByTagName("td")[5];
 				var id = cell.innerHTML;
-				window.location.href ="/patientRecord.html?id=" + id;
+				window.location.href ="/patientProfile.html?id=" + id;
 			};
 		};
 
