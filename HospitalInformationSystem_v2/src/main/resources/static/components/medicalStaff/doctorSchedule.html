@@ -75,14 +75,17 @@
 		</div>
 		<div class="modal-body">
 			<ul class="contact" style="width: 100%; margin-top: 5%">
-				<li class="fa-stethoscope" id="doctor" >{{medicalStaffScheduleCtrl.clickedEvent.doctor}}</li>
-				<li class="fa-user" id="patient" >{{medicalStaffScheduleCtrl.clickedEvent.patient}}</li>
-				<li class="fa-tag" id="nameTag" >{{medicalStaffScheduleCtrl.clickedEvent.name}}</li>
-				<li class="fa-calendar" id="dateTag" >{{medicalStaffScheduleCtrl.clickedEvent.date}}</li>
-				<li class="fa-clock-o" id="timeTag" ng-if="medicalStaffScheduleCtrl.clickedEvent.time == '0:00' ? medicalStaffScheduleCtrl.clickedEvent.time='Satnica još uvek nije uvrđena' : medicalStaffScheduleCtrl.clickedEvent.time">{{medicalStaffScheduleCtrl.clickedEvent.time}}</li>
+				<li class="fa-user" title="Pacijent" id="patient" >{{medicalStaffScheduleCtrl.clickedEvent.patient}}</li>
+				<li class="fa-tag" title="Naziv intervencije" id="nameTag" >{{medicalStaffScheduleCtrl.clickedEvent.name}}</li>
+				<li class="fa-calendar" title="Datum" id="dateTag" >{{medicalStaffScheduleCtrl.clickedEvent.date}}</li>
+				<li class="fa-clock-o" title="Vreme" id="timeTag" ng-if="medicalStaffScheduleCtrl.clickedEvent.time == '0:00' ? medicalStaffScheduleCtrl.clickedEvent.time='Satnica još uvek nije uvrđena' : medicalStaffScheduleCtrl.clickedEvent.time">{{medicalStaffScheduleCtrl.clickedEvent.time}}</li>
 				<li id="operationExaminationId" style="display: none">{{medicalStaffScheduleCtrl.clickedEvent.operationExaminationId}}</li>
+				<li class="fa-heartbeat" title="Simptomi" id="symptons" ng-show="medicalStaffScheduleCtrl.clickedEvent.title == 'Pregled'" ng-if="medicalStaffScheduleCtrl.clickedEvent.symptons == null ? medicalStaffScheduleCtrl.clickedEvent.symptons='-' : medicalStaffScheduleCtrl.clickedEvent.symptons">{{medicalStaffScheduleCtrl.clickedEvent.symptons}}</li>
+				<li class="fa fa-line-chart block" title="Dijagnoza" id="diagnosis" ng-show="medicalStaffScheduleCtrl.clickedEvent.title == 'Pregled'" ng-if="medicalStaffScheduleCtrl.clickedEvent.diagnosis == null ? medicalStaffScheduleCtrl.clickedEvent.diagnosis='-' : medicalStaffScheduleCtrl.clickedEvent.diagnosis">{{medicalStaffScheduleCtrl.clickedEvent.diagnosis}}</li>
+				<li class="fa fa-eyedropper block" title="Terapija" id="therapy" ng-show="medicalStaffScheduleCtrl.clickedEvent.title == 'Pregled'" ng-if="medicalStaffScheduleCtrl.clickedEvent.therapy == null ? medicalStaffScheduleCtrl.clickedEvent.therapy='-' : medicalStaffScheduleCtrl.clickedEvent.therapy">{{medicalStaffScheduleCtrl.clickedEvent.therapy}}</li>
+			
 				<li style="margin-left: 11%"><a class="button icon fa-ban"
-					ng-click="medicalStaffScheduleCtrl.cancelOperationExamination()">Otkaži</a></li>
+					ng-click="medicalStaffScheduleCtrl.cancelOperationExamination()">Otka�i</a></li>
 			</ul>
 		</div>
 	</div>

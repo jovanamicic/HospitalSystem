@@ -142,4 +142,18 @@ function PatientRecordController($location, $stateParams, patientService,
 	vm.changePageOperations = function() {
 		vm.getOperationsPage(vm.currentPageOperations - 1);
 	}
+	
+	vm.showExamination = function(examinationId) {
+		if($stateParams.id == null)
+			$state.go('patient.examination', {id: examinationId, isManager: false})
+		else
+			$state.go('medicalStaff.examination', {id: examinationId, isManager: false})
+	}
+	
+	vm.showOperation = function(operationId) {
+		if($stateParams.id == null)
+			$state.go('patient.operation', {id: operationId, isManager: false})
+		else
+			$state.go('medicalStaff.operation', {id: operationId, isManager: false})
+	}
 }

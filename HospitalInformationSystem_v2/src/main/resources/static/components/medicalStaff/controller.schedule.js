@@ -174,6 +174,10 @@ function MedicalStaffScheduleController($location, $stateParams,
 				 vm.clickedEvent.time = getTime(data.data.date);
 				 vm.clickedEvent.title = data.data.type;
 				 
+				 vm.clickedEvent.symptons = data.data.symptons;
+				 vm.clickedEvent.diagnosis = data.data.diagnosis;
+				 vm.clickedEvent.therapy = data.data.therapy;
+				 
 				 vm.displayModalDetails = "block";
 				 
 			 }).catch(function(data, status, headers, config) {

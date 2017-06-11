@@ -16,7 +16,7 @@ function ExaminationController($location, $stateParams,
 	vm.selectTimeDisabled;
 	
 	vm.loadExamination = function(){
-		
+		vm.isManager = $stateParams.isManager;
 		examinationService.loadExamination($stateParams.id)
 		.then(function(data) {
 			
@@ -37,7 +37,11 @@ function ExaminationController($location, $stateParams,
 				vm.displayBtnAddTime = false;
 			} else {
 				vm.time = "Nije izabrano vreme.";
-				vm.displayBtnAddTime = true;
+				
+				if(vm.isManager == false)
+					vm.displayBtnAddTime = false;
+				else
+					vm.displayBtnAddTime = true;
 				//vm.displayBtnAddTime = $stateParams.isManager;
 				// TODO $stateParams.isManager change to getRole!!!
 			}

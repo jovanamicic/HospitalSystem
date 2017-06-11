@@ -16,7 +16,7 @@ function OperationController($location, $stateParams,
 	vm.selectTimeDisabled;
 	
 	vm.loadOperation = function(){
-		
+		vm.isManager = $stateParams.isManager;
 		operationService.loadOperation($stateParams.id)
 		.then(function(data) {
 			
@@ -37,7 +37,11 @@ function OperationController($location, $stateParams,
 				vm.displayBtnAddTimeAndRoom = false;
 			} else {
 				vm.timeAndPlace = "Nije izabrana sala.";
-				vm.displayBtnAddTimeAndRoom = true;
+				
+				if(vm.isManager == false)
+					vm.displayBtnAddTimeAndRoom = false;
+				else
+					vm.displayBtnAddTimeAndRoom = true;
 				//vm.displayBtnAddTimeAndRoom = $stateParams.isManager;
 				// TODO $stateParams.isManager change to getRole!!!
 			}

@@ -383,6 +383,10 @@ public class PatientController {
 			retVal.setType(type);
 			retVal.setPatient(patient.getName() + " " + patient.getSurname());
 			retVal.setPatientId(patient.getId());
+			
+			retVal.setSymptons(examination.getSymptons());
+			retVal.setDiagnosis(examination.getDiagnosis());
+			retVal.setTherapy(examination.getTherapy());
 		}
 
 		return new ResponseEntity<>(retVal, HttpStatus.OK);

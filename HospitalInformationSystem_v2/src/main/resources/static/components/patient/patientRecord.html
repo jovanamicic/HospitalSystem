@@ -41,7 +41,8 @@
 							dir-paginate="record in patientRecordCtrl.examinations | itemsPerPage: patientRecordCtrl.pageSize" >
 						</tr>	
 						<tbody>
-							<tr ng-repeat="record in patientRecordCtrl.examinations">
+							<tr ng-repeat="record in patientRecordCtrl.examinations"
+								ng-click="patientRecordCtrl.showExamination(record.id)">
 								<td title="Datum">{{ record.date | date:'dd.MM.yyyy'}}</td>
 								<td title="Naziv">{{ record.name }}</td>
 								<td title="Doktor" ng-show="record.doctor">
@@ -78,7 +79,8 @@
 							dir-paginate="record in patientRecordCtrl.operations | itemsPerPage: patientRecordCtrl.pageSize" >
 						</tr>	
 						<tbody>
-							<tr ng-repeat="record in patientRecordCtrl.operations">
+							<tr ng-repeat="record in patientRecordCtrl.operations"
+							ng-click="patientRecordCtrl.showOperation(record.id)">
 								<td title="Datum">{{ record.date | date:'dd.MM.yyyy'}}</td>
 								<td title="Naziv">{{ record.name }}</td>
 								<td title="Doktor">
