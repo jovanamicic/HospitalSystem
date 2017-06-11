@@ -22,6 +22,7 @@ import com.app.converters.OperationConverter;
 import com.app.dto.MedicalStaffScheduleDTO;
 import com.app.dto.OperationDTO;
 import com.app.dto.OperationUpdateDTO;
+import com.app.model.MedicalStaff;
 import com.app.model.Operation;
 import com.app.model.Patient;
 import com.app.model.Person;
@@ -171,16 +172,29 @@ public class OperationController {
 	public ResponseEntity<OperationDTO> getOperation(@RequestHeader("X-Auth-Token") String token,
 			@PathVariable int id) {
 
+		String username = tokenUtils.getUsernameFromToken(token);
+		Person loggedPerson = personService.findByUsername(username);
+		
 		Operation o = operationService.findById(id);
 
 		if (o != null) {
 			try {
+				//return 401 if this is not operation of logged patient
+				if((loggedPerson instanceof Patient) && (!o.getRecordOperation().getId().equals(base64Utility.encode(aesEncription.encrypt(loggedPerson.getPersonalID() + ""))))){
+					return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+				}
+				
 				String encodedPersonalId = o.getRecordOperation().getId();
 				byte[] personalIdBytes = base64Utility.decode(encodedPersonalId);
 				byte[] decriptetBytes = aesEncription.decrypt(personalIdBytes);
 				String decripted = new String(decriptetBytes);
 				Long personalIdDecoded = Long.parseLong(decripted);
 				Person p = personService.findByPersonalID(personalIdDecoded);
+				
+				//return 401 if this is not operation of logged doctor
+				if((loggedPerson instanceof MedicalStaff) && (((Patient) p).getChosenDoctor().getPersonalID() != loggedPerson.getPersonalID())){
+					return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+				}
 				
 				OperationDTO retVal = OperationConverter.toDTO(o, (Patient) p);
 				return new ResponseEntity<>(retVal, HttpStatus.OK);

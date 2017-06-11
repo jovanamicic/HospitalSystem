@@ -1,5 +1,7 @@
 package com.app.controllers;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,6 +26,7 @@ import com.app.dto.ExaminationDTO;
 import com.app.dto.ExaminationUpdateDTO;
 import com.app.dto.MedicalStaffScheduleDTO;
 import com.app.model.Examination;
+import com.app.model.MedicalStaff;
 import com.app.model.Patient;
 import com.app.model.Person;
 import com.app.model.Record;
@@ -283,16 +286,31 @@ public class ExaminationController {
 	public ResponseEntity<ExaminationDTO> getExamination(@RequestHeader("X-Auth-Token") String token,
 			@PathVariable int id) {
 
+		String username = tokenUtils.getUsernameFromToken(token);
+		Person loggedPerson = personService.findByUsername(username);
+		
 		Examination ex = examinationService.findById(id);
+		
 
 		if (ex != null) {
 			try {
+				//return 401 if this is not examination of logged patient
+				if((loggedPerson instanceof Patient) && (!ex.getRecord().getId().equals(base64Utility.encode(aesEncription.encrypt(loggedPerson.getPersonalID() + ""))))){
+					return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+				}
+				
 				String encodedPersonalId = ex.getRecord().getId();
 				byte[] personalIdBytes = base64Utility.decode(encodedPersonalId);
 				byte[] decriptetBytes = aesEncription.decrypt(personalIdBytes);
 				String decripted = new String(decriptetBytes);
 				Long personalIdDecoded = Long.parseLong(decripted);
 				Person p = personService.findByPersonalID(personalIdDecoded);
+				
+				//return 401 if this is not examination of logged doctor
+				if((loggedPerson instanceof MedicalStaff) && (((Patient) p).getChosenDoctor().getPersonalID() != loggedPerson.getPersonalID())){
+					return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+				}
+				
 				
 				ExaminationDTO retVal = ExaminationConverter.toDTO(ex, (Patient) p);
 				return new ResponseEntity<>(retVal, HttpStatus.OK);

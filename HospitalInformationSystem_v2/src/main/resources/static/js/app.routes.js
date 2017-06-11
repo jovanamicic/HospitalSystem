@@ -185,5 +185,13 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     	controller : 'ExaminationController',
     	controllerAs: 'examinationCtrl'
     })
+    
+    //forbidden
+     .state('forbidden', {
+    	url: '/forbidden',
+    	templateUrl : 'components/forbiddenRequest/forbiddenRequest.html',
+    	controller : 'ForbiddenController',
+    	controllerAs: 'forbiddenCtrl'
+    })
 
 } ]);

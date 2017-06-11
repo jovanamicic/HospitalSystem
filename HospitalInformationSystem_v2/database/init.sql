@@ -118,8 +118,8 @@ INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALU
 INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (30, 22, 1);
 INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (31, 23, 1);
 INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (32, 24, 1);
-INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (33, 7, 1);
-INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (34, 8, 1);
+-- INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (33, 7, 1);
+-- INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (34, 8, 1);
 INSERT INTO `hospital`.`role_permission` (`id`, `permission_id`, `role_id`) VALUES (35, 26, 1);
 
 

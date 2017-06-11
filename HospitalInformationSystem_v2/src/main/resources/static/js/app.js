@@ -27,7 +27,7 @@ var app = angular
 											'responseError' : function(response) {
 												if (response.status === 401
 														|| response.status === 403) {
-													$location.path('/');
+													$location.path('/forbidden');
 												}
 												return $q.reject(response);
 											}

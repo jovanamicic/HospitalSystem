@@ -39,6 +39,7 @@ public class ManagerController {
 	 * @param id
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('View_manager_profile')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<ManagerDTO> getManager(@RequestHeader("X-Auth-Token") String token, @PathVariable int id) {
 
