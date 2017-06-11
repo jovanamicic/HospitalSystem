@@ -417,19 +417,38 @@ public class PatientController {
 			address = addressService.save(address);
 			p.setAddress(address);
 		}
+		else {
+			Address address = new Address();
+			address.setCountry(dto.getCountry());
+			address.setCity(dto.getCity());
+			address.setZipCode(Integer.parseInt(dto.getZipCode()));
+			address.setStreet(dto.getStreet());
+			address.setNumber(dto.getNumber());
+			
+			address = addressService.save(address);
+			p.setAddress(address);
+		}
 		
-		if(dto.getEmail()!= null){
+		if(dto.getEmail() != null){
 			if (personService.emailUnique(dto.getEmail()))
 				p.setEmail(dto.getEmail());
-			else 
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			else {
+				if(personService.findByEmail(dto.getEmail()).getId() == p.getId())
+					p.setEmail(dto.getEmail());
+				else
+					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
 		}
 		
 		if (dto.getUsername() != null){
 			if (personService.usernameUnique(dto.getUsername()))
 				p.setUsername(dto.getUsername());
-			else
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			else {
+				if(personService.findByUsername(dto.getUsername()).getId() == p.getId())
+					p.setUsername(dto.getUsername());
+				else
+					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
 		}
 		
 		patientService.save(p);
