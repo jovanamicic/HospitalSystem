@@ -28,7 +28,7 @@ public class PersonController {
 	
 	@Autowired
 	private PersonService personService;
-
+	
 	/** 
 	 * Function for logging on system.
 	 * @param personDTO contains username and password from form.
@@ -40,10 +40,9 @@ public class PersonController {
 		String username = personDTO.getUsername();
 		String password = personDTO.getPassword();
 		PersonLiteDTO retVal = new PersonLiteDTO();
-		
-		if (username != "" && password != ""){
-			Person person = personService.findByUsername(username);
-			if (person != null && person.getPassword().equals(password)){
+			Person personByUsername = personService.findForUsernameAndPassword(username, password);
+			Person person = personService.findOne(personByUsername.getId());
+			if (person != null){
 				session.setAttribute("person", person.getId());
 				retVal.setId(person.getId());
 				retVal.setName(person.getName());
@@ -58,8 +57,6 @@ public class PersonController {
 				return new ResponseEntity<>(retVal, HttpStatus.OK);
 			}
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		
 	}
 	

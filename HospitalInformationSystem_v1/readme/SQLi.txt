@@ -1,0 +1,17 @@
+**SQL Injection**
+
+Prilikom logovanja na sistem moguce je izvesti SQLi napad.
+
+Evo nekoliko primera:
+	1.	Logovanje bez znanja lozinke, poznavanje samo username-a.
+		Email: mina' or '1'='1
+		Password: prazno
+	2.	Nepoznat username i lozinka. Slanjem ovakvog inputa uvek ce uzimati prvog iz tabele persons.
+		Email: prazno
+		Password: ' or '1'='1
+		
+Razlozi zasto je ovo omoguceno:
+	- nema provere unosa na frontu
+	- nema zabrane da su oba polja obavezna
+	- query je formiran kao string i koristi se Statement klasa umesto PreparedStatement
+	

@@ -8,15 +8,6 @@ function JSONLogin(username, password) {
 function login(){
 	var username = $('#username').val();
 	var password = $("#password").val();
-	if(username == ""){
-		toastr.error("Molimo Vas unesite korisničko ime!");
-		return false;
-	}
-	else if(password == ""){
-		toastr.error("Molimo Vas unesite lozinku!");
-		return false;
-	}
-	else{
 		$.ajax({
 			type : "POST",
 			contentType: "application/json",
@@ -42,5 +33,4 @@ function login(){
 				$('#password').val("");
 			} 
 		});
-	}
 }

@@ -1,20 +1,66 @@
 package com.app.service;
 
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.model.Person;
 import com.app.repository.PersonRepository;
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.Statement;
 
 @Service
-public class PersonService {
+public class PersonService{
 
 	@Autowired
 	PersonRepository personRepository;
 	
-	public Person findByUsername(String username){
-		return personRepository.findByUsername(username);
+	@PersistenceContext
+	private EntityManager em;
+	
+	static final String DB_URL = "jdbc:mysql://localhost:3306/hospital_v1?useUnicode=yes&characterEncoding=UTF-8&useSSL=false";
+
+	//  Database credentials
+	static final String USER = "root";
+	static final String PASS = "plavalaguna";
+
+	public Person findForUsernameAndPassword(String username,String password) {
+		Person p = new Person();
+		java.sql.Connection conn = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			String query = "SELECT * FROM person WHERE ( username ='"+ username + " ' AND password='"+password+"')";  //' or '1'='1
+			java.sql.Statement stmt = conn.createStatement();						
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				p.setId(rs.getInt("person_id"));
+				p.setEmail(rs.getString("email"));
+				p.setPassword(rs.getString("password"));
+				p.setPersonalID(rs.getLong("personalid"));
+				p.setUsername(rs.getString("username"));
+				return p;
+		      }
+		      rs.close();
+		      stmt.close();
+		      conn.close();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return p;
 	}
+	
 	
 	public Person findByPersonalID(long id){
 		return personRepository.findByPersonalID(id);
