@@ -24,6 +24,10 @@ public class PersonService {
 		return personRepository.findOne(id);
 	}
 	
+	public Person findByEmail(String email){
+		return personRepository.findByEmail(email);
+	}
+	
 	public Person save(Person person){
 		return personRepository.save(person);
 	}

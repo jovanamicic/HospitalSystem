@@ -12,8 +12,8 @@ import com.app.model.Examination;
 public interface ExaminationRepository extends JpaRepository<Examination, Integer> {
 
 	List<Examination> findByDoctorId(int id);
-	List<Examination> findByRecordId(long id);
-	Page<Examination> findByRecordId(Pageable page, long id);
+	List<Examination> findByRecordId(String id);
+	Page<Examination> findByRecordId(Pageable page, String id);
 	List<Examination> findByDate(Date date);
 	Page<Examination> findAll(Pageable page);
 	Page<Examination> findByNewExIsTrue(Pageable page);

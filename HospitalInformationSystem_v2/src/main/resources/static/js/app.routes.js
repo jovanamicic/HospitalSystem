@@ -106,6 +106,26 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     	controller: "PatientScheduleController",
     	controllerAs: 'patientScheduleCtrl'
     })
+    .state('patient.operation', {
+    	url: '/operation/:id',
+    	params: {
+    		id: null,
+            isManager: false
+        },
+    	templateUrl: 'components/operation/operationPreview.html',
+    	controller : 'OperationController',
+    	controllerAs: 'operationCtrl'
+    })
+     .state('patient.examination', {
+    	url: '/examination/:id',
+    	params: {
+    		id: null,
+            isManager: false
+        },
+    	templateUrl: 'components/examination/examinationPreview.html',
+    	controller : 'ExaminationController',
+    	controllerAs: 'examinationCtrl'
+    })
     
 
     //MEDICAL STAFF
@@ -144,6 +164,26 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     	templateUrl: 'components/patient/patientRecord.html',
     	controller: "PatientRecordController",
     	controllerAs: 'patientRecordCtrl'
+    })
+    .state('medicalStaff.operation', {
+    	url: '/operation/:id',
+    	params: {
+    		id: null,
+            isManager: false
+        },
+    	templateUrl: 'components/operation/operationPreview.html',
+    	controller : 'OperationController',
+    	controllerAs: 'operationCtrl'
+    })
+     .state('medicalStaff.examination', {
+    	url: '/examination/:id',
+    	params: {
+    		id: null,
+            isManager: false
+        },
+    	templateUrl: 'components/examination/examinationPreview.html',
+    	controller : 'ExaminationController',
+    	controllerAs: 'examinationCtrl'
     })
 
 } ]);

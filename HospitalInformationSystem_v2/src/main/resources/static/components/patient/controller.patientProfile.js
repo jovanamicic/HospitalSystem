@@ -206,13 +206,13 @@ function PatientProfileController($location, $stateParams,
 	
 	vm.saveExamination = function(){
 		vm.startExaminationShow = false;
-		 if (vm.symptoms == "" || vm.diagnosis == "" || vm.therapy == ""){
+		 if (vm.symptons == "" || vm.diagnosis == "" || vm.therapy == ""){
 		    	toastr.error("Niste popunili sva polja!");
 		 }
 		 else {
 			 vm.examination = {
 					 patientID : $stateParams.id,
-					 symptons : vm.symtoms,
+					 symptons : vm.symptons,
 					 diagnosis : vm.diagnosis,
 					 therapy : vm.therapy
 			 }

@@ -12,7 +12,7 @@ public class RecordService {
 	@Autowired
 	RecordRepository recordRepository;
 
-	public Record findById(long id){
+	public Record findById(String id){
 		return recordRepository.findOne(id);
 	}
 	

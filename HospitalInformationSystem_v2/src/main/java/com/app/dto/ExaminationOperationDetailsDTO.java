@@ -9,6 +9,9 @@ public class ExaminationOperationDetailsDTO {
 	private int patientId;
 	private String name;
 	private String date;
+	private String symptons;
+	private String diagnosis;
+	private String therapy;
 	
 	public ExaminationOperationDetailsDTO() {
 		super();
@@ -60,6 +63,30 @@ public class ExaminationOperationDetailsDTO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getSymptons() {
+		return symptons;
+	}
+
+	public void setSymptons(String symptons) {
+		this.symptons = symptons;
+	}
+
+	public String getDiagnosis() {
+		return diagnosis;
+	}
+
+	public void setDiagnosis(String diagnosis) {
+		this.diagnosis = diagnosis;
+	}
+
+	public String getTherapy() {
+		return therapy;
+	}
+
+	public void setTherapy(String therapy) {
+		this.therapy = therapy;
 	}
 
 	public String getDate() {

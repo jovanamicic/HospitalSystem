@@ -28,6 +28,8 @@ import com.app.model.Person;
 import com.app.model.Record;
 import com.app.model.Room;
 import com.app.model.RoomSchedule;
+import com.app.security.AESencryption;
+import com.app.security.Base64Utility;
 import com.app.security.TokenUtils;
 import com.app.service.OperationService;
 import com.app.service.PatientService;
@@ -63,6 +65,12 @@ public class OperationController {
 
 	@Autowired
 	private TokenUtils tokenUtils;
+	
+	@Autowired
+	private AESencryption aesEncription;
+	
+	@Autowired
+	private Base64Utility base64Utility;
 
 	/**
 	 * Function that creates new operation.
@@ -87,7 +95,8 @@ public class OperationController {
 		}
 
 		// find patient record
-		Record record = recordService.findById(patient.getPersonalID());
+		String personalIdEncoded = base64Utility.encode(aesEncription.encrypt( patient.getPersonalID() + ""));
+		Record record = recordService.findById(personalIdEncoded);
 		if (record == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -166,7 +175,13 @@ public class OperationController {
 
 		if (o != null) {
 			try {
-				Person p = personService.findByPersonalID(o.getRecordOperation().getId());
+				String encodedPersonalId = o.getRecordOperation().getId();
+				byte[] personalIdBytes = base64Utility.decode(encodedPersonalId);
+				byte[] decriptetBytes = aesEncription.decrypt(personalIdBytes);
+				String decripted = new String(decriptetBytes);
+				Long personalIdDecoded = Long.parseLong(decripted);
+				Person p = personService.findByPersonalID(personalIdDecoded);
+				
 				OperationDTO retVal = OperationConverter.toDTO(o, (Patient) p);
 				return new ResponseEntity<>(retVal, HttpStatus.OK);
 			} catch (Exception e) {
@@ -243,7 +258,8 @@ public class OperationController {
 		if (patient.getChosenDoctor().getId() != person.getId())
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
-		Page<Operation> operations = operationService.findByRecordId(page, patient.getPersonalID());
+		String personalIdEncoded = base64Utility.encode(aesEncription.encrypt( patient.getPersonalID() + ""));
+		Page<Operation> operations = operationService.findByRecordId(page, recordService.findById(personalIdEncoded).getId());
 		return new ResponseEntity<>(operations, HttpStatus.OK);
 	}
 
@@ -261,7 +277,8 @@ public class OperationController {
 		String username = tokenUtils.getUsernameFromToken(token);
 		Person patient = personService.findByUsername(username);
 
-		Page<Operation> retVal = operationService.findByRecordId(page, patient.getPersonalID());
+		String personalIdEncoded = base64Utility.encode(aesEncription.encrypt( patient.getPersonalID() + ""));
+		Page<Operation> retVal = operationService.findByRecordId(page, recordService.findById(personalIdEncoded).getId());
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 

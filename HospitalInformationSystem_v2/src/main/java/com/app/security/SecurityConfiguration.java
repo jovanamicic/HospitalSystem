@@ -1,6 +1,7 @@
 package com.app.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,6 +31,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
+//	@Value("${server.ssl.client.regex}")
+//	private String CN_REGEX;
 
 	@Autowired
 	public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
@@ -69,6 +73,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		httpSecurity.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);
 
 		httpSecurity.requiresChannel().anyRequest().requiresSecure();
+		
+//		httpSecurity.authorizeRequests()
+//		.antMatchers("/login").authenticated() //Specify the URL path(s) requiring authentication...
+//        .and()
+//            .x509() //... and that x509 authentication is enabled
+//                .subjectPrincipalRegex("CN=(.*?)(?:,|$)")
+//                .userDetailsService(userDetailsService);
+//		httpSecurity.authorizeRequests().anyRequest().authenticated().and().x509()
+//          .subjectPrincipalRegex("CN=(.*?)(?:,|$)").userDetailsService(userDetailsService());
+		
 		httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 	}
 

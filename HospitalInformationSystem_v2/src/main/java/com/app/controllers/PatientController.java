@@ -1,10 +1,17 @@
 package com.app.controllers;
 
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+
+import javax.crypto.NoSuchPaddingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,6 +42,8 @@ import com.app.model.Person;
 import com.app.model.Record;
 import com.app.model.Role;
 import com.app.model.RoleMember;
+import com.app.security.AESencryption;
+import com.app.security.Base64Utility;
 import com.app.security.TokenUtils;
 import com.app.service.AddressService;
 import com.app.service.ExaminationService;
@@ -45,6 +54,7 @@ import com.app.service.PersonService;
 import com.app.service.RecordService;
 import com.app.service.RoleMemberService;
 import com.app.service.RoleService;
+
 
 @RestController
 @RequestMapping(value = "patients")
@@ -87,6 +97,12 @@ public class PatientController {
 	@Autowired
 	private RoleService roleService;
 	
+	@Autowired
+	private AESencryption aesEncription;
+	
+	@Autowired
+	private Base64Utility base64Utility;
+	
 	
 	/** Function that register new patient on system.
 	 * @param dto Data about user from form.
@@ -118,8 +134,10 @@ public class PatientController {
 		patient.setGender(dto.getGender());
 		if(dto.getEmail() != "")
 			patient.setEmail(dto.getEmail());
+		
 		MedicalStaff doctor = medicalStaffService.findOne(dto.getDoctor());
 		patient.setChosenDoctor(doctor);
+		
 		if(dto.getBirthday() != null){
 			Date birthday = null;
 			try {
@@ -132,7 +150,9 @@ public class PatientController {
 		patient.setUsername(patient.getName().toLowerCase()+patient.getSurname().toLowerCase());
 		patient.setPassword(passwordEncoder.encode("lozinka"));
 
+		
 		patient = patientService.save(patient);
+		
 		
 		//Patient role
 		Role role = roleService.findByName("ROLE_PATIENT");
@@ -141,8 +161,9 @@ public class PatientController {
 		rm.setRole(role);
 		roleMemberService.save(rm);
 		
+		
 		Record record = new Record();
-		record.setId(patient.getPersonalID());  //TODO code ID of record
+		record.setId(base64Utility.encode(aesEncription.encrypt( patient.getPersonalID() + ""))); 
 		record.setExaminations(new HashSet<Examination>());
 		record.setOperations(new HashSet<Operation>());
 		
@@ -291,8 +312,9 @@ public class PatientController {
 		String username = tokenUtils.getUsernameFromToken(token);
 		Person patient = personService.findByUsername(username);
 		
-		List<Examination> examinations = examinationService.findByRecordId(patient.getPersonalID());
-		List<Operation> operations = operationService.findByRecordId(patient.getPersonalID());
+		String personalIdEncoded = base64Utility.encode(aesEncription.encrypt( patient.getPersonalID() + ""));
+		List<Examination> examinations = examinationService.findByRecordId(personalIdEncoded);
+		List<Operation> operations = operationService.findByRecordId(personalIdEncoded);
 		
 		List<MedicalStaffScheduleDTO> retVal = MedicalStaffScheduleConverter.toSchedule(operations, examinations);
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
@@ -305,10 +327,15 @@ public class PatientController {
 	 * @param type
 	 * @param id
 	 * @return
+	 * @throws NoSuchPaddingException 
+	 * @throws NoSuchProviderException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws InvalidKeyException 
+	 * @throws IOException 
 	 */
 	@PreAuthorize("hasAnyAuthority('View_operation', 'View_examination')")
 	@RequestMapping(value = "/operationExaminationDetails/{type}/{id}", method = RequestMethod.GET)
-	public ResponseEntity<ExaminationOperationDetailsDTO> getDetails(@RequestHeader("X-Auth-Token") String token, @PathVariable String type, @PathVariable int id) {
+	public ResponseEntity<ExaminationOperationDetailsDTO> getDetails(@RequestHeader("X-Auth-Token") String token, @PathVariable String type, @PathVariable int id) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, IOException {
 		ExaminationOperationDetailsDTO retVal = new ExaminationOperationDetailsDTO();
 
 		if (type.equalsIgnoreCase("operacija")) {
@@ -316,7 +343,13 @@ public class PatientController {
 			if (operation == null)
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			
-			Person patient = personService.findByPersonalID(operation.getRecordOperation().getId());
+			String encodedPersonalId = operation.getRecordOperation().getId();
+			byte[] personalIdBytes = base64Utility.decode(encodedPersonalId);
+			byte[] decriptetBytes = aesEncription.decrypt(personalIdBytes);
+			String decripted = new String(decriptetBytes);
+			Long personalIdDecoded = Long.parseLong(decripted);
+			Person patient = personService.findByPersonalID(personalIdDecoded);
+			
 			if (patient == null)
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			
@@ -332,7 +365,14 @@ public class PatientController {
 			if (examination == null)
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			
-			Person patient = personService.findByPersonalID(examination.getRecord().getId());
+
+			String encodedPersonalId = examination.getRecord().getId();
+			byte[] personalIdBytes = base64Utility.decode(encodedPersonalId);
+			byte[] decriptetBytes = aesEncription.decrypt(personalIdBytes);
+			String decripted = new String(decriptetBytes);
+			Long personalIdDecoded = Long.parseLong(decripted);
+			Person patient = personService.findByPersonalID(personalIdDecoded);
+			
 			if (patient == null)
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			
@@ -343,6 +383,10 @@ public class PatientController {
 			retVal.setType(type);
 			retVal.setPatient(patient.getName() + " " + patient.getSurname());
 			retVal.setPatientId(patient.getId());
+			
+			retVal.setSymptons(examination.getSymptons());
+			retVal.setDiagnosis(examination.getDiagnosis());
+			retVal.setTherapy(examination.getTherapy());
 		}
 
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
@@ -377,19 +421,38 @@ public class PatientController {
 			address = addressService.save(address);
 			p.setAddress(address);
 		}
+		else {
+			Address address = new Address();
+			address.setCountry(dto.getCountry());
+			address.setCity(dto.getCity());
+			address.setZipCode(Integer.parseInt(dto.getZipCode()));
+			address.setStreet(dto.getStreet());
+			address.setNumber(dto.getNumber());
+			
+			address = addressService.save(address);
+			p.setAddress(address);
+		}
 		
-		if(dto.getEmail()!= null){
+		if(dto.getEmail() != null){
 			if (personService.emailUnique(dto.getEmail()))
 				p.setEmail(dto.getEmail());
-			else 
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			else {
+				if(personService.findByEmail(dto.getEmail()).getId() == p.getId())
+					p.setEmail(dto.getEmail());
+				else
+					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
 		}
 		
 		if (dto.getUsername() != null){
 			if (personService.usernameUnique(dto.getUsername()))
 				p.setUsername(dto.getUsername());
-			else
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			else {
+				if(personService.findByUsername(dto.getUsername()).getId() == p.getId())
+					p.setUsername(dto.getUsername());
+				else
+					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
 		}
 		
 		patientService.save(p);

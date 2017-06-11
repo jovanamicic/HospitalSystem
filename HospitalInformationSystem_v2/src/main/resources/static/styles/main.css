@@ -3677,3 +3677,6 @@ input[type="submit"].disabled, input[type="submit"]:disabled, input[type="reset"
   cursor: not-allowed;
 }
 
+.block {
+	display: block;
+}

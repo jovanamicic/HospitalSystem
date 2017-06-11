@@ -39,7 +39,6 @@ function PatientScheduleController($location, $stateParams,
 				fillInModal(event.id);
 			},
 			viewRender: function (view, element) {
-                alert('aaa');
            },
 
 			eventRender : vm.eventRender
@@ -95,6 +94,9 @@ function PatientScheduleController($location, $stateParams,
 				 
 				 vm.clickedEvent.time = getTime(data.data.date);
 				 vm.clickedEvent.title = data.data.type;
+				 vm.clickedEvent.symptons = data.data.symptons;
+				 vm.clickedEvent.diagnosis = data.data.diagnosis;
+				 vm.clickedEvent.therapy = data.data.therapy;
 				 
 				 vm.displayModalDetails = "block";
 				 
