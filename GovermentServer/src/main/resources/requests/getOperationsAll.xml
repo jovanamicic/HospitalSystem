@@ -1,0 +1,8 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+	xmlns:gs="com.goverment.model">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <gs:getOperationsRequest>
+      </gs:getOperationsRequest>
+   </soapenv:Body>
+</soapenv:Envelope>
