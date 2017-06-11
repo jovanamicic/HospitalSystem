@@ -148,7 +148,6 @@ function ExaminationController($location, $stateParams,
 				"examinationId" : vm.examination.id,
 				"date" : date
 		}
-		console.log(examinationUpdate)
 		examinationService.updateExamination(examinationUpdate)
 		.then(function(data) {
 			vm.displayModal = "none";
