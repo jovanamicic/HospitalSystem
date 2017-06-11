@@ -1,15 +1,5 @@
 var currentPage = 0;
 
-function JSONExaminationOperation(personalId, type, name, date, doctorId, duration) {
-	return JSON.stringify({
-		"personalId" : personalId,
-		"type" : type,
-		"name" : name,
-		"date" : date,
-		"doctorId" : doctorId,
-		"duration" : duration
-	});
-}
 
 function getParam(variable)
 {
@@ -277,6 +267,8 @@ function setupPagination(totalPages, isLast, isFirst, tmpPage, type) {
 	pagination.appendChild(aNext);
 	
 }
+
+
 
 
 function getPageExaminations(pageNum) {

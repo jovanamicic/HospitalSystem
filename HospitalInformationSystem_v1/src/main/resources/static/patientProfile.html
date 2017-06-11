@@ -199,7 +199,7 @@
 		<!-- Modal content -->
 		<div class="modal-content">
 			<div class="modal-header">
-				<span class="close" id="spanClose">&times;</span>
+				<span class="close" id="spanClose" onclick="spanClose()">&times;</span>
 				<h2 style="text-align: center; margin-top: 5%">Zakazivanje</h2>
 			</div>
 			<div class="modal-body">
@@ -212,7 +212,7 @@
 						</div>
 						
 						<div class="12u$">
-							<input onfocus="disposeErrors(this)" type="text" id="name" placeholder="Naziv " required>
+							<input onfocus="disposeErrors(this)" type="text" id="nameOpEx" placeholder="Naziv " required>
 							<span id="invalidName" class="errorSpan" style="display: none"></span>
 						</div>
 						

@@ -1,3 +1,14 @@
+function JSONExaminationOperation(personalId, type, name, date, doctorId, duration) {
+	return JSON.stringify({
+		"personalId" : personalId,
+		"type" : type,
+		"name" : name,
+		"date" : date,
+		"doctorId" : doctorId,
+		"duration" : duration
+	});
+}
+
 function getParam(variable)
 {
        var query = window.location.search.substring(1);
@@ -31,6 +42,10 @@ function getProfile(){
 			document.getElementById("number").value = data.number;
 			document.getElementById("email").value = data.email;
 			document.getElementById("username").value = data.username;
+			
+			document.getElementById("patientName").value = data.name + " " + data.surname;
+			document.getElementById("personalID").value = data.personalID;
+			
 			var doctor = data.doctor;
 			if (doctor != 0){
 				$.ajax({
@@ -247,7 +262,7 @@ function openModal(element){
 	
 	$("#type").val(element.id);
 	
-	modal.style.display = "block";
+	var modal = document.getElementById('myModal').style.display = "block";
 	
 }
 
@@ -259,7 +274,7 @@ function openModal(element){
  */
 function save() {
 	
-	if($('#name')[0].checkValidity()){
+	if($('#nameOpEx')[0].checkValidity()){
 		if($('#date')[0].checkValidity()){
 			if(checkDate($('#date').val())){
 				var duration;
@@ -287,19 +302,19 @@ function save() {
 							data : JSONExaminationOperation(personalID, type, name, date,
 									doctorId, duration),
 							success : function(data) {
+								var modal = document.getElementById('myModal');
 								modal.style.display = "none";
-								
-								//clean modal
-								$('#type').val("");
-								$('#name').val("");
-								$('#date').val("");
 								
 								if (type == "operacija")
 									toastr.info("Operacija je zakazana za datum " + date);
 								else
 									toastr.info("Pregled je zakazan za datum " + date);
+								
+								//clean modal
+								cleanModal();
 							},
 							error : function(e) {
+								cleanModal();
 								toastr.error("Došlo je do greške prilikom zakazivanja. Pokušajte ponovo.");
 							}
 						});
@@ -319,11 +334,22 @@ function save() {
 		}
 	}
 	else {
-		$('#name').focus();
+		$('#nameOpEx').focus();
 		document.getElementById("invalidName").style.display = "inline";
 		$('#invalidName').text("Obavezno polje.");
 	}
 	
+}
+
+
+function cleanModal() {
+	$('#type').val("");
+	$('#nameOpEx').val("");
+	$('#date').val("");
+	
+	document.getElementById("invalidName").style.display = "none";
+	document.getElementById("invalidDate").style.display = "none";
+	document.getElementById("duration").style.display == "none"
 }
 
 
@@ -332,7 +358,9 @@ function save() {
  * @returns
  */
 function disposeErrors(element){
-	document.getElementById(element.id).nextSibling.nextSibling.style.display = "none";
+	var a =document.getElementById(element.id).nextSibling.nextSibling;
+	if(document.getElementById(element.id).nextSibling.nextSibling != null)
+		document.getElementById(element.id).nextSibling.nextSibling.style.display = "none";
 }
 
 /**
@@ -348,19 +376,16 @@ function checkDate(date){
 	return true;
 }
 
-//Get the modal
-var modal = document.getElementById('myModal');
-
-//Get the <span> element that closes the modal
-var span = document.getElementById("spanClose");
-
 //When the user clicks on <span> (x), close the modal
-span.onclick = function() {
+function spanClose() {
+	var modal = document.getElementById('myModal');
 	modal.style.display = "none";
+	cleanModal();
 }
 
 //When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
+	var modal = document.getElementById('myModal');
 	if (event.target == modal) {
 		modal.style.display = "none";
 	}
