@@ -1,13 +1,13 @@
 package com.app.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -57,6 +57,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		AuthenticationTokenFilter authenticationTokenFilter = new AuthenticationTokenFilter();
 		authenticationTokenFilter.setAuthenticationManager(authenticationManagerBean());
 		return authenticationTokenFilter;
+	}
+	
+	@Override
+	
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("**/goverment");
 	}
 
 	@Override

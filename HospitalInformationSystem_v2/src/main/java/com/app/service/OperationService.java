@@ -16,6 +16,10 @@ public class OperationService {
 	@Autowired
 	private OperationRepository operationRepository;
 	
+	public List<Operation> findAll() {
+		return operationRepository.findAll();
+	}
+	
 	public Operation findById(int id){
 		return operationRepository.findOne(id);
 	}

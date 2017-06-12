@@ -1,7 +1,7 @@
-import requests   # pip install requests
+import requests   # pip install requests[security]
 import xml.dom.minidom
 
-url="http://localhost:8081/ws"
+url="https://localhost:8081/ws"
 
 
 body = """	<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
@@ -17,12 +17,15 @@ body = """	<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/enve
 
 encoded_body = body.encode('utf-8')
 		
-headers = {'Content-Type': 'text/xml; charset=UTF-8',
-           'Content-Length': str(len(encoded_body))}
+headers = {'Content-Type': 'text/xml; charset=UTF-8'}
 
+key_path = 'C:/Users/katar/Desktop/gov_cert/ca.key'
+cer_path = 'C:/Users/katar/Desktop/gov_cert/ca.crt'
+certificate = (cer_path, key_path)
 response = requests.post(url = url,
-						data = encoded_body,
-						headers = headers)
+						data =body,
+						headers = headers,
+						cert = certificate)
 
 
 xml = xml.dom.minidom.parseString(response.content)

@@ -35,7 +35,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 	}
 
 	@Bean
-	public XsdSchema countriesSchema() {
+	public XsdSchema xmlSchema() {
 		return new SimpleXsdSchema(new ClassPathResource("/xsd/goverment_report.xsd"));
 	}
 

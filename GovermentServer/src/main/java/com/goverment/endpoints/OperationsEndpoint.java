@@ -1,10 +1,22 @@
 package com.goverment.endpoints;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -21,6 +33,8 @@ import com.goverment.service.OperationService;
 public class OperationsEndpoint {
 	
 	private static final String NAMESPACE_URI = "com.goverment.model";
+	
+	private final HttpClient client = HttpClientBuilder.create().build();
 
 	private OperationService operationService;
 
@@ -31,8 +45,56 @@ public class OperationsEndpoint {
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getOperationsRequest")
 	@ResponsePayload
-	public GetOperationsResponse getOperation(@RequestPayload GetOperationsRequest request) {
+	public GetOperationsResponse getOperation(@RequestPayload GetOperationsRequest request)  throws IOException {
 		GetOperationsResponse response = new GetOperationsResponse();
+		System.out.println("aaaaaaaa");
+//		HttpGet req = new HttpGet("https://localhost:8080/#/goverment");
+//		
+//		HttpResponse res = client.execute(req);
+//		System.out.println("Response Code : "
+//	                + res.getStatusLine().getStatusCode());
+		
+		try {
+			String keyPath = "C:\\Users\\katar\\git\\HospitalSystem\\KMJ.keystore";
+			String keyPass = "kmjkmj";
+			
+
+			// path to SSL keystore
+			System.setProperty("javax.net.ssl.keyStore", keyPath);
+			System.setProperty("javax.net.ssl.keyStorePassword", keyPass);
+			System.setProperty("javax.net.ssl.trustStore", keyPath);
+			System.setProperty("javax.net.ssl.trustStorePassword", keyPass);
+			//System.setProperty("javax.net.ssl.keyStoreType", keyType);
+
+
+			// post XML over HTTPS
+			URL url = new URL("https://localhost:8080/goverment"); // replace
+			HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setDoOutput(true);
+
+			connection.setHostnameVerifier(new HostnameVerifier() {
+				public boolean verify(String hostname, SSLSession session) {
+					return true;
+				}
+			});
+			connection.connect();
+
+
+			// reading the response
+			InputStreamReader reader = new InputStreamReader(connection.getInputStream());
+			StringBuilder buf = new StringBuilder();
+			char[] cbuf = new char[2048];
+			int num;
+			while (-1 != (num = reader.read(cbuf))) {
+				buf.append(cbuf, 0, num);
+			}
+			String result = buf.toString();
+			System.out.println(result);
+		} catch (Exception e) {
+			System.out.println(e.getCause());
+			e.printStackTrace();
+		}
 		
 		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd"); 
 		
