@@ -9,14 +9,12 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 
 public class Client {
-
+	
 	public static void main(String[] args) {
-		// TODO code application logic here
 
 		try {
 			String keyPath = "C:\\Users\\katar\\git\\HospitalSystem\\KMJ.keystore";
 			String keyPass = "kmjkmj";
-			
 
 			// path to SSL keystore
 			System.setProperty("javax.net.ssl.keyStore", keyPath);
