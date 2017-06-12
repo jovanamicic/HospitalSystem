@@ -1,12 +1,12 @@
-package com.goverment;
+package com.government;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GovermentServerApplication {
+public class GovernmentServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GovermentServerApplication.class, args);
+		SpringApplication.run(GovernmentServerApplication.class, args);
 	}
 }

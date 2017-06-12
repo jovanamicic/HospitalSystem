@@ -1,4 +1,4 @@
-package com.goverment.config;
+package com.government.config;
 
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
@@ -29,14 +29,14 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
 		wsdl11Definition.setPortTypeName("OperationsPort");
 		wsdl11Definition.setLocationUri("/ws");
-		wsdl11Definition.setTargetNamespace("com.goverment.model");
+		wsdl11Definition.setTargetNamespace("com.government.model");
 		wsdl11Definition.setSchema(xmlSchema);
 		return wsdl11Definition;
 	}
 
 	@Bean
 	public XsdSchema xmlSchema() {
-		return new SimpleXsdSchema(new ClassPathResource("/xsd/goverment_report.xsd"));
+		return new SimpleXsdSchema(new ClassPathResource("/xsd/government_report.xsd"));
 	}
 
 }

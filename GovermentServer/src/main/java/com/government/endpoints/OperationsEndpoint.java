@@ -1,8 +1,7 @@
-package com.goverment.endpoints;
+package com.government.endpoints;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,29 +12,23 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
-import com.goverment.model.GetOperationsRequest;
-import com.goverment.model.GetOperationsResponse;
-import com.goverment.model.Operation;
-import com.goverment.model.Report;
-import com.goverment.service.OperationService;
+import com.government.model.GetOperationsRequest;
+import com.government.model.GetOperationsResponse;
+import com.government.model.Operation;
+import com.government.model.Report;
+import com.government.service.OperationService;
 
 @Endpoint
 public class OperationsEndpoint {
 	
-	private static final String NAMESPACE_URI = "com.goverment.model";
+	private static final String NAMESPACE_URI = "com.government.model";
 	
-	private final HttpClient client = HttpClientBuilder.create().build();
-
 	private OperationService operationService;
 
 	@Autowired
