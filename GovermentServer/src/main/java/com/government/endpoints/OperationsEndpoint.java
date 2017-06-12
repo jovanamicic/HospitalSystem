@@ -41,23 +41,19 @@ public class OperationsEndpoint {
 	public GetOperationsResponse getOperation(@RequestPayload GetOperationsRequest request)  throws IOException {
 		GetOperationsResponse response = new GetOperationsResponse();
 		System.out.println("aaaaaaaa");
-//		HttpGet req = new HttpGet("https://localhost:8080/#/goverment");
-//		
-//		HttpResponse res = client.execute(req);
-//		System.out.println("Response Code : "
-//	                + res.getStatusLine().getStatusCode());
 		
 		try {
 			String keyPath = "../KMJ.keystore";
 			String keyPass = "kmjkmj";
 			
+//			String keyPath = "../GOV_SERV.keystore";  zasto kad je sertifikat importovan u truststore?
+//			String keyPass = "govgov";
 
 			// path to SSL keystore
 			System.setProperty("javax.net.ssl.keyStore", keyPath);
 			System.setProperty("javax.net.ssl.keyStorePassword", keyPass);
 			System.setProperty("javax.net.ssl.trustStore", keyPath);
 			System.setProperty("javax.net.ssl.trustStorePassword", keyPass);
-			//System.setProperty("javax.net.ssl.keyStoreType", keyType);
 
 
 			// post XML over HTTPS
