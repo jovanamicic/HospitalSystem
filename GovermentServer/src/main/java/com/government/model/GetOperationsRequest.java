@@ -8,6 +8,8 @@
 
 package com.government.model;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -43,9 +45,15 @@ import javax.xml.bind.annotation.XmlType;
     "endDate"
 })
 @XmlRootElement(name = "getOperationsRequest")
-public class GetOperationsRequest {
+public class GetOperationsRequest implements Serializable {
 
-    @XmlElement(required = true)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3074186077712201176L;
+	
+	
+	@XmlElement(required = true)
     protected String name;
     @XmlElement(name = "start_date", required = true)
     protected String startDate;

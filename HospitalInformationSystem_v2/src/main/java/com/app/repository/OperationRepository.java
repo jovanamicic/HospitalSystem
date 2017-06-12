@@ -1,5 +1,6 @@
 package com.app.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -16,4 +17,13 @@ public interface OperationRepository extends JpaRepository<Operation, Integer> {
 	Page<Operation> findByRoomIdIsNull(Pageable page);
 	Page<Operation> findAll(Pageable page);
 	Page<Operation> findByRecordOperationId(Pageable page, String id);
+	
+
+	// ---------------- Methods for Government Report ----------------
+	
+	List<Operation> findByNameLike(String name);
+	List<Operation> findByDateBetweenAndNameLike(Date dateAfter, Date dateBefore, String name);
+	List<Operation> findByDateAfterAndNameLike(Date dateAfter, String name);
+	List<Operation> findByDateBeforeAndNameLike(Date dateBefore, String name);
+	
 }

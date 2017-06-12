@@ -1,5 +1,6 @@
 package com.app.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,4 +52,24 @@ public class OperationService {
 	public Page<Operation> findByRecordId(Pageable page, String id){
 		return operationRepository.findByRecordOperationId(page, id);
 	}
+	
+	
+	// ---------------- Methods for Government Report ----------------
+	
+	public List<Operation> findByName(String name) {
+		return operationRepository.findByNameLike(name);
+	}
+	
+	public List<Operation> findByDate(Date dateAfter, Date dateBefore, String name) {
+		return operationRepository.findByDateBetweenAndNameLike(dateAfter, dateBefore, name);
+	}
+	
+	public List<Operation> findByDateAfter(Date dateAfter, String name) {
+		return operationRepository.findByDateAfterAndNameLike(dateAfter, name);
+	}
+	
+	public List<Operation> findByDateBefore(Date dateBefore, String name) {
+		return operationRepository.findByDateBeforeAndNameLike(dateBefore, name);
+	}
+	
 }
