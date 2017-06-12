@@ -48,7 +48,7 @@ public class OperationsEndpoint {
 //	                + res.getStatusLine().getStatusCode());
 		
 		try {
-			String keyPath = "C:\\Users\\katar\\git\\HospitalSystem\\KMJ.keystore";
+			String keyPath = "../KMJ.keystore";
 			String keyPass = "kmjkmj";
 			
 

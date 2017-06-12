@@ -13,8 +13,8 @@ public class Client {
 	public static void main(String[] args) {
 
 		try {
-			String keyPath = "C:\\Users\\katar\\git\\HospitalSystem\\KMJ.keystore";
-			String keyPass = "kmjkmj";
+			String keyPath = "../GOV.keystore";
+			String keyPass = "govgov";
 
 			// path to SSL keystore
 			System.setProperty("javax.net.ssl.keyStore", keyPath);
