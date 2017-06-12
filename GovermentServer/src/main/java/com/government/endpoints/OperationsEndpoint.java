@@ -55,13 +55,13 @@ public class OperationsEndpoint {
 			String urlStr = "https://localhost:8080/government?";
 			
 			if (request.getName() != null)
-				urlStr += "name=" + request.getName();
+				urlStr += "name=" + request.getName() + "&";
 			
 			if (request.getStartDate() != null)
-				urlStr += "startDate=" + request.getStartDate();
+				urlStr += "startDate=" + request.getStartDate() + "&";
 			
 			if (request.getEndDate() != null)
-				urlStr += "endDate=" + request.getEndDate();
+				urlStr += "endDate=" + request.getEndDate() + "&";
 			
 			URL url = new URL(urlStr); // replace
 			HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
@@ -76,6 +76,8 @@ public class OperationsEndpoint {
 			});
 			
 			connection.connect();
+			
+//			System.out.println(connection.getServerCertificates()[0].toString());  vidi samo KMJ sertifikat!
 
 			// reading the response
 			InputStreamReader reader = new InputStreamReader(connection.getInputStream());
