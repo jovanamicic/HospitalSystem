@@ -40,11 +40,11 @@ public class OperationsEndpoint {
 		List<Operation> operations = new ArrayList<>();
 
 		try {
-			String keyPath = "../KMJ.keystore";
-			String keyPass = "kmjkmj";
+//			String keyPath = "../KMJ.keystore";
+//			String keyPass = "kmjkmj";
 			
-//			String keyPath = "../GOV_SERV.keystore";  zasto kad je sertifikat importovan u truststore?
-//			String keyPass = "govgov";
+			String keyPath = "../GOV_SERV.keystore";  //zasto kad je sertifikat importovan u truststore?
+			String keyPass = "govgov";
 
 			// path to SSL keystore
 			System.setProperty("javax.net.ssl.keyStore", keyPath);
@@ -52,7 +52,7 @@ public class OperationsEndpoint {
 			System.setProperty("javax.net.ssl.trustStore", keyPath);
 			System.setProperty("javax.net.ssl.trustStorePassword", keyPass);
 			
-			String urlStr = "https://localhost:8080/government?";
+			String urlStr = "https://localhost:8082/government?";
 			
 			if (request.getName() != null)
 				urlStr += "name=" + request.getName() + "&";
@@ -77,7 +77,12 @@ public class OperationsEndpoint {
 			
 			connection.connect();
 			
+			System.out.println(connection.getServerCertificates().length);
 //			System.out.println(connection.getServerCertificates()[0].toString());  vidi samo KMJ sertifikat!
+			for (int i = 0; i < connection.getServerCertificates().length; i++) {
+				System.out.println(connection.getServerCertificates()[i].toString());
+			}
+			System.out.println(connection.getServerCertificates());
 
 			// reading the response
 			InputStreamReader reader = new InputStreamReader(connection.getInputStream());
