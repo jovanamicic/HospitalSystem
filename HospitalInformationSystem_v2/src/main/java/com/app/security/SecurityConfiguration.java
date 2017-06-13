@@ -78,6 +78,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		// add filter for adding CSRF token in the request
 		httpSecurity.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);
 
+		//for HTTPS
 		httpSecurity.requiresChannel().anyRequest().requiresSecure();
 		
 //		httpSecurity.authorizeRequests()
