@@ -28,6 +28,8 @@ public class AESencryption {
 	private KeyStoreReader keyStoreReader;
 	
 	static String IV = "AAAAAAAAAAAAAAAA";
+	
+	private final String KEY_STORE_FILE = "..\\KMJ2.keystore";
 	private final String KEY_STORE_PASS = "kmjkmj";
 	private final String ALIAS = "kmj128";
 	private final String PASS = "kmjkmj";
@@ -104,11 +106,12 @@ public class AESencryption {
 
 	public byte[] decrypt(byte[] cipherText)
 			throws NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException {
-		int index = System.getProperty("user.dir").indexOf("HospitalSystem");
-		String keyStoreFile = System.getProperty("user.dir").substring(0, index);
-		keyStoreFile = keyStoreFile + "HospitalSystem\\KMJ2.keystore";
+		//int index = System.getProperty("user.dir").indexOf("HospitalSystem");
+		//String keyStoreFile = System.getProperty("user.dir").substring(0, index);
+		//keyStoreFile = keyStoreFile + "HospitalSystem\\KMJ2.keystore";
 		
-		SecretKey key = keyStoreReader.readSecretKey(keyStoreFile, KEY_STORE_PASS, ALIAS, PASS);
+		
+		SecretKey key = keyStoreReader.readSecretKey(KEY_STORE_FILE, KEY_STORE_PASS, ALIAS, PASS);
 		try {
 			Cipher desCipherDec = Cipher.getInstance("AES/CBC/PKCS5Padding", "BC");
 			desCipherDec.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(IV.getBytes("UTF-8")));
