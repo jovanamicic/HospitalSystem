@@ -92,7 +92,7 @@ public class OperationController {
 		// check personal ID of patient
 		Person patient = personService.findByPersonalID(operation.getPersonalId());
 		if (patient == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
 		// find patient record

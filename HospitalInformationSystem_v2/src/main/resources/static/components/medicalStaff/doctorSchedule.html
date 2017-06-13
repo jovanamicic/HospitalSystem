@@ -1,16 +1,24 @@
 
 <!-- Content -->
 <section>
-	<div ui-calendar="medicalStaffScheduleCtrl.uiConfig.calendar" ng-model="medicalStaffScheduleCtrl.eventSources"></div>
+	<header class="major">
+		<h2>Radni kalendar za {{medicalStaffScheduleCtrl.monthYear}}</h2>
+	</header>
+	
+	<div ui-calendar="medicalStaffScheduleCtrl.uiConfig.calendar"
+		ng-model="medicalStaffScheduleCtrl.eventSources"></div>
 </section>
 
 <!-- The Modal for set up operation or examination -->
-<div id="myModal" class="modal" ng-style="{'display': medicalStaffScheduleCtrl.displayModal}" click-anywhere-but-here="medicalStaffScheduleCtrl.closeModal()">
+<div id="myModal" class="modal"
+	ng-style="{'display': medicalStaffScheduleCtrl.displayModal}"
+	click-anywhere-but-here="medicalStaffScheduleCtrl.closeModal()">
 
 	<!-- Modal content -->
 	<div class="modal-content">
 		<div class="modal-header">
-			<span class="close" id="spanClose" ng-click="medicalStaffScheduleCtrl.closeModal()">&times;</span>
+			<span class="close" id="spanClose"
+				ng-click="medicalStaffScheduleCtrl.closeModal()">&times;</span>
 			<h2 style="text-align: center; margin-top: 5%">Zakazivanje</h2>
 		</div>
 		<div class="modal-body">
@@ -18,34 +26,48 @@
 				<div class="row uniform">
 
 					<div class="12u$" style="margin-top: 5%">
-						<input ng-focus="medicalStaffScheduleCtrl.wrongPatientPersonalId = false; medicalStaffScheduleCtrl.wrongId = false" type="text" id="personalID"
-							placeholder="JMBG pacijenta" ng-model="medicalStaffScheduleCtrl.operationExamination.personalId"> <span id="invalidPatientID"
-							class="errorSpan" ng-show="medicalStaffScheduleCtrl.wrongPatientPersonalId">Ne postoji pacijent sa unetim JMBG-om.</span>
-							<span id="invalidPatientID2"
-							class="errorSpan" ng-show="medicalStaffScheduleCtrl.wrongId">Unesite JMBG pacijenta.</span>
+						<input
+							ng-focus="medicalStaffScheduleCtrl.wrongPatientPersonalId = false; medicalStaffScheduleCtrl.wrongId = false"
+							type="text" id="personalID" placeholder="JMBG pacijenta"
+							ng-model="medicalStaffScheduleCtrl.operationExamination.personalId">
+						<span id="invalidPatientID" class="errorSpan"
+							ng-show="medicalStaffScheduleCtrl.wrongPatientPersonalId">Ne
+							postoji pacijent sa unetim JMBG-om.</span> <span id="invalidPatientID2"
+							class="errorSpan" ng-show="medicalStaffScheduleCtrl.wrongId">Unesite
+							JMBG pacijenta.</span>
 					</div>
 
 					<div class="12u$">
 						<div class="select-wrapper">
-							<select ng-focus="medicalStaffScheduleCtrl.wrongType = false" name="type" id="type" ng-model="medicalStaffScheduleCtrl.operationExamination.type">
+							<select ng-focus="medicalStaffScheduleCtrl.wrongType = false"
+								name="type" id="type"
+								ng-model="medicalStaffScheduleCtrl.operationExamination.type">
 								<option value="">- Vrsta -</option>
 								<option value="operacija">Operacija</option>
 								<option value="pregled">Pregled</option>
-							</select>
-							<span id="invalidType"
-							class="errorSpan" ng-show="medicalStaffScheduleCtrl.wrongType">Odaberite vrstu intervencije.</span>
+							</select> <span id="invalidType" class="errorSpan"
+								ng-show="medicalStaffScheduleCtrl.wrongType">Odaberite
+								vrstu intervencije.</span>
 						</div>
 					</div>
-					<div class="12u$" id="durationDiv" ng-show="medicalStaffScheduleCtrl.operationExamination.type == 'operacija'">
-						<input ng-focus="medicalStaffScheduleCtrl.wrongDuration = false" type="text" id="duration"
-							placeholder="Trajanje operacije" required ng-model="medicalStaffScheduleCtrl.operationExamination.duration"> <span
-							id="invalidDuration" class="errorSpan" ng-show="medicalStaffScheduleCtrl.wrongDuration">Unesite trajanje operacije.</span>
+					<div class="12u$" id="durationDiv"
+						ng-show="medicalStaffScheduleCtrl.operationExamination.type == 'operacija'">
+						<input ng-focus="medicalStaffScheduleCtrl.wrongDuration = false"
+							type="text" id="duration" placeholder="Trajanje operacije"
+							required
+							ng-model="medicalStaffScheduleCtrl.operationExamination.duration">
+						<span id="invalidDuration" class="errorSpan"
+							ng-show="medicalStaffScheduleCtrl.wrongDuration">Unesite
+							trajanje operacije.</span>
 					</div>
 					<!-- Break -->
 					<div class="12u$">
-						<input  ng-focus="medicalStaffScheduleCtrl.wrongName = false"type="text" id="name"
-							placeholder="Naziv" required ng-model="medicalStaffScheduleCtrl.operationExamination.name"> <span id="invalidName"
-							class="errorSpan" ng-show="medicalStaffScheduleCtrl.wrongName">Unesite naziv intervencije.</span>
+						<input ng-focus="medicalStaffScheduleCtrl.wrongName = false"
+							type="text" id="name" placeholder="Naziv" required
+							ng-model="medicalStaffScheduleCtrl.operationExamination.name">
+						<span id="invalidName" class="errorSpan"
+							ng-show="medicalStaffScheduleCtrl.wrongName">Unesite naziv
+							intervencije.</span>
 					</div>
 					<div class="12u$">
 						<input type="text" id="date" placeholder="Datum"
@@ -54,7 +76,8 @@
 					<!-- Break -->
 					<div class="12u$">
 						<ul class="actions" style="text-align: center;">
-							<li><a class="button" ng-click="medicalStaffScheduleCtrl.save()">Potvrdi</a></li>
+							<li><a class="button"
+								ng-click="medicalStaffScheduleCtrl.save()">Potvrdi</a></li>
 						</ul>
 					</div>
 				</div>
@@ -65,25 +88,35 @@
 
 
 <!-- The Modal for detail look about operation or examination -->
-<div id="myModalDetail" class="modal" ng-style="{'display': medicalStaffScheduleCtrl.displayModalDetails}">
+<div id="myModalDetail" class="modal"
+	ng-style="{'display': medicalStaffScheduleCtrl.displayModalDetails}">
 	<!-- Modal content -->
 	<div class="modal-content">
 		<div class="modal-header">
-			<span class="close" id="spanCloseDetail" ng-click="medicalStaffScheduleCtrl.closeModalDetails()">&times;</span>
-			<h2 id="operationOrExaminationTitle" ng-model="medicalStaffScheduleCtrl.clickedEvent.title"
+			<span class="close" id="spanCloseDetail"
+				ng-click="medicalStaffScheduleCtrl.closeModalDetails()">&times;</span>
+			<h2 id="operationOrExaminationTitle"
+				ng-model="medicalStaffScheduleCtrl.clickedEvent.title"
 				style="text-align: center; margin-top: 5%">{{medicalStaffScheduleCtrl.clickedEvent.title}}</h2>
 		</div>
 		<div class="modal-body">
 			<ul class="contact" style="width: 100%; margin-top: 5%">
-				<li class="fa-user" title="Pacijent" id="patient" >{{medicalStaffScheduleCtrl.clickedEvent.patient}}</li>
-				<li class="fa-tag" title="Naziv intervencije" id="nameTag" >{{medicalStaffScheduleCtrl.clickedEvent.name}}</li>
-				<li class="fa-calendar" title="Datum" id="dateTag" >{{medicalStaffScheduleCtrl.clickedEvent.date}}</li>
-				<li class="fa-clock-o" title="Vreme" id="timeTag" ng-if="medicalStaffScheduleCtrl.clickedEvent.time == '0:00' ? medicalStaffScheduleCtrl.clickedEvent.time='Satnica još uvek nije uvrđena' : medicalStaffScheduleCtrl.clickedEvent.time">{{medicalStaffScheduleCtrl.clickedEvent.time}}</li>
+				<li class="fa-user" title="Pacijent" id="patient">{{medicalStaffScheduleCtrl.clickedEvent.patient}}</li>
+				<li class="fa-tag" title="Naziv intervencije" id="nameTag">{{medicalStaffScheduleCtrl.clickedEvent.name}}</li>
+				<li class="fa-calendar" title="Datum" id="dateTag">{{medicalStaffScheduleCtrl.clickedEvent.date}}</li>
+				<li class="fa-clock-o" title="Vreme" id="timeTag"
+					ng-if="medicalStaffScheduleCtrl.clickedEvent.time == '0:00' ? medicalStaffScheduleCtrl.clickedEvent.time='Satnica još uvek nije uvrđena' : medicalStaffScheduleCtrl.clickedEvent.time">{{medicalStaffScheduleCtrl.clickedEvent.time}}</li>
 				<li id="operationExaminationId" style="display: none">{{medicalStaffScheduleCtrl.clickedEvent.operationExaminationId}}</li>
-				<li class="fa-heartbeat" title="Simptomi" id="symptons" ng-show="medicalStaffScheduleCtrl.clickedEvent.title == 'Pregled'" ng-if="medicalStaffScheduleCtrl.clickedEvent.symptons == null ? medicalStaffScheduleCtrl.clickedEvent.symptons='-' : medicalStaffScheduleCtrl.clickedEvent.symptons">{{medicalStaffScheduleCtrl.clickedEvent.symptons}}</li>
-				<li class="fa fa-line-chart block" title="Dijagnoza" id="diagnosis" ng-show="medicalStaffScheduleCtrl.clickedEvent.title == 'Pregled'" ng-if="medicalStaffScheduleCtrl.clickedEvent.diagnosis == null ? medicalStaffScheduleCtrl.clickedEvent.diagnosis='-' : medicalStaffScheduleCtrl.clickedEvent.diagnosis">{{medicalStaffScheduleCtrl.clickedEvent.diagnosis}}</li>
-				<li class="fa fa-eyedropper block" title="Terapija" id="therapy" ng-show="medicalStaffScheduleCtrl.clickedEvent.title == 'Pregled'" ng-if="medicalStaffScheduleCtrl.clickedEvent.therapy == null ? medicalStaffScheduleCtrl.clickedEvent.therapy='-' : medicalStaffScheduleCtrl.clickedEvent.therapy">{{medicalStaffScheduleCtrl.clickedEvent.therapy}}</li>
-			
+				<li class="fa-heartbeat" title="Simptomi" id="symptons"
+					ng-show="medicalStaffScheduleCtrl.clickedEvent.title == 'Pregled'"
+					ng-if="medicalStaffScheduleCtrl.clickedEvent.symptons == null ? medicalStaffScheduleCtrl.clickedEvent.symptons='-' : medicalStaffScheduleCtrl.clickedEvent.symptons">{{medicalStaffScheduleCtrl.clickedEvent.symptons}}</li>
+				<li class="fa fa-line-chart block" title="Dijagnoza" id="diagnosis"
+					ng-show="medicalStaffScheduleCtrl.clickedEvent.title == 'Pregled'"
+					ng-if="medicalStaffScheduleCtrl.clickedEvent.diagnosis == null ? medicalStaffScheduleCtrl.clickedEvent.diagnosis='-' : medicalStaffScheduleCtrl.clickedEvent.diagnosis">{{medicalStaffScheduleCtrl.clickedEvent.diagnosis}}</li>
+				<li class="fa fa-eyedropper block" title="Terapija" id="therapy"
+					ng-show="medicalStaffScheduleCtrl.clickedEvent.title == 'Pregled'"
+					ng-if="medicalStaffScheduleCtrl.clickedEvent.therapy == null ? medicalStaffScheduleCtrl.clickedEvent.therapy='-' : medicalStaffScheduleCtrl.clickedEvent.therapy">{{medicalStaffScheduleCtrl.clickedEvent.therapy}}</li>
+
 				<li style="margin-left: 11%"><a class="button icon fa-ban"
 					ng-click="medicalStaffScheduleCtrl.cancelOperationExamination()">Otka�i</a></li>
 			</ul>

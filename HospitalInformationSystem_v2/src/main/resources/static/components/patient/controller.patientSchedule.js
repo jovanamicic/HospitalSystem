@@ -15,18 +15,19 @@ function PatientScheduleController($location, $stateParams,
 	 
 	 vm.displayModalDetails = "none";
 	 
-	/* event source that contains custom events on the scope */
+	 vm.monthYear;
+	 vm.monthNames = ["januar", "februar", "mart", "april", "maj", "jun",
+		  "jul", "avgust", "septembar", "octobar", "novembar", "decembar"
+		];
+	 
 	vm.events = [];
 	vm.eventSources =  [] ;
 	
 		
 	vm.uiConfig = {
 		calendar : {
-			// lang : 'sr',
 			header : {
-				left : 'prev,next today',
-				center : 'title',
-				right : 'month'
+				right : 'title'
 			},
 			weekNumbers : true,
 			weekNumbersWithinDays : true,
@@ -74,7 +75,17 @@ function PatientScheduleController($location, $stateParams,
 	 }
 	 getSchedule();
 		
-		
+	 displayCurrentMonthYear = function() {
+			var today = new Date();
+			
+			var mm = today.getMonth(); //January is 0!
+			var yyyy = today.getFullYear();
+
+			mm = vm.monthNames[mm];
+			
+			vm.monthYear = mm + " " + yyyy;
+		}
+		displayCurrentMonthYear();	
 
 	 function fillInModal(detail) {
 			var detail = detail.split("-");
@@ -187,14 +198,5 @@ function PatientScheduleController($location, $stateParams,
 			uiCalendarConfig.calendars[calendar].fullCalendar('render');
 		}
 	};
-
-	vm.uiConfig.calendar.dayNames = [ "Nedelja", "Ponedeljak", "Utorak",
-		"Sreda", "Četvrtak", "Petak", "Subota" ];
-	vm.uiConfig.calendar.dayNamesShort = [ "Ned", "Pon", "Uto", "Sre",
-		"Čet", "Pet", "Sub" ];
-	vm.uiConfig.calendar.monthNames = ['Januar', 'Februar', 'Mart', 'April', 'Maj', 'Jun', 'Jul',
-		 'Avgust', 'Septembar', 'Octobar', 'Novembar', 'Decembar']
-	vm.uiConfig.calendar.currentText = "Danas";
-	vm.uiConfig.calendar.month = "Mesec";
 
 }

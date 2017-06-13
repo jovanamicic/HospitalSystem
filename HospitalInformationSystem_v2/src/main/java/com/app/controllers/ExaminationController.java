@@ -117,7 +117,7 @@ public class ExaminationController {
 		// check personal ID of patient
 		Person patient = personService.findByPersonalID(examination.getPersonalId());
 		if (patient == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
 		// find patient record

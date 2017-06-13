@@ -14,21 +14,22 @@ function MedicalStaffScheduleController($location, $stateParams,
 	 vm.operationExamination = {};
 	 vm.clickedEvent = {};
 	 
+	 vm.monthYear;
+	 vm.monthNames = ["januar", "februar", "mart", "april", "maj", "jun",
+		  "jul", "avgust", "septembar", "octobar", "novembar", "decembar"
+		];
+	 
 	 vm.displayModal = "none";
 	 vm.displayModalDetails = "none";
 	 
-	/* event source that contains custom events on the scope */
 	vm.events = [];
 	vm.eventSources =  [] ;
 	
 		
 	vm.uiConfig = {
 		calendar : {
-			// lang : 'sr',
 			header : {
-				left : 'prev,next today',
-				center : 'title',
-				right : 'month'
+				right : 'title'
 			},
 			weekNumbers : true,
 			weekNumbersWithinDays : true,
@@ -55,7 +56,19 @@ function MedicalStaffScheduleController($location, $stateParams,
 
 		}
 	};
+	
+	
+	displayCurrentMonthYear = function() {
+		var today = new Date();
 		
+		var mm = today.getMonth(); //January is 0!
+		var yyyy = today.getFullYear();
+
+		mm = vm.monthNames[mm];
+		
+		vm.monthYear = mm + " " + yyyy;
+	}
+	displayCurrentMonthYear();	
 		
 	 getSchedule = function() {
 		 medicalStaffService.getSchedule().then(function(data, status, headers, config) {
@@ -102,6 +115,8 @@ function MedicalStaffScheduleController($location, $stateParams,
 	
 				 }).catch(function(data, status, headers, config) {
 					 vm.errorMessageWrongPatientPersonalId = "Something went wrong with saving operation!";
+					 if (data.status == 404)
+						 vm.wrongPatientPersonalId = true;
 				 });
 			 }
 			 else if(vm.operationExamination.type == "pregled"){
@@ -119,7 +134,8 @@ function MedicalStaffScheduleController($location, $stateParams,
 								
 				 }).catch(function(data, status, headers, config) {
 					 vm.errorMessageWrongPatientPersonalId = "Something went wrong with saving exmination!";
-					 vm.wrongPatientPersonalId = true;
+					 if (data.status == 404)
+						 vm.wrongPatientPersonalId = true;
 				 });
 			 }
 		 }
@@ -272,14 +288,5 @@ function MedicalStaffScheduleController($location, $stateParams,
 		uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
 	};
 	
-
-	vm.uiConfig.calendar.dayNames = [ "Nedelja", "Ponedeljak", "Utorak",
-		"Sreda", "Četvrtak", "Petak", "Subota" ];
-	vm.uiConfig.calendar.dayNamesShort = [ "Ned", "Pon", "Uto", "Sre",
-		"Čet", "Pet", "Sub" ];
-	vm.uiConfig.calendar.monthNames = ['Januar', 'Februar', 'Mart', 'April', 'Maj', 'Jun', 'Jul',
-		 'Avgust', 'Septembar', 'Octobar', 'Novembar', 'Decembar']
-	vm.uiConfig.calendar.currentText = "Danas";
-	vm.uiConfig.calendar.month = "Mesec";
 
 }
