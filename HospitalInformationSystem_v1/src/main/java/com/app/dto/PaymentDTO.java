@@ -6,6 +6,7 @@ public class PaymentDTO {
 	private String account;
 	private Double amount;
 	private String currency;
+	private int managerId;
 	
 	public PaymentDTO(){}
 
@@ -39,6 +40,14 @@ public class PaymentDTO {
 
 	public void setCurrency(String currency) {
 		this.currency = currency;
+	}
+	
+	public int getManagerId() {
+		return managerId;
+	}
+
+	public void setManagerId(int managerId) {
+		this.managerId = managerId;
 	}
 
 	@Override

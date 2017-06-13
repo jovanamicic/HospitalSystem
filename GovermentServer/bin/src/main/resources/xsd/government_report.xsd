@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="com.government.model" xmlns:gov="com.government.model">
+
+    <xs:element name="Operation">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name"/>
+                <xs:element name="date"/>
+                <xs:element name="record_id"/>
+            </xs:sequence>
+            <xs:attribute name="id"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Examination">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name"/>
+                <xs:element name="date"/>
+                <xs:element name="diagnosis"/>
+                <xs:element name="symptons"/>
+                <xs:element name="record_id"/>
+            </xs:sequence>
+            <xs:attribute name="id"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Report">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="gov:Operation"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="gov:Examination"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+
+
+    <xs:element name="getOperationsRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="start_date" type="xs:string"/>
+                <xs:element name="end_date" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getOperationsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="gov:Report"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

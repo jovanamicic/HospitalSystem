@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +24,7 @@ import com.app.service.PersonService;
 
 @RestController
 @RequestMapping(value = "payments")
+@CrossOrigin(origins = "http://localhost:8084")
 public class PaymentController {
 	
 	private static final int DEFAULT_PAGE_SIZE = 10;
@@ -47,7 +49,8 @@ public class PaymentController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
-		int id = (int) session.getAttribute("person");
+		//int id = (int) session.getAttribute("person");
+		int id = (int) dto.getManagerId();
 		Person manager = personService.findOne(id);
 		Payment p = new Payment();
 		p.setAccount(dto.getAccount());

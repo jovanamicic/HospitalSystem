@@ -22,12 +22,13 @@ function getDoctors(){
 }
 
 
-function JSONNewPayment(recipient, account, amount, currency) {
+function JSONNewPayment(recipient, account, amount, currency, managerId) {
 	return JSON.stringify({
 		"recipient" : recipient,
 		"account" : account,
 		"amount" : amount,
-		"currency" : currency
+		"currency" : currency,
+		"managerId" : managerId
 	});
 }
 
@@ -36,6 +37,7 @@ function savePayment(){
 	account = $("#account").val();
 	amount = $("#amount").val();
 	currency = $("#currency").val();
+	managerId = sessionStorage.getItem("person");
 	
 	if (recipient == "" || account == "" || amount == "" || currency == ""){
 		toastr.error("Niste popunili sva polja. Molimo Vas pokušajte ponovo.");
@@ -45,7 +47,7 @@ function savePayment(){
 			type : "POST",
 			contentType: "application/json",
 			url : "/payments",
-			data : JSONNewPayment(recipient, account, amount, currency),
+			data : JSONNewPayment(recipient, account, amount, currency, managerId),
 			success : function() {
 				toastr.success("Uplata je uspešno izvršena.");
 				setTimeout(function(){
