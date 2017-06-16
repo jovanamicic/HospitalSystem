@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.app.model.Person;
@@ -19,6 +20,16 @@ import com.mysql.jdbc.Statement;
 
 @Service
 public class PersonService{
+	
+	@Autowired
+	public PersonService(
+			@Value("${spring.datasource.username}") String user, 
+			@Value("${spring.datasource.password}") String pass,
+			@Value("${spring.datasource.url}") String url) {
+		this.db_username = user;
+		this.db_password = pass;
+		this.db_url = url;
+	};
 
 	@Autowired
 	PersonRepository personRepository;
@@ -26,18 +37,21 @@ public class PersonService{
 	@PersistenceContext
 	private EntityManager em;
 	
-	static final String DB_URL = "jdbc:mysql://localhost:3306/hospital_v1?useUnicode=yes&characterEncoding=UTF-8&useSSL=false";
+	//static final String DB_URL = "jdbc:mysql://localhost:3306/hospital_v1?useUnicode=yes&characterEncoding=UTF-8&useSSL=false";
 
 	//  Database credentials
-	static final String USER = "root";
-	static final String PASS = "plavalaguna";
+	private String db_username;
+	private String db_password;
+	private String db_url;
 
-	public Person findForUsernameAndPassword(String username,String password) {
+	public Person findForUsernameAndPassword(
+			String username,String password) {
 		Person p = new Person();
 		java.sql.Connection conn = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			System.out.println("USER: " + db_username + " PASS: " + db_password);
+			conn = DriverManager.getConnection(db_url, db_username, db_password);
 			String query = "SELECT * FROM person WHERE ( username ='"+ username + " ' AND password='"+password+"')";  //' or '1'='1
 			java.sql.Statement stmt = conn.createStatement();						
 			ResultSet rs = stmt.executeQuery(query);
