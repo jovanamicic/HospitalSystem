@@ -95,12 +95,34 @@ function fillInModal(detail){
 		success : function(data) {
 			console.log(document.getElementById('doctor').innerHTML)
 			document.getElementById('doctor').innerHTML = data.doctor;
-			document.getElementById('patient').innerHTML = data.patient;
 			document.getElementById('nameTag').innerHTML = data.name;
 			var date = changeDate(data.date).split("-");
 			document.getElementById('dateTag').innerHTML = date[2] + "-" + date[1] + "-" + date[0];
 			document.getElementById('timeTag').innerHTML = getTime(data.date);
 			document.getElementById('operationOrExaminationTitle').innerHTML = data.type;
+			
+			if (data.symptons != null){
+				document.getElementById('symptons').style.display = "block";
+				document.getElementById('symptons').innerHTML = data.symptons;
+			}
+			else {
+				document.getElementById('symptons').style.display = "none";
+			}
+			if (data.diagnosis != null){
+				document.getElementById('diagnosis').style.display = "block";
+				document.getElementById('diagnosis').innerHTML = data.diagnosis;
+			}
+			else {
+				document.getElementById('diagnosis').style.display = "none";
+			}
+			if (data.therapy != null){
+				document.getElementById('therapy').style.display = "block";
+				document.getElementById('therapy').innerHTML = data.therapy;
+			}
+			else {
+				document.getElementById('therapy').style.display = "none";
+			}
+			
 			modalDetail.style.display = "block"; // open window on click
 			
 		},
@@ -151,6 +173,9 @@ function getTime(date) {
 	
 	time += mins;
 	
+	if (time == "0:00")
+		time = "Satnica još uvek nije utvrđena."
+	
 	return time;
 }
 
@@ -161,7 +186,7 @@ var modalDetail = document.getElementById('myModalDetail');
 var spanDetail = document.getElementById("spanCloseDetail");
 
 // When the user clicks on <span> (x), close the modal
-spanDetail.onclick = function() {
+function closeModalDetails() {
 	modalDetail.style.display = "none";
 }
 
