@@ -162,7 +162,7 @@ function searchPatients(){
 			contentType : "application/json",
 			url : "/patients/search/" + searchData+ "?page=" + currentPage,
 			success : function(data) {
-				if (data.totalElements != 0){
+				if (data.content.length != 0){
 					document.getElementById("patientsTable").style.display= "block";
 					document.getElementById("noPatients").style.display= "none";
 					document.getElementById("noMyPatients").style.display= "none";
@@ -177,15 +177,9 @@ function searchPatients(){
 						pagination.style.display = "none";	
 					
 				}
-				else {
-					document.getElementById("patientsTable").style.display= "none";
-					document.getElementById("noPatients").style.display= "block";
-					document.getElementById("noMyPatients").style.display= "none";
-					pagination.style.display = "none";	
-				}
 			},
 			error : function(e) {
-				alert('Error: ' + e);
+				window.location.href = "/noResult.html?q="+searchData;
 			}
 		});
 	}

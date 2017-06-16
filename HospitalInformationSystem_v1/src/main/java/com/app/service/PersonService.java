@@ -30,7 +30,7 @@ public class PersonService{
 
 	//  Database credentials
 	static final String USER = "root";
-	static final String PASS = "root";
+	static final String PASS = "plavalaguna";
 
 	public Person findForUsernameAndPassword(String username,String password) {
 		Person p = new Person();
