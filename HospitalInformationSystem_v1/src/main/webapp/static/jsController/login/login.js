@@ -15,6 +15,7 @@ function login(){
 			data : JSONLogin(username, password),
 			success : function(data) {
 					sessionStorage.setItem('person', data.id);
+					localStorage.setItem('personID', data.id); //because of sharing storage between tabs
 					var url = "";
 					if (data.role.toLowerCase().indexOf("manager") != -1) 
 						url = "managerProfile.html";
