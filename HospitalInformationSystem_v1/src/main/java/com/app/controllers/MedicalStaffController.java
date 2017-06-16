@@ -117,6 +117,9 @@ public class MedicalStaffController {
 			retVal.setType(eo.getType());
 			retVal.setPatient(patient.getName() + " " + patient.getSurname());
 			retVal.setPatientId(patient.getId());
+			retVal.setDiagnosis(examination.getDiagnosis());
+			retVal.setSymptons(examination.getSymptons());
+			retVal.setTherapy(examination.getTherapy());
 		}
 		
 		return new ResponseEntity<>(retVal, HttpStatus.OK);

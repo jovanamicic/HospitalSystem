@@ -69,7 +69,7 @@ public class ExaminationController {
 		return new ResponseEntity<>(examinations, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/scheduleExamination",  method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "/saveExamination",  method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<Examination> saveExamination(@RequestBody MedicalStaffScheduleDTO examination) throws ParseException {
 		
 		//check personal ID of patient

@@ -3645,3 +3645,7 @@ input[type="submit"].disabled, input[type="submit"]:disabled, input[type="reset"
 .page {
     padding: 8px 16px;
 }
+
+.block {
+	display: block;	
+}
