@@ -24,7 +24,7 @@ import com.app.service.PersonService;
 
 @RestController
 @RequestMapping(value = "payments")
-@CrossOrigin(origins = "http://localhost:8084")
+//@CrossOrigin(origins = "*")
 public class PaymentController {
 	
 	private static final int DEFAULT_PAGE_SIZE = 10;
@@ -61,7 +61,7 @@ public class PaymentController {
 		p.setManager(manager);
 		
 		p = paymentService.save(p);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	/** Function returns all payments from database. 

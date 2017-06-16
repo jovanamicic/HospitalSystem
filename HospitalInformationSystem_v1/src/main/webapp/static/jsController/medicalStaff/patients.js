@@ -58,7 +58,7 @@ function getMyPatients() {
 			document.getElementById("myP").className = "button special fit";
 			document.getElementById("allP").className = "button fit";
 			
-			if (data.length != 0){
+			if (data.totalElements != 0){
 				document.getElementById("patientsTable").style.display= "block";
 				document.getElementById("noMyPatients").style.display= "none";
 				fillInTable(data, table);
@@ -162,10 +162,11 @@ function searchPatients(){
 			contentType : "application/json",
 			url : "/patients/search/" + searchData+ "?page=" + currentPage,
 			success : function(data) {
-				
-				if (data.length != 0){
+				if (data.content.length != 0){
 					document.getElementById("patientsTable").style.display= "block";
 					document.getElementById("noPatients").style.display= "none";
+					document.getElementById("noMyPatients").style.display= "none";
+					
 					fillInTable(data, table);
 					
 					if (data.totalPages > 1) {
@@ -176,14 +177,9 @@ function searchPatients(){
 						pagination.style.display = "none";	
 					
 				}
-				else {
-					document.getElementById("patientsTable").style.display= "none";
-					document.getElementById("noPatients").style.display= "block";
-					pagination.style.display = "none";	
-				}
 			},
 			error : function(e) {
-				alert('Error: ' + e);
+				window.location.href = "/noResult.html?q="+searchData;
 			}
 		});
 	}

@@ -79,7 +79,7 @@
 		<!-- Modal content -->
 		<div class="modal-content">
 			<div class="modal-header">
-				<span class="close" id="spanClose">&times;</span>
+				<span class="close" id="spanClose" onclick="closeModal()">&times;</span>
 				<h2 style="text-align: center; margin-top: 5%">Zakazivanje</h2>
 			</div>
 			<div class="modal-body">
@@ -87,30 +87,35 @@
 					<div class="row uniform">
 
 						<div class="12u$" style="margin-top: 5%">
-							<input onfocus="disposeErrors(this)" type="text" id="personalID"
-								placeholder="JMBG pacijenta"> <span
-								id="invalidPatientID" class="errorSpan" style="display: none"></span>
+							<input onfocus="disposeErrorsPatientId()" type="text"
+								id="personalID" placeholder="JMBG pacijenta"> <span
+								id="invalidPatientID" class="errorSpan" style="display: none">Ne
+								postoji pacijent sa unetim JMBG-om.</span> <span id="nonPatientID"
+								class="errorSpan" style="display: none">Obavezno polje.</span>
 						</div>
 
 						<div class="12u$">
 							<div class="select-wrapper">
-								<select name="type" id="type">
+								<select name="type" id="type" onfocus="disposeErrorsType()">
 									<option value="">- Vrsta -</option>
 									<option value="operacija">Operacija</option>
 									<option value="pregled">Pregled</option>
-								</select>
+								</select> <span id="invalidType" class="errorSpan" style="display: none">Odaberite
+									vrstu intervencije.</span>
 							</div>
 						</div>
+
 						<div class="12u$" id="durationDiv" style="display: none">
-							<input onfocus="disposeErrors(this)" type="text" id="duration"
-								placeholder="Trajanje operacije" required> <span
-								id="invalidDuration" class="errorSpan" style="display: none"></span>
+							<input onfocus="disposeErrorsDuration()" type="text"
+								id="duration" placeholder="Trajanje operacije" required>
+							<span id="invalidDuration" class="errorSpan"
+								style="display: none">Obavezno polje.</span>
 						</div>
 						<!-- Break -->
 						<div class="12u$">
-							<input onfocus="disposeErrors(this)" type="text" id="name"
+							<input onfocus="disposeErrorsName()" type="text" id="name"
 								placeholder="Naziv" required> <span id="invalidName"
-								class="errorSpan" style="display: none"></span>
+								class="errorSpan" style="display: none">Obavezno polje.</span>
 						</div>
 						<div class="12u$">
 							<input type="text" id="date" placeholder="Datum"
@@ -135,18 +140,22 @@
 		<!-- Modal content -->
 		<div class="modal-content">
 			<div class="modal-header">
-				<span class="close" id="spanCloseDetail">&times;</span>
+				<span class="close" id="spanCloseDetail"
+					onclick="closeModalDetails()">&times;</span>
 				<h2 id="operationOrExaminationTitle"
 					style="text-align: center; margin-top: 5%"></h2>
 			</div>
 			<div class="modal-body">
 				<ul class="contact" style="width: 100%; margin-top: 5%">
-					<li class="fa-stethoscope" id="doctor"></li>
-					<li class="fa-user" id="patient"></li>
-					<li class="fa-tag" id="nameTag"></li>
-					<li class="fa-calendar" id="dateTag"></li>
-					<li class="fa-clock-o" id="timeTag"></li>
+					<li class="fa-user" title="Pacijent" id="patient"></li>
+					<li class="fa-tag" title="Naziv intervencije" id="nameTag"></li>
+					<li class="fa-calendar" title="Datum" id="dateTag"></li>
+					<li class="fa-clock-o" title="Vreme" id="timeTag"></li>
 					<li id="operationExaminationId" style="display: none"></li>
+					<li class="fa-heartbeat" title="Simptomi" id="symptons" style="display: none"></li>
+					<li class="fa fa-line-chart" title="Dijagnoza" id="diagnosis" style="display: none; font-size: 100%; font: inherit;"></li>
+					<li class="fa fa-eyedropper" title="Terapija" id="therapy" style="display: none; font-size: 100%; font: inherit;"></li>
+
 					<li style="margin-left: 11%"><a class="button icon fa-ban"
 						onclick="cancelOperationExamination()">Otkaži</a></li>
 				</ul>

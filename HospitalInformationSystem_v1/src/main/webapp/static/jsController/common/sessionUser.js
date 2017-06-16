@@ -7,7 +7,8 @@ function JSONPersonID(personID) {
 
 function getLoggedUser() {
 	var personID = sessionStorage.getItem('person');
-	
+	if (personID == null)
+		personID = localStorage.getItem('personID');
 	$.ajax({
 		type : "GET",
 		contentType: "application/json",

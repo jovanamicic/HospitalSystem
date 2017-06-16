@@ -291,9 +291,9 @@ function save() {
 				
 		
 				if (type == "Operacija")
-					url = "/operations/scheduleOperation";
+					url = "/operations/saveOperation";
 				else
-					url = "/examinations/scheduleExamination";
+					url = "/examinations/saveExamination";
 		
 				$.ajax({
 							type : "POST",

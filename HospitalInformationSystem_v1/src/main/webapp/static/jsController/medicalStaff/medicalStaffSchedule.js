@@ -43,7 +43,7 @@ function getDoctorsSchedule() {
 				header : {
 					left : 'prev,next today',
 					center : 'title',
-					right : 'month,agendaWeek,agendaDay,listWeek'
+					right : 'month'
 				},
 				navLinks : true,
 
@@ -53,7 +53,7 @@ function getDoctorsSchedule() {
 
 				editable : true,
 				eventLimit : true,
-				displayEventTime: false,
+				displayEventTime : false,
 				events : [],
 
 				// set up operation or examination for clicked day
@@ -88,9 +88,9 @@ function getDoctorsSchedule() {
 
 			for (d in data) {
 				var date = changeDate(data[d].date);
-				
+
 				var color = '#22c7b8';
-				if(data[d].type == "Operacija")
+				if (data[d].type == "Operacija")
 					color = '#475B5A'
 
 				eventData = {
@@ -116,23 +116,24 @@ function getDoctorsSchedule() {
  */
 function save() {
 
-	if ($('#name')[0].checkValidity()) {
-		var duration;
-		if (document.getElementById("duration").style.display != "block") {
-			duration = $('#duration').val();
-		}
-
+	var ok = checkInputs();
+	if (ok) {
+		
 		var personalID = $('#personalID').val();
 		var type = $('#type').val();
 		var name = $('#name').val();
 		var date = $('#date').val();
+		var duration = "";
 		var doctorId = sessionStorage.getItem("person");
 		var url;
 
 		if (type == "operacija")
-			url = "/operations/scheduleOperation";
+			url = "/operations/saveOperation";
 		else
-			url = "/examinations/scheduleExamination";
+			url = "/examinations/saveExamination";
+		
+		if(type == "operacija")
+			duration = $('#duration').val();
 
 		$
 				.ajax({
@@ -158,21 +159,42 @@ function save() {
 						$('#type').val("");
 						$('#name').val("");
 						$('#date').val("");
-						
+
 					},
 					error : function(e) {
 						$('#personalID').focus();
 						document.getElementById("invalidPatientID").style.display = "inline";
-						$('#invalidPatientID').text(
-								"Ne postoji pacijent sa unetim JMBG-om.");
 						$('#personalID').val("");
 					}
 				});
-	} else {
-		$('#name').focus();
-		document.getElementById("invalidName").style.display = "inline";
-		$('#invalidName').text("Obavezno polje.");
 	}
+}
+
+/**
+ * Function that check inputs for setting up operation/examination.
+ * 
+ * @returns
+ */
+function checkInputs() {
+	if ($('#personalID').val() == "" || $('#personalID').val() == null) {
+		document.getElementById('nonPatientID').style.display = "inline";
+		return false;
+	} 
+	else if ($('#type').val() == "" || $('#type').val() == null) {
+		document.getElementById('invalidType').style.display = "inline";
+		return false;
+	}
+	else if ($('#type').val() == "operacija") {
+		if ($('#duration').val() == "" || $('#duration').val() == null) {
+			document.getElementById('invalidDuration').style.display = "inline";
+			return false;
+		}
+	}
+	if ($('#name').val() == "" || $('#name').val() == null) {
+		document.getElementById('invalidName').style.display = "inline";
+		return false;
+	} 
+	return true;
 }
 
 /**
@@ -182,7 +204,7 @@ function fillInModal(detail) {
 	var detail = detail.split("-");
 	var type = detail[0];
 	var operationExaminationId = detail[1];
-	
+
 	document.getElementById('operationExaminationId').innerHTML = operationExaminationId;
 
 	$
@@ -192,8 +214,6 @@ function fillInModal(detail) {
 				url : "/medicalstaff/operationExaminationDetails",
 				data : JSONDetails(operationExaminationId, type),
 				success : function(data) {
-					console.log(data.name + "  " + data.date)
-					document.getElementById('doctor').innerHTML = data.doctor;
 					document.getElementById('patient').innerHTML = data.patient;
 					document.getElementById('nameTag').innerHTML = data.name;
 					var date = changeDate(data.date).split("-");
@@ -201,8 +221,31 @@ function fillInModal(detail) {
 							+ "-" + date[1] + "-" + date[0];
 					document.getElementById('timeTag').innerHTML = getTime(data.date);
 					document.getElementById('operationOrExaminationTitle').innerHTML = data.type;
-					modalDetail.style.display = "block"; // open window on
-															// click
+					
+					if (data.symptons != null){
+						document.getElementById('symptons').style.display = "block";
+						document.getElementById('symptons').innerHTML = data.symptons;
+					}
+					else {
+						document.getElementById('symptons').style.display = "none";
+					}
+					if (data.diagnosis != null){
+						document.getElementById('diagnosis').style.display = "block";
+						document.getElementById('diagnosis').innerHTML = data.diagnosis;
+					}
+					else {
+						document.getElementById('diagnosis').style.display = "none";
+					}
+					if (data.therapy != null){
+						document.getElementById('therapy').style.display = "block";
+						document.getElementById('therapy').innerHTML = data.therapy;
+					}
+					else {
+						document.getElementById('therapy').style.display = "none";
+					}
+					
+					modalDetail.style.display = "block"; 
+					
 
 				},
 				error : function(e) {
@@ -211,27 +254,25 @@ function fillInModal(detail) {
 			});
 }
 
-
 /**
  * Function that cancels operation or examination
  */
-function cancelOperationExamination(){
+function cancelOperationExamination() {
 	var id = $('#operationExaminationId').text();
 	var type = $('#operationOrExaminationTitle').text();
-	
+
 	if (type == "Operacija")
-		url = "/operations/"+id;
+		url = "/operations/" + id;
 	else
-		url = "/examinations/"+id;
-	
-	$
-	.ajax({
+		url = "/examinations/" + id;
+
+	$.ajax({
 		type : "DELETE",
 		contentType : "application/json",
 		url : url,
 		data : JSONOperationExaminationID(id),
 		success : function(data) {
-			modalDetail.style.display = "none"; 
+			modalDetail.style.display = "none";
 			location.reload();
 		},
 		error : function(e) {
@@ -240,7 +281,6 @@ function cancelOperationExamination(){
 		}
 	});
 }
-
 
 /**
  * Function that return date in yyyy-mm-dd format
@@ -273,15 +313,18 @@ function changeDate(date) {
  */
 function getTime(date) {
 	var date = new Date(date);
-	
-	var time = date.getHours() + ":" 
-	
+
+	var time = date.getHours() + ":"
+
 	var mins = date.getMinutes();
 	if (mins < 10)
 		mins = '0' + mins;
-	
+
 	time += mins;
 	
+	if (time == "0:00")
+		time = "Satnica još uvek nije utvrđena."
+
 	return time;
 }
 
@@ -296,12 +339,25 @@ $("#type").change(function() {
 });
 
 /**
- * Function that disposes span errors on focus
+ * Functions that disposes span errors on focus
  * 
  * @returns
  */
-function disposeErrors(element) {
-	document.getElementById(element.id).nextSibling.nextSibling.style.display = "none";
+function disposeErrorsPatientId() {
+	document.getElementById('nonPatientID').style.display = "none";
+	document.getElementById('invalidPatientID').style.display = "none";
+}
+
+function disposeErrorsName() {
+	document.getElementById('invalidName').style.display = "none";
+}
+
+function disposeErrorsType() {
+	document.getElementById('invalidType').style.display = "none";
+}
+
+function disposeErrorsDuration() {
+	document.getElementById('invalidDuration').style.display = "none";
 }
 
 // Get the modal
@@ -312,19 +368,37 @@ var modalDetail = document.getElementById('myModalDetail');
 var span = document.getElementById("spanClose");
 var spanDetail = document.getElementById("spanCloseDetail");
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
+
+function closeModal() {
 	modal.style.display = "none";
+	document.getElementById('personalID').value = "";
+	document.getElementById('type').value = "";
+	document.getElementById('name').value = "";
+	document.getElementById('date').value = "";
+	document.getElementById('duration').value = "";
+	document.getElementById('symptons').value = "";
+	document.getElementById('diagnosis').value = "";
+	document.getElementById('therapy').value = "";
 }
 
-spanDetail.onclick = function() {
+
+function closeModalDetails() {
 	modalDetail.style.display = "none";
+	
 }
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
 	if (event.target == modal) {
 		modal.style.display = "none";
+		document.getElementById('personalID').value = "";
+		document.getElementById('type').value = "";
+		document.getElementById('name').value = "";
+		document.getElementById('date').value = "";
+		document.getElementById('duration').value = "";
+		document.getElementById('symptons').value = "";
+		document.getElementById('diagnosis').value = "";
+		document.getElementById('therapy').value = "";
 	}
 
 	if (event.target == modalDetail) {

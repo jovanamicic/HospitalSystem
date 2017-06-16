@@ -58,7 +58,7 @@ public class OperationController {
 	@Autowired
 	RoomScheduleService roomScheduleService;
 
-	@RequestMapping(value = "/scheduleOperation", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "/saveOperation", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<Operation> saveOperation(@RequestBody MedicalStaffScheduleDTO operation)
 			throws ParseException {
 
