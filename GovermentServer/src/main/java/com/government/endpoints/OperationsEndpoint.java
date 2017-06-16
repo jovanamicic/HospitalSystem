@@ -1,8 +1,19 @@
 package com.government.endpoints;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.KeyPair;
+import java.security.KeyStore;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.Signature;
+import java.security.SignatureException;
+import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +21,7 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -27,6 +39,9 @@ import com.government.model.Report;
 public class OperationsEndpoint {
 	
 	private static final String NAMESPACE_URI = "com.government.model";
+	private final String KEYSTORE_PATH = "../GOV_SERV.keystore";  
+	private final String KEYSTORE_PASS = "govgov";
+	private final String SECRET = "Neka nasa strasna tajna :D";
 	
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getOperationsRequest")
@@ -40,17 +55,12 @@ public class OperationsEndpoint {
 		List<Operation> operations = new ArrayList<>();
 
 		try {
-//			String keyPath = "../KMJ.keystore";
-//			String keyPass = "kmjkmj";
-			
-			String keyPath = "../GOV_SERV.keystore";  //zasto kad je sertifikat importovan u truststore?
-			String keyPass = "govgov";
 
 			// path to SSL keystore
-			System.setProperty("javax.net.ssl.keyStore", keyPath);
-			System.setProperty("javax.net.ssl.keyStorePassword", keyPass);
-			System.setProperty("javax.net.ssl.trustStore", keyPath);
-			System.setProperty("javax.net.ssl.trustStorePassword", keyPass);
+			System.setProperty("javax.net.ssl.keyStore", KEYSTORE_PATH);
+			System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
+			System.setProperty("javax.net.ssl.trustStore", KEYSTORE_PATH);
+			System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
 			
 			String urlStr = "https://localhost:8082/government?";
 			
@@ -75,15 +85,15 @@ public class OperationsEndpoint {
 				}
 			});
 			
+			KeyPair kp = getKeyPair();
+			PrivateKey privateKey = kp.getPrivate();
+			
+			byte[] signature = sign(SECRET.getBytes(), privateKey);
+			String signatureAsString = Base64.encodeBase64String(signature);
+			connection.setRequestProperty("X-Signature", signatureAsString);
+			
 			connection.connect();
 			
-			System.out.println(connection.getServerCertificates().length);
-//			System.out.println(connection.getServerCertificates()[0].toString());  vidi samo KMJ sertifikat!
-			for (int i = 0; i < connection.getServerCertificates().length; i++) {
-				System.out.println(connection.getServerCertificates()[i].toString());
-			}
-			System.out.println(connection.getServerCertificates());
-
 			// reading the response
 			InputStreamReader reader = new InputStreamReader(connection.getInputStream());
 			StringBuilder buf = new StringBuilder();
@@ -107,5 +117,45 @@ public class OperationsEndpoint {
 		
 		return response;
 	}
+	
+	
+	public KeyPair getKeyPair() throws Exception {
+	    FileInputStream is = new FileInputStream(KEYSTORE_PATH);
 
+	    KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+	    keystore.load(is, KEYSTORE_PASS.toCharArray());
+
+	    String alias = "gov_serv";
+
+	    Key key = keystore.getKey(alias, KEYSTORE_PASS.toCharArray());
+	    
+	    if (key instanceof PrivateKey) {
+	      // Get certificate of public key
+	      Certificate cert = keystore.getCertificate(alias);
+
+	      // Get public key
+	      PublicKey publicKey = cert.getPublicKey();
+
+	      // Return a key pair
+	      return new KeyPair(publicKey, (PrivateKey) key);
+	    }
+	    return null;
+	  }
+	
+	private byte[] sign(byte[] data, PrivateKey privateKey) {
+		try {
+			Signature sig = Signature.getInstance("SHA1withRSA");
+			sig.initSign(privateKey);
+			sig.update(data);
+			return sig.sign();
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (SignatureException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 }
