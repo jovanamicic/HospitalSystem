@@ -17,15 +17,15 @@ public class HospitalInformationSystemApplication  extends SpringBootServletInit
 		return builder.sources(HospitalInformationSystemApplication.class);
 	}
 	
-//	@Bean
-//    public WebMvcConfigurer corsConfigurer() {
-//        return new WebMvcConfigurerAdapter() {
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/greeting-javaconfig").allowedOrigins("http://localhost:8084");
-//            }
-//        };
-//    }
+	@Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+            	registry.addMapping( "/**").allowedOrigins( "*" ).allowedMethods( "GET", "POST", "DELETE", "PUT", "OPTIONS" );
+            }
+        };
+    }
 	
 	public static void main(String[] args) {
 		SpringApplication.run(HospitalInformationSystemApplication.class, args);

