@@ -34,7 +34,7 @@ public class Client {
 	public static void main(String[] args) {
 
 		try {
-			String keyPath = "../GOV.keystore";
+			String keyPath = "./keystores/government_client_keystore.keystore";
 			String keyPass = "govgov";
 
 			// path to SSL keystore
@@ -42,10 +42,8 @@ public class Client {
 			System.setProperty("javax.net.ssl.keyStorePassword", keyPass);
 			System.setProperty("javax.net.ssl.trustStore", keyPath);
 			System.setProperty("javax.net.ssl.trustStorePassword", keyPass);
-			// System.setProperty("javax.net.ssl.keyStoreType", keyType);
 
 			// build the XML to post
-			//String xmlString = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:gs=\"com.government.model\"><soapenv:Header/> <soapenv:Body> <gs:getOperationsRequest> <gs:end_date>2017-05-21</gs:end_date></gs:getOperationsRequest> </soapenv:Body></soapenv:Envelope>";
 			String xmlString = readFile("requests/getOperationsByDateBetween.xml", StandardCharsets.UTF_8);
 			
 			// post XML over HTTPS
@@ -61,8 +59,6 @@ public class Client {
 				}
 			});
 			connection.connect();
-
-			// System.out.println(connection.getServerCertificates()[0].toString());
 
 			// tell the web server what we are sending
 			OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());

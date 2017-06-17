@@ -39,7 +39,7 @@ import com.government.model.Report;
 public class OperationsEndpoint {
 	
 	private static final String NAMESPACE_URI = "com.government.model";
-	private final String KEYSTORE_PATH = "../GOV_SERV.keystore";  
+	private final String KEYSTORE_PATH = "./keystores/government_server_keystore.keystore";  
 	private final String KEYSTORE_PASS = "govgov";
 	private final String SECRET = "Neka nasa strasna tajna :D";
 	

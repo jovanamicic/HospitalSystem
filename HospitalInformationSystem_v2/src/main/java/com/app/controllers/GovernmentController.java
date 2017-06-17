@@ -36,7 +36,7 @@ import com.app.service.OperationService;
 
 public class GovernmentController {
 	
-	private final String KEYSTORE_PATH = "../GOV_SERV.keystore";  
+	private final String KEYSTORE_PATH = "./keystores/government_server_keystore.keystore";  
 	private final String KEYSTORE_PASS = "govgov";
 	private final String SECRET = "Neka nasa strasna tajna :D";
 	
