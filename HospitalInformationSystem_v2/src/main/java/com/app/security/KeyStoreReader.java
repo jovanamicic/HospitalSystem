@@ -44,9 +44,7 @@ public class KeyStoreReader {
 	 */
 	public  SecretKey readSecretKey(String keyStoreFile, String keyStorePass, String alias, String pass) {
 		try {
-			//kreiramo instancu KeyStore
 			KeyStore ks = KeyStore.getInstance("JCEKS", "SunJCE");
-			//ucitavamo podatke
 			BufferedInputStream in = new BufferedInputStream(new FileInputStream(keyStoreFile));
 			ks.load(in, keyStorePass.toCharArray());
 			
