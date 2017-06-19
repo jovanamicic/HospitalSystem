@@ -53,7 +53,7 @@ public class GovernmentController {
 				    consumes = "application/xml", 
 				    produces = "application/xml")
 	public ResponseEntity<String> getExaminationsReport(@RequestBody String xml) {
-
+		
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 
 		dbFactory.setValidating(false);
