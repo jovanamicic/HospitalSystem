@@ -66,13 +66,14 @@ public class ManagerController {
 		if(personService.emailUnique(dto.getEmail()))
 			m.setEmail(dto.getEmail());
 		
-		if (!personService.usernameUnique(dto.getEmail()) && 
+		if (!personService.usernameUnique(dto.getUsername()) && 
 				(!m.getUsername().equalsIgnoreCase(dto.getUsername())))
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		
 		if(personService.usernameUnique(dto.getUsername()))
 			m.setUsername(dto.getUsername());
 		
+		System.out.println(m.getUsername());
 		managerService.save(m);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
