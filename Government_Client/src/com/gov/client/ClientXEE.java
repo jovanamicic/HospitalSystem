@@ -41,7 +41,7 @@ public class ClientXEE {
             connection.setDoOutput(true);
             
             // build the XML to post
-            String xmlString = readFile("xee/valid_request_examinations.xml", StandardCharsets.UTF_8);
+            String xmlString = readFile("xee/xee_request2.xml", StandardCharsets.UTF_8);
             
             DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
             wr.writeBytes(xmlString);
