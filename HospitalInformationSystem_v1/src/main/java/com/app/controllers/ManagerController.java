@@ -73,7 +73,6 @@ public class ManagerController {
 		if(personService.usernameUnique(dto.getUsername()))
 			m.setUsername(dto.getUsername());
 		
-		System.out.println(m.getUsername());
 		managerService.save(m);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
