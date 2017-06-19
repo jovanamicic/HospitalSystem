@@ -113,7 +113,6 @@ public class ExaminationController {
 		Person doctor = personService.findOne(id);
 		Person patient = personService.findOne(dto.getPatientID());
 		Record record = recordService.findById(patient.getPersonalID());
-		System.out.println(record);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		Date date = null;
 		try {

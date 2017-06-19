@@ -234,10 +234,10 @@ function startExamination() {
 	document.getElementById("examinationDiv").style.display = "block";
 }
 
-function JSONExamination(patientID, symptoms, diagnosis, therapy) {
+function JSONExamination(patientID, symptons, diagnosis, therapy) {
 	return JSON.stringify({
 		"patientID" : patientID,
-		"symptoms" : symptoms,
+		"symptons" : symptons,
 		"diagnosis" : diagnosis,
 		"therapy" : therapy
 	});
@@ -245,11 +245,11 @@ function JSONExamination(patientID, symptoms, diagnosis, therapy) {
 
 function saveExamination() {
 	var patientID = getParam("id");
-	var symptoms = $('#symptoms').val();
+	var symptons = $('#symptons').val();
 	var diagnosis = $('#diagnosis').val();
 	var therapy = $('#therapy').val();
 
-	if (symptoms == "" || diagnosis == "" || therapy == "") {
+	if (symptons == "" || diagnosis == "" || therapy == "") {
 		toastr.error("Niste popunili sva polja!");
 	} else {
 		$
@@ -257,17 +257,24 @@ function saveExamination() {
 					type : "POST",
 					contentType : "application/json",
 					url : "/examinations",
-					data : JSONExamination(patientID, symptoms, diagnosis,
+					data : JSONExamination(patientID, symptons, diagnosis,
 							therapy),
 					success : function(data) {
 						toastr.info("Pregled je sačuvan!");
 						document.getElementById("examinationDiv").style.display = "none";
+						$('#symptons').val("");
+						$('#diagnosis').val("");
+						$('#therapy').val("");
 					},
 					error : function(e) {
 						alert('Error: ' + e);
 					}
 				});
 	}
+}
+
+function hideExamination(){
+	document.getElementById("examinationDiv").style.display = "none";
 }
 
 /**
