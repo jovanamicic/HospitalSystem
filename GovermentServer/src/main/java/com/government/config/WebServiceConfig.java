@@ -15,20 +15,20 @@ import org.springframework.xml.xsd.XsdSchema;
 @EnableWs
 @Configuration
 public class WebServiceConfig extends WsConfigurerAdapter {
-	
+
 	@Bean
 	public ServletRegistrationBean messageDispatcherServlet(ApplicationContext applicationContext) {
 		MessageDispatcherServlet servlet = new MessageDispatcherServlet();
 		servlet.setApplicationContext(applicationContext);
 		servlet.setTransformWsdlLocations(true);
-		return new ServletRegistrationBean(servlet, "/ws/*");
+		return new ServletRegistrationBean(servlet, "/government/*");
 	}
 
 	@Bean(name = "operations")
-	public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema xmlSchema) {
+	public DefaultWsdl11Definition operationsWsdl11Definition(XsdSchema xmlSchema) {
 		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
 		wsdl11Definition.setPortTypeName("OperationsPort");
-		wsdl11Definition.setLocationUri("/ws");
+		wsdl11Definition.setLocationUri("/government");
 		wsdl11Definition.setTargetNamespace("com.government.model");
 		wsdl11Definition.setSchema(xmlSchema);
 		return wsdl11Definition;
