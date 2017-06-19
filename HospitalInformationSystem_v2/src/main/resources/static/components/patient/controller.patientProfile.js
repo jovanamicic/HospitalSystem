@@ -50,7 +50,7 @@ function PatientProfileController($location, $stateParams,
 									toastr.error("Dogodila se greška.");
 								});
 						} else {
-							vm.showRecord = false;
+							vm.showRecord = true;
 							vm.doctor = "Nema izabranog lekara.";
 						}
 					}).catch(function(data){
