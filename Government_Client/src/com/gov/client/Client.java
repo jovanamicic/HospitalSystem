@@ -42,7 +42,7 @@ public class Client {
 		System.setProperty("javax.net.ssl.trustStore", keyPath);
 		System.setProperty("javax.net.ssl.trustStorePassword", keyPass);
 		
-		String endpoint = "https://localhost:8081/government/examinations";
+		String endpoint = "https://localhost:8081/government";
 		String fileName = "requests/getExaminationsAll.xml";
 
 		try {

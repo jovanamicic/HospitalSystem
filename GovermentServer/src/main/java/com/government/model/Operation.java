@@ -18,8 +18,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -51,10 +49,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @XmlRootElement(name = "Operation")
 public class Operation {
 
-    @XmlElement(required = true)
+    @XmlElement(required = false)
     protected String name;
     
-    @XmlElement(required = true)
+    @XmlElement(required = false)
     protected Date date;
 	
     @XmlAttribute(name = "id")

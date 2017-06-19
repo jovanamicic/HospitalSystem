@@ -72,7 +72,7 @@
 			</plugin>
 
 			<!-- tag::xsd[] -->
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jaxb2-maven-plugin</artifactId>
 				<version>1.6</version>
@@ -90,7 +90,7 @@
 					<packageName>com.goverment.xee</packageName>
 					<clearOutputDir>false</clearOutputDir>
 				</configuration>
-			</plugin>
+			</plugin> -->
 			<!-- end::xsd[] -->
 
 

@@ -3,6 +3,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <gs:getExaminationsRequest>
+      	<gs:diagnosis>prelom</gs:diagnosis>
       </gs:getExaminationsRequest>
    </soapenv:Body>
 </soapenv:Envelope>

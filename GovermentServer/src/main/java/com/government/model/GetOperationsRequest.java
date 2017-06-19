@@ -53,11 +53,11 @@ public class GetOperationsRequest implements Serializable {
 	private static final long serialVersionUID = 3074186077712201176L;
 	
 	
-	@XmlElement(required = true)
+	@XmlElement(required = false)
     protected String name;
-    @XmlElement(name = "start_date", required = true)
+    @XmlElement(name = "start_date", required = false)
     protected String startDate;
-    @XmlElement(name = "end_date", required = true)
+    @XmlElement(name = "end_date", required = false)
     protected String endDate;
 
     /**

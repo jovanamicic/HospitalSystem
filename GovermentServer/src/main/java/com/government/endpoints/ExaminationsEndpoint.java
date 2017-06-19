@@ -37,20 +37,19 @@ import com.government.model.Report;
 
 @Endpoint
 public class ExaminationsEndpoint {
-	
+
 	private static final String NAMESPACE_URI = "com.government.model";
-	private final String KEYSTORE_PATH = "./keystores/government_server_keystore.keystore";  
+	private final String KEYSTORE_PATH = "./keystores/government_server_keystore.keystore";
 	private final String KEYSTORE_PASS = "govgov";
 	private final String SECRET = "Neka nasa strasna tajna :D";
-	
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getExaminationsRequest")
 	@ResponsePayload
-	public GetExaminationsResponse getExamination(@RequestPayload GetExaminationsRequest request)  throws IOException {
-		
+	public GetExaminationsResponse getExamination(@RequestPayload GetExaminationsRequest request) throws IOException {
+
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		
+
 		GetExaminationsResponse response = new GetExaminationsResponse();
 		List<Examination> examinations = new ArrayList<>();
 
@@ -61,12 +60,12 @@ public class ExaminationsEndpoint {
 			System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 			System.setProperty("javax.net.ssl.trustStore", KEYSTORE_PATH);
 			System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
-			
+
 			String urlStr = "https://localhost:8082/government/examinations?";
-			
+
 			if (request.getDiagnosis() != null)
 				urlStr += "diagnosis=" + request.getDiagnosis() + "&";
-			
+
 			URL url = new URL(urlStr); // replace
 			HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
@@ -78,16 +77,16 @@ public class ExaminationsEndpoint {
 					return true;
 				}
 			});
-			
+
 			KeyPair kp = getKeyPair();
 			PrivateKey privateKey = kp.getPrivate();
-			
+
 			byte[] signature = sign(SECRET.getBytes(), privateKey);
 			String signatureAsString = Base64.encodeBase64String(signature);
 			connection.setRequestProperty("X-Signature", signatureAsString);
-			
+
 			connection.connect();
-			
+
 			// reading the response
 			InputStreamReader reader = new InputStreamReader(connection.getInputStream());
 			StringBuilder buf = new StringBuilder();
@@ -97,45 +96,45 @@ public class ExaminationsEndpoint {
 				buf.append(cbuf, 0, num);
 			}
 			String result = buf.toString();
-			
-			//convert JSON String to examination list
-			examinations = mapper.readValue(result, new TypeReference<List<Examination>>(){});
-			
+
+			// convert JSON String to examination list
+			examinations = mapper.readValue(result, new TypeReference<List<Examination>>() {
+			});
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		Report report = new Report();
 		report.getExamination().addAll(examinations);
 		response.setReport(report);
-		
+
 		return response;
 	}
-	
-	
+
 	public KeyPair getKeyPair() throws Exception {
-	    FileInputStream is = new FileInputStream(KEYSTORE_PATH);
+		FileInputStream is = new FileInputStream(KEYSTORE_PATH);
 
-	    KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
-	    keystore.load(is, KEYSTORE_PASS.toCharArray());
+		KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+		keystore.load(is, KEYSTORE_PASS.toCharArray());
 
-	    String alias = "gov_serv";
+		String alias = "gov_serv";
 
-	    Key key = keystore.getKey(alias, KEYSTORE_PASS.toCharArray());
-	    
-	    if (key instanceof PrivateKey) {
-	      // Get certificate of public key
-	      Certificate cert = keystore.getCertificate(alias);
+		Key key = keystore.getKey(alias, KEYSTORE_PASS.toCharArray());
 
-	      // Get public key
-	      PublicKey publicKey = cert.getPublicKey();
+		if (key instanceof PrivateKey) {
+			// Get certificate of public key
+			Certificate cert = keystore.getCertificate(alias);
 
-	      // Return a key pair
-	      return new KeyPair(publicKey, (PrivateKey) key);
-	    }
-	    return null;
-	  }
-	
+			// Get public key
+			PublicKey publicKey = cert.getPublicKey();
+
+			// Return a key pair
+			return new KeyPair(publicKey, (PrivateKey) key);
+		}
+		return null;
+	}
+
 	private byte[] sign(byte[] data, PrivateKey privateKey) {
 		try {
 			Signature sig = Signature.getInstance("SHA1withRSA");

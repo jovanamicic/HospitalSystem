@@ -42,7 +42,7 @@ public class GetExaminationsRequest implements Serializable {
 	private static final long serialVersionUID = 3074186077712201176L;
 	
 	
-	@XmlElement(required = true)
+	@XmlElement(required = false)
     protected String diagnosis;
 
     /**

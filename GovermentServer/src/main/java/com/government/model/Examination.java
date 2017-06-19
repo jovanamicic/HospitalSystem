@@ -53,13 +53,13 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "Examination")
 public class Examination {
 
-    @XmlElement(required = true)
+    @XmlElement(required = false)
     protected String name;
-    @XmlElement(required = true)
+    @XmlElement(required = false)
     protected Date date;
-    @XmlElement(required = true)
+    @XmlElement(required = false)
     protected String diagnosis;
-    @XmlElement(required = true)
+    @XmlElement(required = false)
     protected String symptons;
     @XmlAttribute(name = "id")
     @XmlSchemaType(name = "anySimpleType")

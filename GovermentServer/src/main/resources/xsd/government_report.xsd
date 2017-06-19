@@ -5,9 +5,9 @@
     <xs:element name="Operation">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="name"/>
-                <xs:element name="date"/>
-                <xs:element name="record_id"/>
+                <xs:element name="name" minOccurs="0"/>
+                <xs:element name="date" minOccurs="0"/>
+                <xs:element name="record_id" minOccurs="0"/>
             </xs:sequence>
             <xs:attribute name="id"/>
         </xs:complexType>
@@ -16,11 +16,11 @@
     <xs:element name="Examination">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="name"/>
-                <xs:element name="date"/>
-                <xs:element name="diagnosis"/>
-                <xs:element name="symptons"/>
-                <xs:element name="record_id"/>
+                <xs:element name="name" minOccurs="0"/>
+                <xs:element name="date" minOccurs="0"/>
+                <xs:element name="diagnosis" minOccurs="0"/>
+                <xs:element name="symptons" minOccurs="0"/>
+                <xs:element name="record_id" minOccurs="0"/>
             </xs:sequence>
             <xs:attribute name="id"/>
         </xs:complexType>
@@ -40,14 +40,30 @@
     <xs:element name="getOperationsRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="name" type="xs:string"/>
-                <xs:element name="start_date" type="xs:string"/>
-                <xs:element name="end_date" type="xs:string"/>
+                <xs:element name="name" type="xs:string" minOccurs="0"/>
+                <xs:element name="start_date" type="xs:string" minOccurs="0"/>
+                <xs:element name="end_date" type="xs:string" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
     <xs:element name="getOperationsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="gov:Report"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+     <xs:element name="getExaminationsRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="diagnosis" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getExaminationsResponse">
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="gov:Report"/>
