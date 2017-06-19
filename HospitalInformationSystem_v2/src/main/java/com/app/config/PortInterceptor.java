@@ -13,13 +13,13 @@ public class PortInterceptor extends HandlerInterceptorAdapter {
     	String path = request.getRequestURI().substring(1);
     	
     	if(request.getLocalPort() == 8082) {
-    		if (path.equals("government"))
+    		if (path.contains("government"))
     			return true;
     		return false;
     	}
     	
     	if(request.getLocalPort() == 8080) {
-    		if (path.equals("government"))
+    		if (path.contains("government"))
     			return false;
     		return true;
     	}

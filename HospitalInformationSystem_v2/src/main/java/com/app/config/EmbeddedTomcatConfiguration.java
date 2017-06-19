@@ -29,9 +29,10 @@ public class EmbeddedTomcatConfiguration {
 	    }
 
 	    private Connector[] additionalConnector() {
-	        //if (StringUtils.isBlank(this.additionalPorts)) {
-	          //  return null;
-	        //}
+
+	    	if (this.additionalPorts == null || this.additionalPorts.isEmpty())
+	    		return null;
+	    	
 	        String[] ports = this.additionalPorts.split(",");
 	        List<Connector> result = new ArrayList<>();
 	        for (String port : ports) {
@@ -46,7 +47,7 @@ public class EmbeddedTomcatConfiguration {
 	            connector.setSecure(true);
 	            
 	            File file = new File(System.getProperty("user.dir"));
-	            protocol.setKeystoreFile(file.getParent() + File.separator + "GOV_SERV.keystore");
+	            protocol.setKeystoreFile(file.getParent() + File.separator + "HospitalInformationSystem_v2" + File.separator + "keystores" + File.separator + "government_server_keystore.keystore");
 	            protocol.setKeystorePass("govgov");
 	            
 	            result.add(connector);

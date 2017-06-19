@@ -17,4 +17,5 @@ public interface ExaminationRepository extends JpaRepository<Examination, Intege
 	List<Examination> findByDate(Date date);
 	Page<Examination> findAll(Pageable page);
 	Page<Examination> findByNewExIsTrue(Pageable page);
+	List<Examination> findByDiagnosis(String diagnosis);
 }

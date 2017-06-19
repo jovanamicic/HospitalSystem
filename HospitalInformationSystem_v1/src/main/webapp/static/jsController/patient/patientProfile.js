@@ -302,74 +302,90 @@ function openModal(element) {
  * @returns saved operation or examination
  */
 function save() {
-
-	if ($('#nameOpEx')[0].checkValidity()) {
-		if ($('#date')[0].checkValidity()) {
-			if (checkDate($('#date').val())) {
-				var duration;
-				if (document.getElementById("duration").style.display != "block") {
-					duration = $('#duration').val();
-				}
-
-				var personalID = $('#personalID').val();
-				var type = $('#type').val();
-				var name = $('#name').val();
-				var date = $('#date').val();
-				var doctorId = sessionStorage.getItem("person");
-				var url;
-
-				if (type == "Operacija")
-					url = "/operations/saveOperation";
-				else
-					url = "/examinations/saveExamination";
-
-				$
-						.ajax({
-							type : "POST",
-							contentType : "application/json",
-							url : url,
-							data : JSONExaminationOperation(personalID, type,
-									name, date, doctorId, duration),
-							success : function(data) {
-								var modal = document.getElementById('myModal');
-								modal.style.display = "none";
-
-								if (type == "operacija")
-									toastr
-											.info("Operacija je zakazana za datum "
-													+ date);
-								else
-									toastr.info("Pregled je zakazan za datum "
-											+ date);
-
-								// clean modal
-								cleanModal();
-							},
-							error : function(e) {
-								cleanModal();
-								toastr
-										.error("Došlo je do greške prilikom zakazivanja. Pokušajte ponovo.");
-							}
-						});
-			} else {
-				$('#date').focus();
-				document.getElementById("invalidDate").style.display = "inline";
-				$('#invalidDate').text(
-						"Datum zakazivanja mora biti veći od današnjeg.");
-				$('#date').val("");
-			}
-		} else {
-			$('#date').focus();
-			document.getElementById("invalidDate").style.display = "inline";
-			$('#invalidDate').text("Format unosa dd-mm-gggg");
-			$('#date').val("");
+	
+	var ok = checkInputs();
+	if (ok) {
+		var duration;
+		if (document.getElementById("duration").style.display != "block") {
+			duration = $('#duration').val();
 		}
-	} else {
-		$('#nameOpEx').focus();
-		document.getElementById("invalidName").style.display = "inline";
-		$('#invalidName').text("Obavezno polje.");
-	}
 
+		var personalID = $('#personalID').val();
+		var type = $('#type').val();
+		var name = $('#name').val();
+		var date = $('#date').val();
+		var doctorId = sessionStorage.getItem("person");
+		var url;
+
+		if (type == "Operacija")
+			url = "/operations/saveOperation";
+		else
+			url = "/examinations/saveExamination";
+		
+		if(type == "operacija")
+			duration = $('#duration').val();
+
+		$
+				.ajax({
+					type : "POST",
+					contentType : "application/json",
+					url : url,
+					data : JSONExaminationOperation(personalID, type, name,
+							date, doctorId, duration),
+					success : function(data) {
+						var modal = document.getElementById('myModal');
+						modal.style.display = "none";
+
+						if (type == "operacija")
+							toastr.info("Operacija je zakazana za datum "
+									+ date);
+						else
+							toastr.info("Pregled je zakazan za datum " + date);
+
+						// clean modal
+						cleanModal();
+					},
+					error : function(e) {
+						cleanModal();
+						toastr
+								.error("Došlo je do greške prilikom zakazivanja. Pokušajte ponovo.");
+					}
+				});
+	}
+}
+
+
+function checkInputs() {
+	if ($('#nameOpEx').val() == "" || $('#nameOpEx').val() == null) {
+		document.getElementById('invalidName').style.display = "inline";
+		document.getElementById('invalidName').innerHTML = "Obavezno polje.";
+		return false;
+	} 
+	else if ($('#type').val() == "Operacija") {
+		if ($('#duration').val() == "" || $('#duration').val() == null) {
+			document.getElementById('invalidDuration').style.display = "inline";
+			document.getElementById('invalidDuration').innerHTML = "Obavezno polje.";
+			return false;
+		}
+	}
+	if ($('#date').val() == "" || $('#date').val() == null) {
+		document.getElementById('invalidDate').style.display = "inline";
+		document.getElementById('invalidDate').innerHTML = "Format unosa dd-mm-gggg";
+		document.getElementById('date').value = "";
+		return false;
+	}
+	else if ($('#date')[0].checkValidity() == false) {
+		document.getElementById('invalidDate').style.display = "inline";
+		document.getElementById('invalidDate').innerHTML = "Format unosa dd-mm-gggg";
+		document.getElementById('date').value = "";
+		return false;
+	}
+	else if (checkDate($('#date').val()) == false) {
+		document.getElementById('invalidDate').style.display = "inline";
+		document.getElementById('invalidDate').innerHTML = "Datum zakazivanja mora biti veći od današnjeg.";
+		document.getElementById('date').value = "";
+		return false;
+	}
 }
 
 function cleanModal() {
@@ -418,5 +434,14 @@ window.onclick = function(event) {
 	var modal = document.getElementById('myModal');
 	if (event.target == modal) {
 		modal.style.display = "none";
+		
+		$('#type').val("");
+		$('#nameOpEx').val("");
+		$('#date').val("");
+		$('#duration').val("");
+		
+		document.getElementById("invalidName").style.display = "none";
+		document.getElementById("invalidDate").style.display = "none";
+		document.getElementById("duration").style.display == "none"
 	}
 }
