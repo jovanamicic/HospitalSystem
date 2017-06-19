@@ -202,15 +202,17 @@ function patientRecord() {
 
 function checkUsername() {
 	var username = $('#username').val();
-	$.ajax({
-		type : "GET",
-		contentType : "application/json",
-		url : "/patients/username/",
-		data : username,
-		error : function(e) {
-			toastr.error("Korisničko ime se već koristi! Unesite drugo.");
-		}
-	});
+	if (username != ""){
+		$.ajax({
+			type : "GET",
+			contentType : "application/json",
+			url : "/patients/username/",
+			data : username,
+			error : function(e) {
+				toastr.error("Korisničko ime se već koristi! Unesite drugo.");
+			}
+		});
+	}
 }
 
 function checkEmail() {

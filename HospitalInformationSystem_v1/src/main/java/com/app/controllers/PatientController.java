@@ -263,15 +263,21 @@ public class PatientController {
 	public ResponseEntity<Void> changeProfile(@RequestBody PatientDTO dto, HttpSession session) {
 		int id = (int) session.getAttribute("person");
 		Patient p = patientService.findOne(id);
-		
-		if (p.getAddress() != null) {
+		System.out.println(dto);
+		if (dto.getCountry() != "" || dto.getCity() != "" || dto.getZipCode() != "" || dto.getStreet() != "" || dto.getNumber()!= ""){
 			Address address = p.getAddress();
-			
-			address.setCountry(dto.getCountry());
-			address.setCity(dto.getCity());
-			address.setZipCode(Integer.parseInt(dto.getZipCode()));
-			address.setStreet(dto.getStreet());
-			address.setNumber(dto.getNumber());
+			if (address == null)
+				address = new Address();
+			if (dto.getCountry() != "")
+				address.setCountry(dto.getCountry());
+			if(dto.getCity() != "")
+				address.setCity(dto.getCity());
+			if(dto.getZipCode() != "")
+				address.setZipCode(Integer.parseInt(dto.getZipCode()));
+			if(dto.getStreet() != "")
+				address.setStreet(dto.getStreet());
+			if(dto.getNumber() != "")
+				address.setNumber(dto.getNumber());
 	
 			address = addressService.save(address);
 			p.setAddress(address);

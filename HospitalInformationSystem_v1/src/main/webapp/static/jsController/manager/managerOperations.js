@@ -473,11 +473,15 @@ function getPageAllOperations(pageNum) {
 }
 
 function resetPagNew() {
+	document.getElementById("newOp").className = "button special fit";
+	document.getElementById("allOp").className = "button fit";
 	currentPage = 0;
 	getNewOperations();
 }
 
 function resetPagAll() {
+	document.getElementById("newOp").className = "button fit";
+	document.getElementById("allOp").className = "button special fit";
 	currentPage = 0;
 	getAllOperations();
 }
