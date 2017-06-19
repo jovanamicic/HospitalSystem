@@ -1,0 +1,2 @@
+\\\\localhost\\c$\\windows\\system32\\calc.exe
+file:///C:/WINDOWS/system32/config/SYSTEM - ACCESS DENIED
