@@ -37,7 +37,7 @@ import com.app.service.RoomService;
 @RequestMapping(value = "operations")
 public class OperationController {
 	
-	private static final int DEFAULT_PAGE_SIZE = 1;
+	private static final int DEFAULT_PAGE_SIZE = 10;
 	private static final int DEFAULT_PAGE_NUMBER = 0;
 
 	@Autowired
