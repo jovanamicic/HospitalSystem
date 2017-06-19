@@ -180,7 +180,6 @@ public class PatientController {
 				retVal.setZipCode(a.getZipCode()+"");
 				retVal.setStreet(a.getStreet());
 				retVal.setNumber(a.getNumber());
-				retVal.setDoctor(p.getChosenDoctor().getId());
 			}
 			
 			retVal.setUsername(p.getUsername());

@@ -235,7 +235,6 @@ public class PatientController {
 				retVal.setZipCode(a.getZipCode()+"");
 				retVal.setStreet(a.getStreet());
 				retVal.setNumber(a.getNumber());
-				retVal.setDoctor(p.getChosenDoctor().getId());
 			}
 			
 			retVal.setUsername(p.getUsername());
@@ -283,7 +282,6 @@ public class PatientController {
 				retVal.setZipCode(a.getZipCode() + "");
 				retVal.setStreet(a.getStreet());
 				retVal.setNumber(a.getNumber());
-				retVal.setDoctor(p.getChosenDoctor().getId());
 			}
 			
 			retVal.setUsername(p.getUsername());
@@ -409,26 +407,21 @@ public class PatientController {
 		if (p == null)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		
-		if (p.getAddress() != null) {
+		if (dto.getCountry() != null || dto.getCity() != null || dto.getZipCode() != null || dto.getStreet() != null || dto.getNumber()!= null){
 			Address address = p.getAddress();
-			
-			address.setCountry(dto.getCountry());
-			address.setCity(dto.getCity());
-			address.setZipCode(Integer.parseInt(dto.getZipCode()));
-			address.setStreet(dto.getStreet());
-			address.setNumber(dto.getNumber());
+			if (address == null)
+				address = new Address();
+			if (dto.getCountry() != null)
+				address.setCountry(dto.getCountry());
+			if(dto.getCity() != null)
+				address.setCity(dto.getCity());
+			if(dto.getZipCode() != null)
+				address.setZipCode(Integer.parseInt(dto.getZipCode()));
+			if(dto.getStreet() != null)
+				address.setStreet(dto.getStreet());
+			if(dto.getNumber() != null)
+				address.setNumber(dto.getNumber());
 	
-			address = addressService.save(address);
-			p.setAddress(address);
-		}
-		else {
-			Address address = new Address();
-			address.setCountry(dto.getCountry());
-			address.setCity(dto.getCity());
-			address.setZipCode(Integer.parseInt(dto.getZipCode()));
-			address.setStreet(dto.getStreet());
-			address.setNumber(dto.getNumber());
-			
 			address = addressService.save(address);
 			p.setAddress(address);
 		}
