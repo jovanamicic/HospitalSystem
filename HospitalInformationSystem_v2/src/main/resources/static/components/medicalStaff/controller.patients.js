@@ -96,6 +96,9 @@ function MedicalStaffPatientsController($location, $stateParams, medicalStaffSer
 		medicalStaffService.getPatientsBySearchData(vm.searchData, newPage).then(
 				function(data) {
 					vm.foundedPatients = data.data.content;
+					if (vm.foundedPatients == 0){
+						$location.path('/medicalStaff/noResults/'+vm.searchData);
+					}
 					vm.totalPagesSearch = data.data.totalPages;
 					
 					vm.displayAll = false;
