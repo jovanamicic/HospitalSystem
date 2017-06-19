@@ -33,6 +33,16 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 		wsdl11Definition.setSchema(xmlSchema);
 		return wsdl11Definition;
 	}
+	
+	@Bean(name = "examinations")
+	public DefaultWsdl11Definition examinationsWsdl11Definition(XsdSchema xmlSchema) {
+		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+		wsdl11Definition.setPortTypeName("ExaminationsPort");
+		wsdl11Definition.setLocationUri("/government");
+		wsdl11Definition.setTargetNamespace("com.government.model");
+		wsdl11Definition.setSchema(xmlSchema);
+		return wsdl11Definition;
+	}
 
 	@Bean
 	public XsdSchema xmlSchema() {

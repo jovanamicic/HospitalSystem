@@ -8,6 +8,8 @@
 
 package com.government.model;
 
+import java.util.Date;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -54,7 +56,7 @@ public class Examination {
     @XmlElement(required = true)
     protected String name;
     @XmlElement(required = true)
-    protected String date;
+    protected Date date;
     @XmlElement(required = true)
     protected String diagnosis;
     @XmlElement(required = true)
@@ -95,7 +97,7 @@ public class Examination {
      *     {@link Object }
      *     
      */
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
@@ -107,7 +109,7 @@ public class Examination {
      *     {@link Object }
      *     
      */
-    public void setDate(String value) {
+    public void setDate(Date value) {
         this.date = value;
     }
 

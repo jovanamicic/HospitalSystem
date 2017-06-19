@@ -10,12 +10,6 @@ package com.government.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -23,6 +17,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 /**
@@ -47,8 +43,6 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
-@Entity
-@Table(name = "operation")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "name",
@@ -57,17 +51,12 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "Operation")
 public class Operation {
 
-	@Column(name = "name", unique = false, nullable = false)
     @XmlElement(required = true)
     protected String name;
     
-	@Column(name = "date", unique = false, nullable = false)
     @XmlElement(required = true)
     protected Date date;
 	
-    @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "operation_id", unique = true, nullable = false)
     @XmlAttribute(name = "id")
     @XmlSchemaType(name = "anySimpleType")
     protected String id;

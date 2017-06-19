@@ -32,33 +32,37 @@ import org.xml.sax.SAXException;
 public class Client {
 
 	public static void main(String[] args) {
+		
+		String keyPath = "./keystores/government_client_keystore.keystore";
+		String keyPass = "govgov";
+
+		// path to SSL keystore
+		System.setProperty("javax.net.ssl.keyStore", keyPath);
+		System.setProperty("javax.net.ssl.keyStorePassword", keyPass);
+		System.setProperty("javax.net.ssl.trustStore", keyPath);
+		System.setProperty("javax.net.ssl.trustStorePassword", keyPass);
+		
+		String endpoint = "https://localhost:8081/government/examinations";
+		String fileName = "requests/getExaminationsAll.xml";
 
 		try {
-			String keyPath = "./keystores/government_client_keystore.keystore";
-			String keyPass = "govgov";
-
-			// path to SSL keystore
-			System.setProperty("javax.net.ssl.keyStore", keyPath);
-			System.setProperty("javax.net.ssl.keyStorePassword", keyPass);
-			System.setProperty("javax.net.ssl.trustStore", keyPath);
-			System.setProperty("javax.net.ssl.trustStorePassword", keyPass);
-
-			// build the XML to post
-			String xmlString = readFile("requests/getOperationsByDateBetween.xml", StandardCharsets.UTF_8);
-			
-			// post XML over HTTPS
-			URL url = new URL("https://localhost:8081/government"); 
+			URL url = new URL(endpoint); 
 			HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+			
 			connection.setRequestMethod("POST");
 			connection.setDoOutput(true);
-
 			connection.setRequestProperty("Content-Type", "text/xml");
+			
 			connection.setHostnameVerifier(new HostnameVerifier() {
 				public boolean verify(String hostname, SSLSession session) {
 					return true;
 				}
 			});
+			
 			connection.connect();
+			
+			// build the XML to post
+			String xmlString = readFile(fileName, StandardCharsets.UTF_8);
 
 			// tell the web server what we are sending
 			OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());

@@ -28,7 +28,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.model.Examination;
 import com.app.model.Operation;
+import com.app.service.ExaminationService;
 import com.app.service.OperationService;
 
 @RestController
@@ -43,14 +45,16 @@ public class GovernmentController {
 	@Autowired
 	OperationService operationService;
 	
+	@Autowired
+	ExaminationService examinationService;
+	
 	@PreAuthorize("permitAll()")
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value="/operations", method = RequestMethod.GET)
 	public ResponseEntity<List<Operation>> get(
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "startDate", required = false) String startDate,
 			@RequestParam(value = "endDate", required = false) String endDate,
 			HttpServletRequest request) throws Exception {
-		
 		
 		KeyPair kp = getKeyPair();
 		PublicKey publicKey = kp.getPublic();
@@ -100,6 +104,33 @@ public class GovernmentController {
 			}
 		
 		return new ResponseEntity<List<Operation>>(retVal, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("permitAll()")
+	@RequestMapping(value="/examinations", method = RequestMethod.GET)
+	public ResponseEntity<List<Examination>> getExaminations(
+			@RequestParam(value = "diagnosis", required = false) String diagnosis,
+			HttpServletRequest request) throws Exception {
+		
+		KeyPair kp = getKeyPair();
+		PublicKey publicKey = kp.getPublic();
+		
+		String signatureAsString = request.getHeader("X-Signature");
+		byte[] signature = Base64.decodeBase64(signatureAsString);
+		boolean valid = verify(SECRET.getBytes(), signature, publicKey);
+
+		if (!valid)
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		
+		List<Examination> retVal = new ArrayList<>();
+		
+		if (diagnosis == null || diagnosis.isEmpty())
+			retVal = examinationService.findAll();
+		else
+			retVal = examinationService.findByDiagnosis(diagnosis);
+		
+		
+		return new ResponseEntity<List<Examination>>(retVal, HttpStatus.OK);
 	}
 	
 	

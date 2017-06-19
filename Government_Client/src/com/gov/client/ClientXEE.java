@@ -32,8 +32,11 @@ public class ClientXEE {
 	
 	public static void main(String[] args){
 		
+		String endpoint = "http://localhost:8080/government/operations";
+		String fileName = "xee/xee_request2.xml";
+		
 		try {
-			URL url = new URL("http://localhost:8080/government/operations");
+			URL url = new URL(endpoint);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             
             connection.setRequestMethod("POST");
@@ -41,7 +44,7 @@ public class ClientXEE {
             connection.setDoOutput(true);
             
             // build the XML to post
-            String xmlString = readFile("xee/xee_request2.xml", StandardCharsets.UTF_8);
+            String xmlString = readFile(fileName, StandardCharsets.UTF_8);
             
             DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
             wr.writeBytes(xmlString);

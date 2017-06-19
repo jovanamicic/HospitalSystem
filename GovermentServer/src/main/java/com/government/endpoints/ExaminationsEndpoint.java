@@ -14,8 +14,6 @@ import java.security.PublicKey;
 import java.security.Signature;
 import java.security.SignatureException;
 import java.security.cert.Certificate;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,13 +30,13 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.government.model.GetOperationsRequest;
-import com.government.model.GetOperationsResponse;
-import com.government.model.Operation;
+import com.government.model.Examination;
+import com.government.model.GetExaminationsRequest;
+import com.government.model.GetExaminationsResponse;
 import com.government.model.Report;
 
 @Endpoint
-public class OperationsEndpoint {
+public class ExaminationsEndpoint {
 	
 	private static final String NAMESPACE_URI = "com.government.model";
 	private final String KEYSTORE_PATH = "./keystores/government_server_keystore.keystore";  
@@ -46,15 +44,15 @@ public class OperationsEndpoint {
 	private final String SECRET = "Neka nasa strasna tajna :D";
 	
 
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getOperationsRequest")
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getExaminationsRequest")
 	@ResponsePayload
-	public GetOperationsResponse getOperation(@RequestPayload GetOperationsRequest request)  throws IOException {
+	public GetExaminationsResponse getExamination(@RequestPayload GetExaminationsRequest request)  throws IOException {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		
-		GetOperationsResponse response = new GetOperationsResponse();
-		List<Operation> operations = new ArrayList<>();
+		GetExaminationsResponse response = new GetExaminationsResponse();
+		List<Examination> examinations = new ArrayList<>();
 
 		try {
 
@@ -64,16 +62,10 @@ public class OperationsEndpoint {
 			System.setProperty("javax.net.ssl.trustStore", KEYSTORE_PATH);
 			System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
 			
-			String urlStr = "https://localhost:8082/government/operations?";
+			String urlStr = "https://localhost:8082/government/examinations?";
 			
-			if (request.getName() != null)
-				urlStr += "name=" + request.getName() + "&";
-			
-			if (request.getStartDate() != null)
-				urlStr += "startDate=" + request.getStartDate() + "&";
-			
-			if (request.getEndDate() != null)
-				urlStr += "endDate=" + request.getEndDate() + "&";
+			if (request.getDiagnosis() != null)
+				urlStr += "diagnosis=" + request.getDiagnosis() + "&";
 			
 			URL url = new URL(urlStr); // replace
 			HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
@@ -106,16 +98,15 @@ public class OperationsEndpoint {
 			}
 			String result = buf.toString();
 			
-			//convert JSON String to operation list
-			if (result != null && !result.isEmpty())
-				operations = mapper.readValue(result, new TypeReference<List<Operation>>(){});
+			//convert JSON String to examination list
+			examinations = mapper.readValue(result, new TypeReference<List<Examination>>(){});
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		Report report = new Report();
-		report.getOperation().addAll(operations);
+		report.getExamination().addAll(examinations);
 		response.setReport(report);
 		
 		return response;
@@ -160,5 +151,5 @@ public class OperationsEndpoint {
 		}
 		return null;
 	}
-	
+
 }
