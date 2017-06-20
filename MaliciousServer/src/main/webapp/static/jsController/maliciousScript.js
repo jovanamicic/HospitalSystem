@@ -1,3 +1,4 @@
+
 function JSONNewPayment(recipient, account, amount, currency, managerId) {
 	return JSON.stringify({
 		"recipient" : recipient,

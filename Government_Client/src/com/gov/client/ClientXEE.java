@@ -33,7 +33,7 @@ public class ClientXEE {
 	public static void main(String[] args){
 		
 		String endpoint = "http://localhost:8080/government/operations";
-		String fileName = "xee/xee_request6.xml";
+		String fileName = "xee/xee_request5.xml";
 		
 		try {
 			URL url = new URL(endpoint);
