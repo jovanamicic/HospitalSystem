@@ -1,0 +1,5 @@
+operation_id,date,duration,name,report,head_doctor_id,record_id,room_id
+1,2017-05-20 00:00:00,2,Operacija nosa,None,1,4444,None
+2,2017-05-21 00:00:00,4,Operacija nosa,None,1,4444,None
+3,2017-05-21 00:00:00,1,Operacija sinusa,None,1,4444,None
+4,2017-05-21 00:00:00,5,Operacija kicme,None,2,4444,None
