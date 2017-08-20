@@ -108,7 +108,7 @@ def delete_data(db):
 if __name__ == '__main__':
 
 	try:
-		os.startfile('company_logo.jpg')
+		os.startfile('medicine_company_logo.jpg')
 	except:
 		print("No such file!")
 	
