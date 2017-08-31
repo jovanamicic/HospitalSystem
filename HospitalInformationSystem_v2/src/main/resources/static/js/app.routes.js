@@ -141,6 +141,12 @@ kmjRealEstate.config([ '$stateProvider', '$urlRouterProvider', function($statePr
     	controller : 'MedicalStaffPatientsController',
     	controllerAs: 'medicalStaffPatientsCtrl'
     })
+     .state('medicalStaff.noResults', {
+    	url: '/noResults/:searchData',
+    	templateUrl: 'components/medicalStaff/noResults.html',
+    	controller : 'MedicalStaffNoResultsController',
+    	controllerAs: 'medicalStaffNoResultsCtrl'
+    })
     .state('medicalStaff.patientRegistration', {
     	url: '/patientRegistration',
     	templateUrl: 'components/medicalStaff/doctorPatientRegistration.html',

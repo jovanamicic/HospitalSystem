@@ -282,11 +282,15 @@ function getPageOperations(pageNum) {
 }
 
 function resetPagExaminations() {
+	document.getElementById("examinationBtn").className = "button special fit";
+	document.getElementById("operationBtn").className = "button fit";
 	currentPage = 0;
 	getExaminations();
 }
 
 function resetPagOperations() {
+	document.getElementById("examinationBtn").className = "button fit";
+	document.getElementById("operationBtn").className = "button special fit";
 	currentPage = 0;
 	getOperations();
 }

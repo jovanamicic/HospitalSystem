@@ -408,11 +408,15 @@ function getPageAllExaminations(pageNum) {
 }
 
 function resetPagNew() {
+	document.getElementById("newEx").className = "button special fit";
+	document.getElementById("allEx").className = "button fit";
 	currentPage = 0;
 	getNewExaminations();
 }
 
 function resetPagAll() {
+	document.getElementById("newEx").className = "button fit";
+	document.getElementById("allEx").className = "button special fit";
 	currentPage = 0;
 	getAllExaminations();
 }

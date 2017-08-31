@@ -1,0 +1,4 @@
+payment_id,account,amount,currency,date,recipient,manager_id
+1,54488-888-88888,50000.0,rsd,2017-05-18 12:37:22,Jovana Micic,9
+2,8989-8989-89898,77777.0,RSD,2017-05-18 13:01:30,Buci buci,9
+3,878788778,44444444.0,RSD,2017-05-18 13:06:07,Katarina Preradov,9

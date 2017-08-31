@@ -1,0 +1,10 @@
+discriminator,person_id,email,name,password,personalid,photo,surname,username,education,specialization,birthday,gender,role,address,chosen_doctor
+MEDICAL_STAFF,1,jovana@gmail.com,Jovana,$2a$06$uhV/Qt/kORxGuww7S9.vDORMtizMMTKy7NPFK7vwwhJE35I9meEMa,1010199481012,images/medicalStuff/jovana.png,Mi?i?,jo,Doktor,None,None,None,None,None,None
+MEDICAL_STAFF,2,katarina@gmail.com,Katarina,$2a$06$YMGISkfYmwgOHzS7raR7GupVj7yFoIaUoZDkcL8qurV3CFr4KnS4K,1111199481012,images/medicalStuff/katarina.jpg,Preradov,keti,Doktor,None,None,None,None,None,None
+MEDICAL_STAFF,3,mina@gmail.com,Mina,$2a$06$6CekuMHG/UTa3UHLrWfj4O28Yu5cot2AS3slQsh4ZLii628zopTdm,1212199481012,images/medicalStuff/mina.jpg,Medi?,mina,Doktor,None,None,None,None,None,None
+PATIENT,4,pera@gmail.com,Petar,$2a$10$UPGHz1h0ljOL3TiO1n.ZOeTK.1gy89qRdTajENsI5XEpuIg7FqK1y,4444,None,Peri?,pera,None,None,1954-02-02 00:00:00,Mu�ko,None,1,1
+PATIENT,5,mika@gmail.com,Mika,$2a$10$4iu9rQqKvmQpyi1PDxW6BesO.NDx9aDXqgM4UvzP8GpRNE3cCUwby,303197181012,None,Miki?,mika,None,None,1971-03-03 00:00:00,Mu�ko,None,None,1
+PATIENT,6,djole@gmail.com,Djole,$2a$06$duWUXdaerEURz0U9APos9u.JXcz38woPArt35bG8k6EL7aJfKkSCG,404193781012,None,?oli?,djole,None,None,1937-04-04 00:00:00,Mu�ko,None,2,2
+MANAGER,7,marko@gmail.com,Marko,$2a$06$G7pro00k5GkmtzXvIW8TCO6Cd5KHpu42F8E9zYSzynRUg2hdzLw0S,232195481012,None,Markovi?,marko,None,None,None,None,general,None,None
+MANAGER,8,vlada@gmail.com,Vlada,$2a$06$tqS5a7jM/6hsOJx2LzeUWOMJMuOKpN2K24rArCO8krcV6gli2rqDu,512198481012,None,Vladi?,vlada,None,None,None,None,general,None,None
+MANAGER,9,vanja@gmail.com,Vanja,$2a$06$OglHQiitE.Qg.RcMbf713eyPoGbO2HF1y8a27iM1yU1kETdPXn9My,2202195981012,None,Vanji?,vanja,None,None,None,None,financial,None,None

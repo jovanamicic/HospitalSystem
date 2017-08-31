@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+	xmlns:gs="com.government.model">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <gs:getExaminationsRequest>
+         <gs:diagnosis>prelom</gs:diagnosis>
+      </gs:getExaminationsRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

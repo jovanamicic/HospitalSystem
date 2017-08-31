@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<!DOCTYPE lolz [
+  <!ENTITY lol SYSTEM "http://download.cnet.com/Movie-Downloader/3001-2648_4-10388409.html">
+]>
+<lolz>&lol;</lolz>

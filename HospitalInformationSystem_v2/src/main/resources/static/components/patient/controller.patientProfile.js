@@ -50,7 +50,7 @@ function PatientProfileController($location, $stateParams,
 									toastr.error("Dogodila se greška.");
 								});
 						} else {
-							vm.showRecord = false;
+							vm.showRecord = true;
 							vm.doctor = "Nema izabranog lekara.";
 						}
 					}).catch(function(data){
@@ -218,11 +218,21 @@ function PatientProfileController($location, $stateParams,
 			 }
 		    	patientService.saveExamination(vm.examination).then(function(data){
 		    		toastr.info("Pregled je sačuvan!");
+		    		vm.symptons = "";
+		    		vm.diagnosis = "";
+		    		vm.therapy = "";
 		    	}).catch(function(data){
 		    		toastr.error("Dogodila se greška.");
 		    	});
 		 }
 	};
+	
+	vm.resetEx = function(){
+		vm.symptons = "";
+		vm.diagnosis = "";
+		vm.therapy = "";
+		vm.startExaminationShow = false;
+	}
 	
 	vm.openModalOperation = function() {
 		vm.displayModal = "block";

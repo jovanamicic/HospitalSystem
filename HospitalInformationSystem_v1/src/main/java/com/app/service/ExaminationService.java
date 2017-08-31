@@ -45,6 +45,10 @@ public class ExaminationService {
 		return examinationRepository.findAll();
 	}
 	
+	public List<Examination> findByDiagnosis(String diagnosis){
+		return examinationRepository.findByDiagnosis(diagnosis);
+	}
+	
 	public Page<Examination> findAllPage(Pageable page) {
 		return examinationRepository.findAll(page);
 	}
