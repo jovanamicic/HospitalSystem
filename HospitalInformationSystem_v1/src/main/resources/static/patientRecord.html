@@ -16,7 +16,8 @@
 <script type="text/javascript" src="static/js/toastr.min.js"></script>
 
 </head>
-<body onload="getLoggedUser(), switchMenu(), getProfile(), getExaminations()">
+<body
+	onload="getLoggedUser(), switchMenu(), getProfile(), getExaminations()">
 	<!-- Wrapper -->
 	<div id="wrapper">
 		<!-- Main -->
@@ -27,26 +28,33 @@
 				<!-- Content -->
 				<section>
 					<header class="major">
-						<h2>Zdravstveni karton pacijenta <a id="aNameSurname" onClick="goToPatientProfile()" style="cursor:pointer"><span id="nameSurname"></span></a>
-					</h2>
+						<h2>
+							Zdravstveni karton pacijenta <a id="aNameSurname"
+								onClick="goToPatientProfile()" style="cursor: pointer"><span
+								id="nameSurname"></span></a>
+						</h2>
 					</header>
-					
+
 					<!-- Record -->
-					<div><p></p></div>
 					<div>
-						
+						<p></p>
+					</div>
+					<div>
+
 						<div class="row uniform">
 							<div class="3u 12u$(xsmall)">
-								<a href="#" class="button special fit" id="examinationBtn" onclick="resetPagExaminations()">Pregledi</a>
+								<a href="#" class="button special fit" id="examinationBtn"
+									onclick="resetPagExaminations()">Pregledi</a>
 							</div>
 							<div class="3u 12u$(xsmall)">
-								<a href="#" class="button fit" id="operationBtn" onclick="resetPagOperations()" style="margin-bottom: 3em">Operacije</a>
+								<a href="#" class="button fit" id="operationBtn"
+									onclick="resetPagOperations()" style="margin-bottom: 3em">Operacije</a>
 							</div>
 						</div>
-						
+
 						<div class="row 200%">
 							<div style="width: 100%">
-	
+
 								<div class="table-wrapper">
 									<table class="alt" id="patientRecordTable">
 										<thead>
@@ -56,21 +64,22 @@
 												<th>Doktor</th>
 											</tr>
 										</thead>
-										
+
 										<tbody id="patientRecordBody">
 											<!-- dinam.add rows -->
 										</tbody>
-										
+
 									</table>
-									
-									<div class="pagination" id="patientRecordPag">
-									</div>
-	
+
+									<div class="pagination" id="patientRecordPag"></div>
+
 								</div>
 							</div>
-					</div>
-					
-					
+						</div>
+
+						<h3  id="noPatientRecord" style="text-align: center; margin-top: 5%">Trenutno nema
+							podataka u zdravstvenom kartonu.</h3>
+
 					</div>
 				</section>
 			</div>

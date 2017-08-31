@@ -120,7 +120,15 @@ function fillInTable(data, table, type) {
 	
 	data = data.content;
 	
-	document.getElementById("patientRecordTable").style.display= "";
+	if (data.length != 0){
+		document.getElementById("noPatientRecord").style.display= "none";
+		document.getElementById("patientRecordTable").style.display= "";
+	}
+	else {
+		document.getElementById("noPatientRecord").style.display= "block";
+		document.getElementById("patientRecordTable").style.display= "none";
+	}
+	
 	
 	$("#patientRecordBody tr").remove(); 
 	
