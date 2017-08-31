@@ -78,7 +78,9 @@ public class PaymentController {
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public ResponseEntity<Page<Payment>> getAll(@RequestHeader("X-Auth-Token") String token,
 			@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page) {
+		
 		Page<Payment> payments = paymentService.findAllPage(page);
+		
 		return new ResponseEntity<>(payments, HttpStatus.OK);
 	}
 

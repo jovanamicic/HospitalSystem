@@ -1,7 +1,5 @@
 package com.app.controllers;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -231,6 +229,9 @@ public class ExaminationController {
 			@PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE) Pageable page) {
 		Patient patient = patientService.findOne(id);
 
+		if (patient == null)
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		
 		String username = tokenUtils.getUsernameFromToken(token);
 		Person person = personService.findByUsername(username);
 
