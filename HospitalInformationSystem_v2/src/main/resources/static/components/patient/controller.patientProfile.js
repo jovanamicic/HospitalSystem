@@ -296,6 +296,10 @@ function PatientProfileController($location, $stateParams,
 				 vm.wrongDuration = true;
 				 return false;
 			 	}
+			 else if (vm.operationExamination.duration != parseInt(vm.operationExamination.duration, 10)){
+				 vm.wrongDuration = true;
+				 return false;
+			 	}
 		 }
 		 if (vm.operationExamination.date == null){
 			 vm.wrongDate = true;

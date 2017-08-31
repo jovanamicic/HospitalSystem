@@ -358,13 +358,18 @@ function save() {
 function checkInputs() {
 	if ($('#nameOpEx').val() == "" || $('#nameOpEx').val() == null) {
 		document.getElementById('invalidName').style.display = "inline";
-		document.getElementById('invalidName').innerHTML = "Obavezno polje.";
+		document.getElementById('invalidName').innerHTML = "Unesite naziv intervencije.";
 		return false;
 	} 
 	else if ($('#type').val() == "Operacija") {
 		if ($('#duration').val() == "" || $('#duration').val() == null) {
 			document.getElementById('invalidDuration').style.display = "inline";
 			document.getElementById('invalidDuration').innerHTML = "Obavezno polje.";
+			return false;
+		}
+		else if ($('#duration').val() != parseInt($('#duration').val(), 10)) {
+			document.getElementById('invalidDuration').style.display = "inline";
+			document.getElementById('invalidDuration').innerHTML = "Unesite ceo broj sati.";
 			return false;
 		}
 	}
@@ -386,6 +391,8 @@ function checkInputs() {
 		document.getElementById('date').value = "";
 		return false;
 	}
+	
+	return true;
 }
 
 function cleanModal() {
